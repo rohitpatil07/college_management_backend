@@ -1,0 +1,44 @@
+{
+  "name": "college-management-backend",
+    "version": "1.0.0",
+    "description": "Backend for College Managent",
+    "main": "index.js",
+    "repository": "https://github.com/rohitpatil07/college_management_backend.git",
+    "author": "Rohit Patil, Hridayesh Pdalkar, Soham Talekar, Gaurav Singh, Advait Nurani",
+    "license": "MIT",
+    "scripts": {
+        "dev": "cross-env NODE_ENV=development nodemon index.js",
+        "start": "yarn prisma generate && cross-env NODE_ENV=production node index.js",
+        "build": "yarn prisma generate"
+    },
+    "engines": {
+        "node": "16.x"
+    },
+    "type": "module",
+
+  "dependencies": {
+    "@prisma/client": "^4.6.1",
+    "@types/json-bigint": "^1.0.1",
+    "adm-zip": "^0.5.9",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.3",
+    "exceljs": "^4.3.0",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.0",
+    "express-winston": "^4.2.0",
+    "helmet": "^6.0.0",
+    "json-bigint": "^1.0.0",
+    "pdf-creator-node": "^2.3.5",
+    "winston": "^3.8.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.13",
+    "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.7.1",
+    "prisma": "^4.6.1"
+  }
+}

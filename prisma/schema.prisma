@@ -4,8 +4,146 @@ generator client {
 }
 
 datasource db {
-  provider             = "mysql"
-  url                  = env("DATABASE_URL")
-  referentialIntegrity = "prisma"
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
+model academic_info {
+  roll_no              String   @id @db.VarChar(10)
+  tenth_percent        Decimal? @db.Decimal(6, 2)
+  tenth_start          Int?
+  tenth_end            Int?
+  twelveth_percent     Decimal? @db.Decimal(6, 2)
+  twelveth_start       Int?
+  twelveth_end         Int?
+  diploma_percent      Decimal? @db.Decimal(6, 2)
+  diploma_start        Int?
+  diploma_end          Int?
+  sem1_pointer         Decimal? @db.Decimal(2, 2)
+  sem2_pointer         Decimal? @db.Decimal(2, 2)
+  sem3_pointer         Decimal? @db.Decimal(2, 2)
+  sem4_pointer         Decimal? @db.Decimal(2, 2)
+  sem5_pointer         Decimal? @db.Decimal(2, 2)
+  sem6_pointer         Decimal? @db.Decimal(2, 2)
+  sem7_pointer         Decimal? @db.Decimal(2, 2)
+  sem8_pointer         Decimal? @db.Decimal(2, 2)
+  cgpa                 Decimal? @db.Decimal(2, 2)
+  be_percent           Decimal? @db.Decimal(6, 2)
+  gap                  Int?
+  livekt               Int?
+  deadkt               Int?
+  masters_sem1_pointer Decimal? @db.Decimal(2, 2)
+  masters_sem2_pointer Decimal? @db.Decimal(2, 2)
+  masters_sem3_pointer Decimal? @db.Decimal(2, 2)
+  masters_sem4_pointer Decimal? @db.Decimal(2, 2)
+  masters_percent      Decimal? @db.Decimal(6, 2)
+  masters_livekt       Int?
+  masters_deadkt       Int?
+  masters_gap          Int?
+}
+
+model admins {
+  type         String? @db.VarChar(20)
+  college_name String? @db.VarChar(100)
+  email        String  @id @db.VarChar(50)
+  password     String? @db.VarChar(300)
+}
+
+model applied_to_drives {
+  drive_id Int
+  roll_no  String @db.VarChar(10)
+
+  @@id([drive_id, roll_no])
+  @@index([drive_id], map: "fk_drive_id")
+  @@index([roll_no], map: "fk_stud_roll")
+}
+
+model company {
+  company_id   Int     @id @default(autoincrement())
+  company_name String? @db.VarChar(50)
+  email        String? @db.VarChar(50)
+  password     String? @db.VarChar(300)
+}
+
+model drives {
+  drive_id     Int      @id @default(autoincrement())
+  company_id   Int?
+  role         String?  @db.VarChar(30)
+  package      Decimal? @db.Decimal(6, 2)
+  job_location String?  @db.VarChar(50)
+  role_desc    String?  @db.VarChar(200)
+
+  @@index([company_id], map: "fk_comp_id")
+}
+
+model extra_curricular {
+  roll_no        String  @id @db.VarChar(10)
+  pos_of_res     String? @db.VarChar(20)
+  description    String? @db.VarChar(100)
+  activity_month String? @db.VarChar(20)
+  activity_year  Int?
+}
+
+model offers {
+  roll_no      String   @db.VarChar(10)
+  company_name String   @db.VarChar(50)
+  package      Decimal? @db.Decimal(6, 2)
+  offer_letter Bytes?   @db.Blob
+
+  @@id([roll_no, company_name])
+}
+
+model projects {
+  roll_no    String  @id @db.VarChar(10)
+  proj_name  String? @db.VarChar(30)
+  proj_desc  String? @db.VarChar(100)
+  tech_stack String? @db.VarChar(300)
+  role       String? @db.VarChar(20)
+}
+
+model resume_data {
+  roll_no                           String  @id @db.VarChar(10)
+  hobbies                           String? @db.VarChar(100)
+  pref_language                     String? @db.VarChar(20)
+  technologies                      String? @db.VarChar(300)
+  publications                      String? @db.VarChar(500)
+  career_obj                        String? @db.VarChar(1000)
+  certificate_one                   String? @db.VarChar(200)
+  certificate_one_completion_date   String? @db.VarChar(20)
+  certificate_three                 String? @db.VarChar(200)
+  certificate_three_completion_date String? @db.VarChar(20)
+  certificate_two                   String? @db.VarChar(200)
+  certificate_two_completion_date   String? @db.VarChar(20)
+}
+
+model students {
+  roll_no        String  @id @db.VarChar(10)
+  first_name     String? @db.VarChar(50)
+  middle_name    String? @db.VarChar(50)
+  last_name      String? @db.VarChar(50)
+  email          String? @db.VarChar(50)
+  phone_number   Int?
+  gender         String? @db.VarChar(1)
+  github         String? @db.VarChar(50)
+  linkedin       String? @db.VarChar(50)
+  leetcode       String? @db.VarChar(50)
+  hackerrank     String? @db.VarChar(50)
+  password       String? @db.VarChar(200)
+  photo          String? @db.LongText
+  department     String? @db.VarChar(10)
+  batch          Int?
+  secondary_mail String? @db.VarChar(50)
+  college_name   String? @db.VarChar(100)
+}
+
+model work_experience {
+  roll_no      String  @id @db.VarChar(10)
+  company_name String? @db.VarChar(30)
+  location     String? @db.VarChar(20)
+  role         String? @db.VarChar(30)
+  description  String? @db.VarChar(100)
+  start_month  String? @db.VarChar(20)
+  end_month    String? @db.VarChar(20)
+  year         Int?
+}

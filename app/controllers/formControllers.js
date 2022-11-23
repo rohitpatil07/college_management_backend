@@ -1,19 +1,14 @@
-import prisma from '../config/prisma.js';
+import studentService from '../services/studentService.js';
 
 const createStudent = async (req, res) => {
   try {
-    // await prisma.students.create({
-    //   roll_no: '19IT1024',
-    //   first_name: 'Rohit',
-    //   last_name: 'Patil',
-    // });
+    const data = req.body.student;
+    const result = await studentService.addStudent(data);
 
-    const test = await prisma.students.findMany();
-    console.log(test);
-    //   let students = await filterService.getAllStudents();
-    res.json({ student: 'student' });
+    res.json(result);
+    return res.status(200);
   } catch (error) {
-    res.json(error);
+    return res.json(error);
   }
 };
 

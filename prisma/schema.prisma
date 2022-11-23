@@ -28,7 +28,7 @@ model academic_info {
   sem6_pointer         Decimal? @db.Decimal(2, 2)
   sem7_pointer         Decimal? @db.Decimal(2, 2)
   sem8_pointer         Decimal? @db.Decimal(2, 2)
-  cgpa                 Decimal? @db.Decimal(2, 2)
+  cgpa                 Decimal? @db.Decimal(6, 2)
   be_percent           Decimal? @db.Decimal(6, 2)
   gap                  Int?
   livekt               Int?
@@ -41,6 +41,7 @@ model academic_info {
   masters_livekt       Int?
   masters_deadkt       Int?
   masters_gap          Int?
+  students students    @relation(fields: [roll_no],references: [roll_no])
 }
 
 model admins {
@@ -53,7 +54,7 @@ model admins {
 model applied_to_drives {
   drive_id Int
   roll_no  String @db.VarChar(10)
-
+  students students    @relation(fields: [roll_no],references: [roll_no])
   @@id([drive_id, roll_no])
   @@index([drive_id], map: "fk_drive_id")
   @@index([roll_no], map: "fk_stud_roll")
@@ -78,11 +79,13 @@ model drives {
 }
 
 model extra_curricular {
-  roll_no        String  @id @db.VarChar(10)
-  pos_of_res     String? @db.VarChar(20)
-  description    String? @db.VarChar(100)
+  roll_no        String  @db.VarChar(10)
+  pos_of_res     String  @db.VarChar(20)
+  description    String  @db.VarChar(100)
   activity_month String? @db.VarChar(20)
   activity_year  Int?
+  @@id([roll_no,pos_of_res,description])
+  students students    @relation(fields: [roll_no],references: [roll_no])
 }
 
 model offers {
@@ -90,16 +93,19 @@ model offers {
   company_name String   @db.VarChar(50)
   package      Decimal? @db.Decimal(6, 2)
   offer_letter Bytes?   @db.Blob
+  students students    @relation(fields: [roll_no],references: [roll_no])
 
   @@id([roll_no, company_name])
 }
 
 model projects {
-  roll_no    String  @id @db.VarChar(10)
-  proj_name  String? @db.VarChar(30)
+  roll_no    String  @db.VarChar(10)
+  proj_name  String  @db.VarChar(30)
   proj_desc  String? @db.VarChar(100)
   tech_stack String? @db.VarChar(300)
   role       String? @db.VarChar(20)
+  @@id([roll_no,proj_name])
+  students students  @relation(fields: [roll_no],references: [roll_no])
 }
 
 model resume_data {
@@ -115,6 +121,7 @@ model resume_data {
   certificate_three_completion_date String? @db.VarChar(20)
   certificate_two                   String? @db.VarChar(200)
   certificate_two_completion_date   String? @db.VarChar(20)
+  students students    @relation(fields: [roll_no],references: [roll_no])
 }
 
 model students {
@@ -123,7 +130,7 @@ model students {
   middle_name    String? @db.VarChar(50)
   last_name      String? @db.VarChar(50)
   email          String? @db.VarChar(50)
-  phone_number   Int?
+  phone_number   String? @db.VarChar(15)
   gender         String? @db.VarChar(1)
   github         String? @db.VarChar(50)
   linkedin       String? @db.VarChar(50)
@@ -135,15 +142,24 @@ model students {
   batch          Int?
   secondary_mail String? @db.VarChar(50)
   college_name   String? @db.VarChar(100)
+  academic_info academic_info?
+  applied_to_drives applied_to_drives[]
+  offers offers[]
+  resume_data resume_data[]
+  extra_curricular extra_curricular[]
+  projects projects[]
+  work_experience work_experience[]
 }
 
 model work_experience {
-  roll_no      String  @id @db.VarChar(10)
-  company_name String? @db.VarChar(30)
+  roll_no      String  @db.VarChar(10)
+  company_name String  @db.VarChar(30)
   location     String? @db.VarChar(20)
   role         String? @db.VarChar(30)
   description  String? @db.VarChar(100)
   start_month  String? @db.VarChar(20)
   end_month    String? @db.VarChar(20)
   year         Int?
+  @@id([roll_no,company_name])
+  students students    @relation(fields: [roll_no],references: [roll_no])
 }

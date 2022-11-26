@@ -74,9 +74,21 @@ const getPaginatedDashboard = async (req, res) => {
   }
 };
 
+const getDashboard = async (req, res) => {
+  try {
+    const { select_fields, queries } = req.body;
+
+    const students = await filterService.getDashboard(select_fields, queries);
+    res.json(students);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
 export default {
   getAllStudents,
   getStudent,
   getStudentsByDept,
   getPaginatedDashboard,
+  getDashboard,
 };

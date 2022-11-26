@@ -6,6 +6,7 @@ const router = Router();
 router.get('/', filterControllers.getAllStudents);
 router.get('/:roll_no', filterControllers.getStudent);
 router.get('/dept/:dept', filterControllers.getStudentsByDept);
+router.post('/dashboard', filterControllers.getDashboard);
 router.post('/dashboard/:page&:limit', filterControllers.getPaginatedDashboard);
 
 export default router;

@@ -80,11 +80,22 @@ const getPaginatedDashboard = async (select_fields, queries, page, limit) => {
     } else if (results.students.length < limit) {
       results['next'] = 1;
     } else {
-      console.log('page', typeof page);
       results['next'] = page + 1;
     }
 
     return results;
+  } catch (error) {
+    return error;
+  }
+};
+
+const getDashboard = async (select_fields, queries) => {
+  try {
+    const students = await prisma.students.findMany({
+      select: select_fields,
+      where: queries,
+    });
+    return students;
   } catch (error) {
     return error;
   }
@@ -95,4 +106,5 @@ export default {
   getStudent,
   getStudentsByDept,
   getPaginatedDashboard,
+  getDashboard,
 };

@@ -103,7 +103,7 @@ model projects {
   proj_name  String  @db.VarChar(30)
   proj_desc  String? @db.VarChar(100)
   tech_stack String? @db.VarChar(300)
-  role       String? @db.VarChar(20)
+  role       String? @db.VarChar(50)
   students students  @relation(fields: [roll_no],references: [roll_no])
 }
 

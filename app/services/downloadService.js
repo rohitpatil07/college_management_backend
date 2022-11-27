@@ -1,4 +1,3 @@
-// import prisma from '../config/prisma.js';
 import filterService from './filterService.js';
 import exceljs from 'exceljs';
 import excelUtility from '../util/excelUtility.js';
@@ -18,7 +17,10 @@ const downloadExcel = async (select_fields, queries) => {
       worksheet.addRow(student);
     });
 
-    await workbook.xlsx.writeFile('export.xlsx');
+    const filename = 'studentdata' + excelUtility.makeid(10) + '.xlsx';
+
+    await workbook.xlsx.writeFile(filename);
+    return filename;
   } catch (error) {
     return error;
   }
@@ -39,7 +41,10 @@ const downloadCSV = async (select_fields, queries) => {
       worksheet.addRow(student);
     });
 
-    await workbook.csv.writeFile('export.csv');
+    const filename = 'studentdata' + excelUtility.makeid(10) + '.csv';
+
+    await workbook.csv.writeFile(filename);
+    return filename;
   } catch (error) {
     return error;
   }

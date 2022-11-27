@@ -20,14 +20,14 @@ model academic_info {
   diploma_percent      Decimal? @db.Decimal(6, 2)
   diploma_start        Int?
   diploma_end          Int?
-  sem1_pointer         Decimal? @db.Decimal(2, 2)
-  sem2_pointer         Decimal? @db.Decimal(2, 2)
-  sem3_pointer         Decimal? @db.Decimal(2, 2)
-  sem4_pointer         Decimal? @db.Decimal(2, 2)
-  sem5_pointer         Decimal? @db.Decimal(2, 2)
-  sem6_pointer         Decimal? @db.Decimal(2, 2)
-  sem7_pointer         Decimal? @db.Decimal(2, 2)
-  sem8_pointer         Decimal? @db.Decimal(2, 2)
+  sem1_pointer         Decimal? @db.Decimal(6, 2)
+  sem2_pointer         Decimal? @db.Decimal(6, 2)
+  sem3_pointer         Decimal? @db.Decimal(6, 2)
+  sem4_pointer         Decimal? @db.Decimal(6, 2)
+  sem5_pointer         Decimal? @db.Decimal(6, 2)
+  sem6_pointer         Decimal? @db.Decimal(6, 2)
+  sem7_pointer         Decimal? @db.Decimal(6, 2)
+  sem8_pointer         Decimal? @db.Decimal(6, 2)
   cgpa                 Decimal? @db.Decimal(6, 2)
   be_percent           Decimal? @db.Decimal(6, 2)
   gap                  Int?

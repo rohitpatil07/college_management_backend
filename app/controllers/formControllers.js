@@ -1,9 +1,9 @@
-import studentService from '../services/studentService.js';
+import formService from '../services/formService.js';
 
 const createStudent = async (req, res) => {
   try {
     const data = req.body.student;
-    const result = await studentService.addStudent(data);
+    const result = await formService.addStudent(data);
 
     res.json(result);
     return res.status(200);

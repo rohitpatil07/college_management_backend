@@ -4,12 +4,15 @@ import fs from 'fs';
 const downloadExcel = async (req, res) => {
   try {
     const { select_fields, queries } = req.body;
-    await downloadService.downloadExcel(select_fields, queries);
-    res.download('export.xlsx', { dotfiles: 'deny' }, function (err) {
+    const filename = await downloadService.downloadExcel(
+      select_fields,
+      queries,
+    );
+    res.download(filename, { dotfiles: 'deny' }, function (err) {
       if (err) {
         return err;
       }
-      fs.unlinkSync('export.xlsx');
+      fs.unlinkSync(filename);
     });
   } catch (error) {
     res.json(error);
@@ -19,12 +22,12 @@ const downloadExcel = async (req, res) => {
 const downloadCSV = async (req, res) => {
   try {
     const { select_fields, queries } = req.body;
-    await downloadService.downloadCSV(select_fields, queries);
-    res.download('export.csv', { dotfiles: 'deny' }, function (err) {
+    const filename = await downloadService.downloadCSV(select_fields, queries);
+    res.download(filename, { dotfiles: 'deny' }, function (err) {
       if (err) {
         return err;
       }
-      fs.unlinkSync('export.csv');
+      fs.unlinkSync(filename);
     });
   } catch (error) {
     res.json(error);

@@ -22,6 +22,7 @@ const getStudent = async (roll_no) => {
         work_experience: true,
         projects: true,
         applied_to_drives: true,
+        extra_curricular: true,
       },
     });
 
@@ -101,10 +102,20 @@ const getDashboard = async (select_fields, queries) => {
   }
 };
 
+const getAllCompanies = async () => {
+  try {
+    const students = await prisma.company.findMany();
+    return students;
+  } catch (error) {
+    return error;
+  }
+};
+
 export default {
   getAllStudents,
   getStudent,
   getStudentsByDept,
   getPaginatedDashboard,
   getDashboard,
+  getAllCompanies,
 };

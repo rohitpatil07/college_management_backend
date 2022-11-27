@@ -85,10 +85,20 @@ const getDashboard = async (req, res) => {
   }
 };
 
+const getAllCompanies = async (req, res) => {
+  try {
+    const students = await filterService.getAllCompanies();
+    res.json(students);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
 export default {
   getAllStudents,
   getStudent,
   getStudentsByDept,
   getPaginatedDashboard,
   getDashboard,
+  getAllCompanies,
 };

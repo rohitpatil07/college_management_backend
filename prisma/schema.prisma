@@ -93,7 +93,7 @@ model offers {
   roll_no      String   @db.VarChar(10)
   company_name String   @db.VarChar(50)
   package      Decimal? @db.Decimal(6, 2)
-  offer_letter Bytes?   @db.Blob
+  offer_letter String?  @db.LongText
   students students    @relation(fields: [roll_no],references: [roll_no])
 }
 

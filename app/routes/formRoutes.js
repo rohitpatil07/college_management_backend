@@ -12,7 +12,6 @@ router.post('/student/offer', studentControllers.createOffer);
 router.post('/student/project', studentControllers.createProject);
 router.post('/student/resumedata', studentControllers.createResumedata);
 router.post('/student/workexperience', studentControllers.createWorkexperience);
-
 router.post('/company', companyControllers.createCompany);
 router.post('/company/drive', companyControllers.createDrives)
 

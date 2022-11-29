@@ -2,7 +2,15 @@ import prisma from '../config/prisma.js';
 
 const getAllStudents = async () => {
   try {
-    const students = await prisma.students.findMany();
+    const student_data = await prisma.students.findMany();
+
+    let students = [];
+
+    student_data.forEach((student_info) => {
+      const { password, ...student } = student_info;
+      students.push(student);
+    });
+
     return students;
   } catch (error) {
     return error;
@@ -11,7 +19,7 @@ const getAllStudents = async () => {
 
 const getStudent = async (roll_no) => {
   try {
-    let student = await prisma.students.findUnique({
+    let student_data = await prisma.students.findUnique({
       where: {
         roll_no: roll_no,
       },
@@ -26,6 +34,8 @@ const getStudent = async (roll_no) => {
       },
     });
 
+    const { password, ...student } = student_data;
+
     return student;
   } catch (error) {
     return error;
@@ -34,10 +44,17 @@ const getStudent = async (roll_no) => {
 
 const getStudentsByDept = async (department) => {
   try {
-    let students = await prisma.students.findMany({
+    let student_data = await prisma.students.findMany({
       where: {
         department: department,
       },
+    });
+
+    let students = [];
+
+    student_data.forEach((student_info) => {
+      const { password, ...student } = student_info;
+      students.push(student);
     });
 
     return students;
@@ -96,6 +113,7 @@ const getDashboard = async (select_fields, queries) => {
       select: select_fields,
       where: queries,
     });
+
     return students;
   } catch (error) {
     return error;

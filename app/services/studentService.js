@@ -1,20 +1,23 @@
 import prisma from '../config/prisma.js';
 
-const upsertAcademicInfo = async(data)=> {
+const upsertAcademicInfo = async (data) => {
   try {
-    let count=0;
-    let gpa=0
-    for(let i=1;i<=8;i++){
-      var x = "sem"+`${i}`+'_pointer'
-      if(data[x]!=null){
+    let count = 0;
+    let gpa = 0;
+    for (let i = 1; i <= 8; i++) {
+      var x = 'sem' + `${i}` + '_pointer';
+      if (data[x] != null) {
         count++;
-        gpa=gpa+data[x]
+        gpa = gpa + data[x];
       }
     }
-    var cgpa= gpa/count
-    var be_percent = (7.4*cgpa)+12 
-    data.cgpa = cgpa
-    data.be_percent = be_percent
+
+    let cgpa = gpa / count;
+    let be_percent = 7.4 * cgpa + 12;
+
+    data.cgpa = cgpa;
+    data.be_percent = be_percent;
+
     await prisma.academic_info.upsert({
       where: {
         roll_no: data.roll_no,
@@ -22,25 +25,27 @@ const upsertAcademicInfo = async(data)=> {
       update: data,
       create: data,
     });
-    return { success: 'AcademicInfo added'};
+
+    return { success: 'AcademicInfo added' };
   } catch (error) {
-    return { error: 'Error adding AcademicInfo'};
+    return { error: 'Error adding AcademicInfo' };
   }
 };
 
-const upsertAppliedDrive = async(data)=> {
+const upsertAppliedDrive = async (data) => {
   try {
     await prisma.applied_to_drives.create({
       data,
     });
-    return { success: 'AppliedDrive added'};
+    return { success: 'AppliedDrive added' };
   } catch (error) {
-    return { error: 'Error adding AppliedDrive'};
+    return { error: 'Error adding AppliedDrive' };
   }
 };
 
-const upsertExtracurricular = async(data)=> {
-  try {//change pos_res varhar size to something bigger
+const upsertExtracurricular = async (data) => {
+  try {
+    //change pos_res varhar size to something bigger
     await prisma.extra_curricular.upsert({
       where: {
         extra_id: data.extra_id,
@@ -48,24 +53,24 @@ const upsertExtracurricular = async(data)=> {
       update: data,
       create: data,
     });
-    return { success: 'Extracurricular added'};
+    return { success: 'Extracurricular added' };
   } catch (error) {
-    return { error: 'Error adding Extracurricular'};
+    return { error: 'Error adding Extracurricular' };
   }
 };
 
-const upsertOffer = async(data)=> {
+const upsertOffer = async (data) => {
   try {
     await prisma.offers.create({
       data,
     });
-    return { success: 'Offer added'};
+    return { success: 'Offer added' };
   } catch (error) {
-    return { error: 'Error adding Offer'};
+    return { error: 'Error adding Offer' };
   }
 };
 
-const upsertProject = async(data)=> {
+const upsertProject = async (data) => {
   try {
     await prisma.projects.upsert({
       where: {
@@ -74,13 +79,13 @@ const upsertProject = async(data)=> {
       update: data,
       create: data,
     });
-    return { success: 'Project added'};
+    return { success: 'Project added' };
   } catch (error) {
-    return { error: 'Error adding Project'};
+    return { error: 'Error adding Project' };
   }
 };
 
-const upsertResumedata = async(data)=> {
+const upsertResumedata = async (data) => {
   try {
     await prisma.resume_data.upsert({
       where: {
@@ -89,9 +94,9 @@ const upsertResumedata = async(data)=> {
       update: data,
       create: data,
     });
-    return { success: 'Resumedata added'};
+    return { success: 'Resumedata added' };
   } catch (error) {
-    return { error: 'Error adding Resumedata'};
+    return { error: 'Error adding Resumedata' };
   }
 };
 
@@ -110,7 +115,7 @@ const upsertStudent = async (data) => {
   }
 };
 
-const upsertWorkexperience = async(data)=> {
+const upsertWorkexperience = async (data) => {
   try {
     await prisma.work_experience.upsert({
       where: {
@@ -119,19 +124,19 @@ const upsertWorkexperience = async(data)=> {
       update: data,
       create: data,
     });
-    return { success: 'Experience added'};
+    return { success: 'Experience added' };
   } catch (error) {
-    return { error: 'Error adding Experience'};
+    return { error: 'Error adding Experience' };
   }
 };
 
 export default {
-  upsertAcademicInfo, 
-  upsertAppliedDrive, 
-  upsertExtracurricular, 
-  upsertOffer, 
-  upsertProject, 
+  upsertAcademicInfo,
+  upsertAppliedDrive,
+  upsertExtracurricular,
+  upsertOffer,
+  upsertProject,
   upsertResumedata,
-  upsertStudent, 
-  upsertWorkexperience, 
+  upsertStudent,
+  upsertWorkexperience,
 };

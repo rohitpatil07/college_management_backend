@@ -2,9 +2,9 @@ import studentService from '../services/studentService.js';
 import companyService from '../services/companyService.js';
 //Student
 const createAcademicInfo = async (req, res) => {
-  try{
+  try {
     const data = req.body.academic;
-    const result = await studentService.upsertAcademicInfo(data)
+    const result = await studentService.upsertAcademicInfo(data);
 
     res.json(result);
     return res.status(200);
@@ -14,9 +14,9 @@ const createAcademicInfo = async (req, res) => {
 };
 
 const createAppliedDrive = async (req, res) => {
-  try{
+  try {
     const data = req.body.applieddrive;
-    const result = await studentService.upsertAppliedDrive(data)
+    const result = await studentService.upsertAppliedDrive(data);
 
     res.json(result);
     return res.status(200);
@@ -26,9 +26,9 @@ const createAppliedDrive = async (req, res) => {
 };
 
 const createExtracurricular = async (req, res) => {
-  try{
+  try {
     const data = req.body.extra;
-    const result = await studentService.upsertExtracurricular(data)
+    const result = await studentService.upsertExtracurricular(data);
 
     res.json(result);
     return res.status(200);
@@ -38,9 +38,9 @@ const createExtracurricular = async (req, res) => {
 };
 
 const createOffer = async (req, res) => {
-  try{
+  try {
     const data = req.body.offer;
-    const result = await studentService.upsertOffer(data)
+    const result = await studentService.upsertOffer(data);
 
     res.json(result);
     return res.status(200);
@@ -50,9 +50,9 @@ const createOffer = async (req, res) => {
 };
 
 const createProject = async (req, res) => {
-  try{
+  try {
     const data = req.body.project;
-    const result = await studentService.upsertProject(data)
+    const result = await studentService.upsertProject(data);
 
     res.json(result);
     return res.status(200);
@@ -62,9 +62,9 @@ const createProject = async (req, res) => {
 };
 
 const createResumedata = async (req, res) => {
-  try{
+  try {
     const data = req.body.resume;
-    const result = await studentService.upsertResumedata(data)
+    const result = await studentService.upsertResumedata(data);
 
     res.json(result);
     return res.status(200);
@@ -86,9 +86,9 @@ const createStudent = async (req, res) => {
 };
 
 const createWorkexperience = async (req, res) => {
-  try{
+  try {
     const data = req.body.work;
-    const result = await studentService.upsertWorkexperience(data)
+    const result = await studentService.upsertWorkexperience(data);
 
     res.json(result);
     return res.status(200);
@@ -122,16 +122,16 @@ const createDrives = async (req, res) => {
   }
 };
 
-export default { 
-  createStudent, 
-  createAcademicInfo, 
-  createAppliedDrive, 
-  createExtracurricular, 
+export default {
+  createStudent,
+  createAcademicInfo,
+  createAppliedDrive,
+  createExtracurricular,
   createOffer,
-  createProject, 
-  createResumedata, 
-  createStudent, 
-  createWorkexperience, 
-  createCompany, 
-  createDrives, 
+  createProject,
+  createResumedata,
+  createStudent,
+  createWorkexperience,
+  createCompany,
+  createDrives,
 };

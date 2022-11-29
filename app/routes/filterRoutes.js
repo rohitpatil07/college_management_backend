@@ -4,15 +4,15 @@ import filterControllers from '../controllers/filterControllers.js';
 import authenticate from '../middlewares/auth.js'
 const router = Router();
 
-router.get('/student', authenticate,filterControllers.getAllStudents);
-router.get('/student/:roll_no', filterControllers.getStudent);
-router.get('/student/dept/:dept', filterControllers.getStudentsByDept);
-router.post('/student/dashboard', filterControllers.getDashboard);
+router.get('/students', authenticate(["admin"]),filterControllers.getAllStudents);
+router.get('/student/:roll_no',authenticate(["admin","student"]), filterControllers.getStudent);
+router.get('/student/dept/:dept',authenticate(["admin"]), filterControllers.getStudentsByDept);
+router.post('/dashboard',authenticate(["admin"]),filterControllers.getDashboard);
 router.post(
-  '/student/dashboard/:page&:limit',
+  '/dashboard/:page&:limit',authenticate(["admin"]),
   filterControllers.getPaginatedDashboard,
 );
 
-router.get('/company', filterControllers.getAllCompanies);
+router.get('/company',authenticate(["admin"]), filterControllers.getAllCompanies);
 
 export default router;

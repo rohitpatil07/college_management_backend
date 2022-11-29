@@ -35,33 +35,6 @@ const getPaginatedDashboard = async (req, res) => {
     const limit = parseInt(req.params.limit);
     const { select_fields, queries } = req.body;
 
-    // const select_fields = {
-    //   roll_no: true,
-    // first_name: true,
-    // academic_info: {
-    //   select: {
-    //     cgpa: true,
-    //   },
-    // },
-    // projects: {
-    //   select: {
-    //     proj_name: true,
-    //   },
-    // },
-    // };
-
-    // const queries = {
-    //   academic_info: {
-    //     cgpa: { gte: 0 },
-    //     tenth_percent: { gte: 94.0 },
-    //   },
-    //   projects: {
-    //     every: {
-    //       roll_no: { contains: '19IT' },
-    //     },
-    //   },
-    // };
-
     const students = await filterService.getPaginatedDashboard(
       select_fields,
       queries,

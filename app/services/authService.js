@@ -15,15 +15,14 @@ const login = async (email, password, role) => {
         select: {
           roll_no: true,
           email: true,
+          password: true,
         },
       });
 
       if (!student[0]) {
         return 'You are not authorized';
       }
-
-      const hashing = await hash_password(password);
-      const result = await bcrypt.compare(password, hashing);
+      const result = await bcrypt.compare(password, student[0]['password']);
 
       let auth_obj = {};
       auth_obj['student'] = student[0];
@@ -51,6 +50,7 @@ const login = async (email, password, role) => {
         select: {
           college_name: true,
           email: true,
+          password: true,
         },
       });
 
@@ -60,9 +60,7 @@ const login = async (email, password, role) => {
 
       let auth_obj = {};
       auth_obj['admin'] = admin[0];
-
-      const hashing = await hash_password(password);
-      const result = await bcrypt.compare(password, hashing);
+      const result = await bcrypt.compare(password, admin[0]['password']);
 
       if (result) {
         let token = jwt.sign({ email: email, role: role }, config.JWT_SECRET);
@@ -88,6 +86,7 @@ const login = async (email, password, role) => {
           company_id: true,
           company_name: true,
           email: true,
+          password: true,
         },
       });
 
@@ -98,8 +97,7 @@ const login = async (email, password, role) => {
       let auth_obj = {};
       auth_obj['company'] = company[0];
 
-      const hashing = await hash_password(password);
-      const result = await bcrypt.compare(password, hashing);
+      const result = await bcrypt.compare(password, company[0]['password']);
 
       if (result) {
         let token = jwt.sign({ email: email, role: role }, config.JWT_SECRET);

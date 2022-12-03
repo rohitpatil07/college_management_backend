@@ -102,6 +102,12 @@ const upsertResumedata = async (data) => {
 };
 
 const upsertStudent = async (data) => {
+  console.log(data);
+  if(data.batch)
+  {
+    data.batch=parseInt(data.batch);
+  }
+
   try {
     await prisma.students.upsert({
       where: {

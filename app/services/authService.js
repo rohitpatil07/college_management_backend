@@ -53,7 +53,6 @@ const login = async (email, login_password, role) => {
           college_name: true,
           email: true,
           password: true,
-          roll_on: true,
         },
       });
 

@@ -1,10 +1,21 @@
 import jwt from 'jsonwebtoken';
 import config from '../config/index.js';
 
+const extract_token=async(req)=>{
+  if(req.method=='GET'){
+    return req.rawHeaders[13];
+  }
+  else{
+    return req.body.headers['Authorization'];
+  }
+}
+
 const authenticate = (roles) => {
   return async (req, res, next) => {
     try {
-      const auth = req.body.headers['Authorization'];
+      // const auth = req.body.headers['Authorization'];
+      const auth = await extract_token(req);
+      console.log(auth);
       const token = auth.replace('Bearer ', '');
 
       if (!auth) {

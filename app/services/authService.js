@@ -3,10 +3,10 @@ import config from '../config/index.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-const login = async (email, password, role) => {
+const login = async (email, login_password, role) => {
   if (role == 'student') {
     try {
-      const student = await prisma.students.findMany({
+      const student_data = await prisma.students.findMany({
         where: {
           email: {
             equals: email,
@@ -19,13 +19,15 @@ const login = async (email, password, role) => {
         },
       });
 
-      if (!student[0]) {
+      let { password, ...student } = student_data[0];
+
+      if (!student_data[0]) {
         return 'You are not authorized';
       }
-      const result = await bcrypt.compare(password, student[0]['password']);
+      const result = await bcrypt.compare(login_password, password);
 
       let auth_obj = {};
-      auth_obj['student'] = student[0];
+      auth_obj['student'] = student;
 
       if (result) {
         let token = jwt.sign({ email: email, role: role }, config.JWT_SECRET);
@@ -41,7 +43,7 @@ const login = async (email, password, role) => {
   }
   if (role == 'admin') {
     try {
-      const admin = await prisma.admins.findMany({
+      const admin_data = await prisma.admins.findMany({
         where: {
           email: {
             equals: email,
@@ -51,16 +53,20 @@ const login = async (email, password, role) => {
           college_name: true,
           email: true,
           password: true,
+          roll_on: true,
         },
       });
 
-      if (!admin[0]) {
+      if (!admin_data[0]) {
         return 'You are not authorized';
       }
 
       let auth_obj = {};
-      auth_obj['admin'] = admin[0];
-      const result = await bcrypt.compare(password, admin[0]['password']);
+
+      let { password, ...admin } = admin_data[0];
+      auth_obj['admin'] = admin;
+
+      const result = await bcrypt.compare(login_password, password);
 
       if (result) {
         let token = jwt.sign({ email: email, role: role }, config.JWT_SECRET);
@@ -76,7 +82,7 @@ const login = async (email, password, role) => {
   }
   if (role == 'company') {
     try {
-      const company = await prisma.company.findMany({
+      const company_data = await prisma.company.findMany({
         where: {
           email: {
             equals: email,
@@ -90,14 +96,15 @@ const login = async (email, password, role) => {
         },
       });
 
-      if (!company[0]) {
+      if (!company_data[0]) {
         return 'You are not authorized';
       }
 
       let auth_obj = {};
-      auth_obj['company'] = company[0];
+      let { password, ...company } = company_data[0];
+      auth_obj['company'] = company;
 
-      const result = await bcrypt.compare(password, company[0]['password']);
+      const result = await bcrypt.compare(login_password, password);
 
       if (result) {
         let token = jwt.sign({ email: email, role: role }, config.JWT_SECRET);

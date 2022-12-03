@@ -4,7 +4,7 @@ import config from '../config/index.js';
 const authenticate = (roles) => {
   return async (req, res, next) => {
     try {
-      const auth = req.headers['authorization'];
+      const auth = req.body.headers['Authorization'];
       const token = auth.replace('Bearer ', '');
 
       if (!auth) {
@@ -29,9 +29,7 @@ const authenticate = (roles) => {
       req.email = payload.email;
       req.auth = auth;
     } catch (error) {
-      return res
-        .status(401)
-        .json({ Error: 'Token missing or Invalid from error' });
+      return res.status(401).json({ Error: 'Token missing or Invalid' });
     }
 
     next();

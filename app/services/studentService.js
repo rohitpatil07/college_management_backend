@@ -72,6 +72,7 @@ const upsertOffer = async (data) => {
 
 const upsertProject = async (data) => {
   try {
+    console.log(data);
     await prisma.projects.upsert({
       where: {
         proj_id: data.proj_id,

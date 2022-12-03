@@ -75,8 +75,8 @@ const createResumedata = async (req, res) => {
 
 const createStudent = async (req, res) => {
   try {
-    const data = req.body.student;
-    const result = await studentService.upsertStudent(data);
+    const { student } = req.body;
+    const result = await studentService.upsertStudent(student);
 
     res.json(result);
     return res.status(200);

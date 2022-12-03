@@ -11,8 +11,8 @@ const upsertAcademicInfo = async(data)=> {
         gpa=gpa+data[x]
       }
     }
-    var cgpa= gpa/count
-    var be_percent = (7.4*cgpa)+12 
+    var cgpa= (gpa/count).toPrecision(2)
+    var be_percent = ((7.4*cgpa)+12).toPrecision(2) 
     data.cgpa = cgpa
     data.be_percent = be_percent
     await prisma.academic_info.upsert({
@@ -54,7 +54,7 @@ const upsertExtracurricular = async(data)=> {
   }
 };
 
-const upsertOffer = async(data)=> {
+const createOffer = async(data)=> {
   try {
     await prisma.offers.create({
       data,
@@ -129,7 +129,7 @@ export default {
   upsertAcademicInfo, 
   upsertAppliedDrive, 
   upsertExtracurricular, 
-  upsertOffer, 
+  createOffer, 
   upsertProject, 
   upsertResumedata,
   upsertStudent, 

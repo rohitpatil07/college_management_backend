@@ -40,7 +40,7 @@ const createExtracurricular = async (req, res) => {
 const createOffer = async (req, res) => {
   try{
     const data = req.body.offer;
-    const result = await studentService.upsertOffer(data)
+    const result = await studentService.createOffer(data)
 
     res.json(result);
     return res.status(200);

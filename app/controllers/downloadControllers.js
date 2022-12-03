@@ -34,4 +34,28 @@ const downloadCSV = async (req, res) => {
   }
 };
 
-export default { downloadExcel, downloadCSV };
+const resumeDownload = async (req, res) => {
+  try {
+    const rollno = String(req.params.roll_no);
+    await downloadService.resumeDownload(rollno);
+    setTimeout(()=>{
+      res.download(`${rollno}_resume.pdf`);
+    },500);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
+const zipDownload = async (req, res) => {
+  try {
+    const students = req.body.data;
+    await downloadService.zipDownload(students);
+    setTimeout(()=>{
+    res.download('export.zip');
+    },1500);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
+export default { downloadExcel, downloadCSV, resumeDownload, zipDownload };

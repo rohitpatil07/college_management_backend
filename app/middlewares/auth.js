@@ -3,7 +3,7 @@ import config from '../config/index.js';
 
 const extract_token=async(req)=>{
   if(req.method=='GET'){
-    return req.rawHeaders[13];
+    return req.headers['authorization'];
   }
   else{
     return req.body.headers['Authorization'];
@@ -13,11 +13,8 @@ const extract_token=async(req)=>{
 const authenticate = (roles) => {
   return async (req, res, next) => {
     try {
-      // const auth = req.body.headers['Authorization'];
       const auth = await extract_token(req);
-      console.log(auth);
       const token = auth.replace('Bearer ', '');
-
       if (!auth) {
         return req.status(401).json({ error: 'Authorization required' });
       }

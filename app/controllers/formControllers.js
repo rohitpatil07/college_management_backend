@@ -75,7 +75,7 @@ const createResumedata = async (req, res) => {
 
 const createStudent = async (req, res) => {
   try {
-    const { student } = req.body;
+    const  student  = req.body;
     const result = await studentService.upsertStudent(student);
 
     res.json(result);
@@ -87,7 +87,7 @@ const createStudent = async (req, res) => {
 
 const createWorkexperience = async (req, res) => {
   try {
-    const data = req.body.work;
+    const data = req.body;
     const result = await studentService.upsertWorkexperience(data);
 
     res.json(result);

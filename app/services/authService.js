@@ -28,6 +28,7 @@ const login = async (email, login_password, role) => {
 
       let auth_obj = {};
       auth_obj['student'] = student;
+      auth_obj['student']['role'] = 'student';
 
       if (result) {
         let token = jwt.sign({ email: email, role: role }, config.JWT_SECRET);
@@ -64,6 +65,7 @@ const login = async (email, login_password, role) => {
 
       let { password, ...admin } = admin_data[0];
       auth_obj['admin'] = admin;
+      auth_obj['admin']['role'] = 'admin';
 
       const result = await bcrypt.compare(login_password, password);
 
@@ -102,6 +104,7 @@ const login = async (email, login_password, role) => {
       let auth_obj = {};
       let { password, ...company } = company_data[0];
       auth_obj['company'] = company;
+      auth_obj['company']['role'] = 'company';
 
       const result = await bcrypt.compare(login_password, password);
 

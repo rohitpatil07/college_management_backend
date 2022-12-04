@@ -72,7 +72,6 @@ const upsertOffer = async (data) => {
 
 const upsertProject = async (data) => {
   try {
-    console.log(data);
     await prisma.projects.upsert({
       where: {
         proj_id: data.proj_id,
@@ -102,10 +101,8 @@ const upsertResumedata = async (data) => {
 };
 
 const upsertStudent = async (data) => {
-  console.log(data);
-  if(data.batch)
-  {
-    data.batch=parseInt(data.batch);
+  if (data.batch) {
+    data.batch = parseInt(data.batch);
   }
 
   try {

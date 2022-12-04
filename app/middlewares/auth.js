@@ -1,14 +1,13 @@
 import jwt from 'jsonwebtoken';
 import config from '../config/index.js';
 
-const extract_token=async(req)=>{
-  if(req.method=='GET'){
+const extract_token = async (req) => {
+  if (req.method == 'GET') {
     return req.headers['authorization'];
-  }
-  else{
+  } else {
     return req.body.headers['Authorization'];
   }
-}
+};
 
 const authenticate = (roles) => {
   return async (req, res, next) => {

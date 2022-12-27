@@ -58,6 +58,17 @@ const getDashboard = async (req, res) => {
   }
 };
 
+const getAllDrives = async (req, res) => {
+  try{
+    const drives = await filterService.getAllDrives();
+    res.json(drives);
+  }
+  catch(error)
+  {
+    res.json(error);
+  }
+}
+
 const getAllCompanies = async (req, res) => {
   try {
     const students = await filterService.getAllCompanies();
@@ -73,5 +84,6 @@ export default {
   getStudentsByDept,
   getPaginatedDashboard,
   getDashboard,
+  getAllDrives,
   getAllCompanies,
 };

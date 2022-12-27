@@ -120,6 +120,34 @@ const getDashboard = async (select_fields, queries) => {
   }
 };
 
+const getAllDrives = async () =>{
+  try{
+    const drives = await prisma.drives.findMany();
+    const len=drives.length;
+    const id=drives.company_id;
+    const company= await prisma.company.findMany({
+      where:{
+        company_id:id,
+      },
+      select:{
+        company_name:true,
+      }
+     
+    })
+    for(var i=0;i<len;i++)
+    {
+      drives[i].company_name=company[i].company_name;
+    }
+    console.log(drives);
+    return drives;
+  }
+  catch(error)
+  {
+    return error;
+  }
+
+};
+
 const getAllCompanies = async () => {
   try {
     const students = await prisma.company.findMany();
@@ -135,5 +163,6 @@ export default {
   getStudentsByDept,
   getPaginatedDashboard,
   getDashboard,
+  getAllDrives,
   getAllCompanies,
 };

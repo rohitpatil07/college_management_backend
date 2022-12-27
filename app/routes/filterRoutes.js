@@ -7,6 +7,7 @@ const router = Router();
 router.get('/students', authenticate(["admin"]),filterControllers.getAllStudents);
 router.get('/student/:roll_no',authenticate(["admin","student"]), filterControllers.getStudent);
 router.get('/student/dept/:dept',authenticate(["admin"]), filterControllers.getStudentsByDept);
+router.get('/drive',authenticate(["student"]),filterControllers.getAllDrives)
 router.post('/dashboard',authenticate(["admin"]),filterControllers.getDashboard);
 router.post(
   '/dashboard/:page&:limit',authenticate(["admin"]),
@@ -14,5 +15,6 @@ router.post(
 );
 
 router.get('/company',authenticate(["admin"]), filterControllers.getAllCompanies);
+
 
 export default router;

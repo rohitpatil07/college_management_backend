@@ -22,7 +22,7 @@ const upsertDrive = async (data) => {
   }
 };
 
-export default { 
-  upsertCompany, 
-  upsertDrive, 
+export default {
+  upsertCompany,
+  upsertDrive,
 };

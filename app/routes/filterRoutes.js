@@ -14,5 +14,5 @@ router.post(
 );
 
 router.get('/company',authenticate(["admin"]), filterControllers.getAllCompanies);
-
+router.post("/notify" ,authenticate(["company"]) , filterControllers.notify);
 export default router;

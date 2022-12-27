@@ -73,8 +73,19 @@ const notify = async (req, res) => {
 
     const students_data = await filterService.getDashboard(
       { email: true },
-      queries,
+      {
+        department: queries.department,
+        academic_info: {
+          gap: queries.livekt,
+          cgpa: queries.cgpa,
+          livekt: queries.livekt,
+          deadkt: queries.deadkt,
+          tenth_percent: queries.tenth_percent,
+          twelveth_percent: queries.twelveth_percent,
+        },
+      },
     );
+
     let students = [];
 
     students_data.forEach((student) => {
@@ -82,7 +93,6 @@ const notify = async (req, res) => {
     });
 
     const n = students.length;
-
     sendEmail(students, message, subject);
 
     res.json(`Notified ${n} students`);

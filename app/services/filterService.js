@@ -128,8 +128,8 @@ const getAllDrives = async () => {
         company_name: true,
       },
     });
-    for (var i = 0; i < available_drives.length; i++) {
-      for (var j = 0; j < company_name.length; j++) {
+    for (let i = 0; i < available_drives.length; i++) {
+      for (let j = 0; j < company_name.length; j++) {
         if (company_name[j].company_id == available_drives[i].company_id) {
           available_drives[i].company_name = company_name[j].company_name;
         }
@@ -260,33 +260,35 @@ const getStudentsPlacedByDept = async () => {
         package: { gte: 1 },
       },
     });
-    
+
     let placed_by_dept = [];
-    for(let students in placed_students){
-      let restructure_object={
-        branch:'',
-        count:0
+    for (let students in placed_students) {
+      let restructure_object = {
+        branch: '',
+        count: 0,
       };
       const roll_no = placed_students[students]['roll_no'];
       restructure_object.branch = roll_no.substring(2, 4);
-      if(!placed_by_dept.includes(restructure_object.branch)){
-        if(placed_by_dept.length==0){
-          placed_by_dept[1]=restructure_object;
-        }
-        else{
-          placed_by_dept[placed_by_dept.length+1]=restructure_object;
+      if (!placed_by_dept.includes(restructure_object.branch)) {
+        if (placed_by_dept.length == 0) {
+          placed_by_dept[1] = restructure_object;
+        } else {
+          placed_by_dept[placed_by_dept.length + 1] = restructure_object;
         }
       }
     }
-    for(var i=0;i<placed_by_dept.length;i++){
-      if(placed_by_dept[i]==null){
-        placed_by_dept.splice(i,1);
+    for (let i = 0; i < placed_by_dept.length; i++) {
+      if (placed_by_dept[i] == null) {
+        placed_by_dept.splice(i, 1);
       }
     }
-    for(let stu in placed_students){
+    for (let stu in placed_students) {
       const roll_no = placed_students[stu]['roll_no'];
-      for(var i=0;i<placed_by_dept.length;i++){
-        if(placed_by_dept[i]!=null && placed_by_dept[i].branch==roll_no.substring(2, 4)){
+      for (let i = 0; i < placed_by_dept.length; i++) {
+        if (
+          placed_by_dept[i] != null &&
+          placed_by_dept[i].branch == roll_no.substring(2, 4)
+        ) {
           placed_by_dept[i].count++;
         }
       }

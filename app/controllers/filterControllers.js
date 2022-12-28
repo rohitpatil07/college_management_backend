@@ -75,7 +75,6 @@ const getEligibleDrives = async (req, res) => {
     if (criteria.offers.length <= 2) {
       const drives = await filterService.getAllDrives();
       const eligible = await utilityservice.check(criteria, drives);
-      console.log('eligible', eligible);
       res.json(eligible);
     } else {
       return 'Not eligble for placement';
@@ -93,7 +92,6 @@ const getAllCompanies = async (req, res) => {
     res.json(error);
   }
 };
-
 
 const getTopPlacedStudents = async (req, res) => {
   try {
@@ -121,7 +119,6 @@ const getSelectedStudentsLpaWise = async (req, res) => {
     return res.json(error);
   }
 };
-
 
 const getStudentsPlacedByDept = async (req, res) => {
   try {

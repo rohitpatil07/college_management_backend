@@ -3,7 +3,7 @@ import companyService from '../services/companyService.js';
 //Student
 const createAcademicInfo = async (req, res) => {
   try {
-    const data = req.body.academic;
+    const data = req.body;
     const result = await studentService.upsertAcademicInfo(data);
 
     res.json(result);
@@ -16,6 +16,7 @@ const createAcademicInfo = async (req, res) => {
 const createAppliedDrive = async (req, res) => {
   try {
     const data = req.body.applieddrive;
+    console.log(data)
     const result = await studentService.upsertAppliedDrive(data);
 
     res.json(result);
@@ -51,7 +52,7 @@ const createOffer = async (req, res) => {
 
 const createProject = async (req, res) => {
   try {
-    const data = req.body.project;
+    const data = req.body;
     const result = await studentService.upsertProject(data);
 
     res.json(result);
@@ -114,7 +115,6 @@ const createDrives = async (req, res) => {
   try {
     const data = req.body.drive;
     const result = await companyService.upsertDrive(data);
-
     res.json(result);
     return res.status(200);
   } catch (error) {

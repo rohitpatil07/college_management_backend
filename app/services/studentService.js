@@ -39,6 +39,7 @@ const upsertAppliedDrive = async (data) => {
     });
     return { success: 'AppliedDrive added' };
   } catch (error) {
+    console.log(error);
     return { error: 'Error adding AppliedDrive' };
   }
 };

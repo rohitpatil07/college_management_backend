@@ -129,6 +129,117 @@ const getAllCompanies = async () => {
   }
 };
 
+const getTopPlacedStudents = async () => {
+  try {
+    let student_list = await prisma.offers.findMany({
+      take: 10,
+      select: {
+        roll_no: true,
+        company_name: true,
+        package: true,
+      },
+      orderBy: {
+        package: 'desc',
+      },
+    });
+    return student_list;
+  } catch (error) {
+    return error;
+  }
+};
+
+const getSelectedStudentsCompanyWise = async () => {
+  try {
+    let lpa = await prisma.offers.groupBy({
+      by: ['company_name'],
+      _count: {
+        company_name: true,
+      },
+    });
+
+    let restructure_array = [];
+    for (let i = 0; i < lpa.length; i++) {
+      let refined_object = {
+        placed_company: lpa[i].company_name,
+        count: lpa[i]._count.company_name,
+      };
+      restructure_array.push(refined_object);
+    }
+    return restructure_array;
+  } catch (error) {
+    return error;
+  }
+};
+
+const getSelectedStudentsLpaWise = async () => {
+  try {
+    let lpa = await prisma.offers.groupBy({
+      by: ['package'],
+      _count: {
+        package: true,
+      },
+    });
+
+    let restructure_array = [];
+    for (let i = 0; i < lpa.length; i++) {
+      let refined_object = {
+        package: lpa[i].package,
+        count: lpa[i]._count.package,
+      };
+      restructure_array.push(refined_object);
+    }
+    return restructure_array;
+  } catch (error) {
+    return error;
+  }
+};
+
+const getStudentsPlacedByDept = async () => {
+  try {
+    let placed_students = await prisma.offers.findMany({
+      select: {
+        roll_no: true,
+      },
+      where: {
+        package: { gte: 1 },
+      },
+    });
+    
+    let placed_by_dept = [];
+    for(let students in placed_students){
+      let restructure_object={
+        branch:'',
+        count:0
+      };
+      const roll_no = placed_students[students]['roll_no'];
+      restructure_object.branch = roll_no.substring(2, 4);
+      if(!placed_by_dept.includes(restructure_object.branch)){
+        if(placed_by_dept.length==0){
+          placed_by_dept[1]=restructure_object;
+        }
+        else{
+          placed_by_dept[placed_by_dept.length+1]=restructure_object;
+        }
+      }
+    }
+    for(var i=0;i<placed_by_dept.length;i++){
+      if(placed_by_dept[i]==null){
+        placed_by_dept.splice(i,1);
+      }
+    }
+    for(let stu in placed_students){
+      const roll_no = placed_students[stu]['roll_no'];
+      for(var i=0;i<placed_by_dept.length;i++){
+        if(placed_by_dept[i]!=null && placed_by_dept[i].branch==roll_no.substring(2, 4)){
+          placed_by_dept[i].count++;
+        }
+      }
+    }
+    return placed_by_dept;
+  } catch (error) {
+    return error;
+  }
+};
 export default {
   getAllStudents,
   getStudent,
@@ -136,4 +247,8 @@ export default {
   getPaginatedDashboard,
   getDashboard,
   getAllCompanies,
+  getTopPlacedStudents,
+  getSelectedStudentsCompanyWise,
+  getSelectedStudentsLpaWise,
+  getStudentsPlacedByDept,
 };

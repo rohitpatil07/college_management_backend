@@ -15,4 +15,15 @@ router.post(
 
 router.get('/company',authenticate(["admin"]), filterControllers.getAllCompanies);
 
+router.get('/top10student',authenticate(["admin"]), filterControllers.getTopPlacedStudents);
+router.get(
+  '/studentsplacedcompanywise',authenticate(["admin"]),
+  filterControllers.getSelectedStudentsCompanyWise,
+);
+router.get(
+  '/studentsplacedlpawise',authenticate(["admin"]),
+  filterControllers.getSelectedStudentsLpaWise,
+);
+router.get('/placedByDept',authenticate(["admin"]), filterControllers.getStudentsPlacedByDept);
+
 export default router;

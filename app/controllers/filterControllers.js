@@ -67,6 +67,43 @@ const getAllCompanies = async (req, res) => {
   }
 };
 
+
+const getTopPlacedStudents = async (req, res) => {
+  try {
+    const top10studentplaced = await filterService.getTopPlacedStudents();
+    return res.json({ top10studentplaced });
+  } catch (error) {
+    return res.json(error);
+  }
+};
+const getSelectedStudentsCompanyWise = async (req, res) => {
+  try {
+    const studentsPlacedCompanyWise =
+      await filterService.getSelectedStudentsCompanyWise();
+    return res.json({ studentsPlacedCompanyWise });
+  } catch (error) {
+    return res.json(error);
+  }
+};
+const getSelectedStudentsLpaWise = async (req, res) => {
+  try {
+    const studentsPlacedLpaWise =
+      await filterService.getSelectedStudentsLpaWise();
+    return res.json({ studentsPlacedLpaWise });
+  } catch (error) {
+    return res.json(error);
+  }
+};
+
+
+const getStudentsPlacedByDept = async (req, res) => {
+  try {
+    let students = await filterService.getStudentsPlacedByDept();
+    res.json(students);
+  } catch (error) {
+    res.json(error);
+  }
+};
 export default {
   getAllStudents,
   getStudent,
@@ -74,4 +111,8 @@ export default {
   getPaginatedDashboard,
   getDashboard,
   getAllCompanies,
+  getTopPlacedStudents,
+  getSelectedStudentsCompanyWise,
+  getSelectedStudentsLpaWise,
+  getStudentsPlacedByDept,
 };

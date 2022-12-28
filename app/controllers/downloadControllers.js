@@ -37,10 +37,13 @@ const downloadCSV = async (req, res) => {
 const resumeDownload = async (req, res) => {
   try {
     const rollno = String(req.params.roll_no);
-    await downloadService.resumeDownload(rollno);
-    setTimeout(()=>{
-      res.download(`${rollno}_resume.pdf`);
-    },500);
+    const filename = await downloadService.resumeDownload(rollno);
+      res.download(filename, { dotfiles: 'deny' }, function (err) {
+        if (err) {
+          return err;
+        }
+        fs.unlinkSync(filename);
+      });
   } catch (error) {
     res.json(error);
   }
@@ -49,10 +52,17 @@ const resumeDownload = async (req, res) => {
 const zipDownload = async (req, res) => {
   try {
     const students = req.body.data;
-    await downloadService.zipDownload(students);
-    setTimeout(()=>{
-    res.download('export.zip');
-    },1500);
+    const filename = await downloadService.zipDownload(students);
+    res.download(filename, { dotfiles: 'deny' }, function (err) {
+      if (err) {
+        return err;
+      }
+      fs.unlinkSync(filename);
+      var CleanDir = fs.readdirSync('./Zip');
+      for (var v = 0; v < CleanDir.length; v++) {
+        fs.unlinkSync(`./Zip/`+ CleanDir[v]);
+      }
+    });
   } catch (error) {
     res.json(error);
   }

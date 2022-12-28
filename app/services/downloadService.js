@@ -64,6 +64,39 @@ const resumeDownload = async (rollno) => {
       process.cwd() + '/app/util/rait_background.jpg',
     );
     const background = bitmap2.toString('base64');
+    const path=`./${rollno}_resume.pdf`
+    await resumemaker(logo,background,rollno,path);
+    return path;
+  } catch (error) {
+    return error;
+  }
+};
+
+const zipDownload = async (students) => {
+  try {
+    const bitmap = fs.readFileSync(process.cwd() + '/app/util/rait2.jpg');
+    const logo = bitmap.toString('base64');
+    const bitmap2 = fs.readFileSync(
+      process.cwd() + '/app/util/rait_background.jpg',
+    );
+    const background = bitmap2.toString('base64');
+    for (let i = 0; i < students.length; i++) {
+      await resumemaker(logo, background, students[i], `./Zip/${students[i]}_resume.pdf`)
+    }
+    const zip = new AdmZip();
+      var uploadDir = fs.readdirSync('./Zip');
+      for (var v = 0; v < uploadDir.length; v++) {
+        zip.addLocalFile(`./Zip/` + uploadDir[v]);
+      }
+      const data = zip.toBuffer();
+      zip.writeZip('./export.zip');
+      return './export.zip';
+  } catch (error) {
+    return error;
+  }
+};
+
+const resumemaker = async(logo, background, rollno, path)=>{
     let student = await filterService.getStudent(rollno);
     const pro = await imageService.downloadProfileImage(rollno); 
     const pfp = pro['photo'];
@@ -81,7 +114,7 @@ const resumeDownload = async (rollno) => {
         pfp: pfp,
         background: background,
       },
-      path: `./${rollno}_resume.pdf`,
+      path: path,
       type: '',
     };
     await pdf
@@ -89,78 +122,7 @@ const resumeDownload = async (rollno) => {
       .then((res) => {})
       .catch((error) => {
         console.error(error);
-      });
-    setTimeout(() => {
-      if (fs.existsSync(`./${rollno}_resume.pdf`)) {
-        fs.unlinkSync(`./${rollno}_resume.pdf`, function (err) {
-          if (err) throw err;
-        });
-      }
-    }, 2000);
-  } catch (error) {
-    return error;
-  }
-};
-
-const zipDownload = async (students) => {
-  try {
-    const bitmap = fs.readFileSync(process.cwd() + '/app/util/rait2.jpg');
-    const logo = bitmap.toString('base64');
-    const bitmap2 = fs.readFileSync(
-      process.cwd() + '/app/util/rait_background.jpg',
-    );
-    const background = bitmap2.toString('base64');
-    for (let i = 0; i < students.length; i++) {
-      let student = await filterService.getStudent(students[i]);
-      const pro = await imageService.downloadProfileImage(students[i]); 
-    const pfp = pro['photo'];
-      let x = [student];
-      var options = {
-        format: 'A4',
-        orientation: 'portrait',
-        border: '0mm',
-      };
-      var document = {
-        html: html,
-        data: {
-          users: x,
-          logo: logo,
-          pfp: pfp,
-          background: background,
-        },
-        path: `./Zip/${students[i]}_resume.pdf`,
-        type: '',
-      };
-      await pdf
-        .create(document, options)
-        .then((res) => {})
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-    const zip = new AdmZip();
-    setTimeout(() => {
-      var uploadDir = fs.readdirSync('./Zip');
-      for (var v = 0; v < uploadDir.length; v++) {
-        zip.addLocalFile(`./Zip/` + uploadDir[v]);
-      }
-      const data = zip.toBuffer();
-      zip.writeZip('./export.zip');
-    }, 300);
-    setTimeout(() => {
-      if (fs.existsSync(`./export.zip`)) {
-        fs.unlinkSync(`./export.zip`, function (err) {
-          if (err) throw err;
-        });
-      }
-      var CleanDir = fs.readdirSync('./Zip');
-      for (var v = 0; v < CleanDir.length; v++) {
-        fs.unlinkSync(`./Zip/`+ CleanDir[v]);
-      }
-    }, 2500);
-  } catch (error) {
-    return error;
-  }
-};
+    });
+}
 
 export default { downloadExcel, downloadCSV, resumeDownload, zipDownload };

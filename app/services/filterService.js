@@ -7,6 +7,7 @@ const getAllStudents = async () => {
     let students = [];
 
     student_data.forEach((student_info) => {
+      // eslint-disable-next-line no-unused-vars
       const { password, ...student } = student_info;
       students.push(student);
     });
@@ -34,6 +35,7 @@ const getStudent = async (roll_no) => {
       },
     });
 
+    // eslint-disable-next-line no-unused-vars
     const { password, ...student } = student_data;
 
     return student;
@@ -53,6 +55,7 @@ const getStudentsByDept = async (department) => {
     let students = [];
 
     student_data.forEach((student_info) => {
+      // eslint-disable-next-line no-unused-vars
       const { password, ...student } = student_info;
       students.push(student);
     });

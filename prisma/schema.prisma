@@ -42,6 +42,8 @@ model academic_info {
   masters_deadkt       Int?
   masters_gap          Int?
   students students    @relation(fields: [roll_no],references: [roll_no])
+
+  @@index([roll_no])
 }
 
 model admins {
@@ -94,6 +96,8 @@ model extra_curricular {
   activity_month String? @db.VarChar(20)
   activity_year  Int?
   students students    @relation(fields: [roll_no],references: [roll_no])
+
+  @@index([roll_no])
 }
 
 model offers {
@@ -103,6 +107,8 @@ model offers {
   package      Decimal? @db.Decimal(6, 2)
   offer_letter String?  @db.LongText
   students     students    @relation(fields: [roll_no],references: [roll_no])
+
+  @@index([roll_no])
 }
 
 model projects {
@@ -113,6 +119,8 @@ model projects {
   tech_stack String? @db.VarChar(300)
   role       String? @db.VarChar(50)
   students students  @relation(fields: [roll_no],references: [roll_no])
+
+  @@index([roll_no])
 }
 
 model resume_data {
@@ -128,7 +136,12 @@ model resume_data {
   certificate_three_completion_date String? @db.VarChar(20)
   certificate_two                   String? @db.VarChar(200)
   certificate_two_completion_date   String? @db.VarChar(20)
+  acad_achievement_one              String?  @db.VarChar(200)
+  acad_achievement_two              String?  @db.VarChar(200)
+  acad_achievement_three            String?  @db.VarChar(200)
   students students    @relation(fields: [roll_no],references: [roll_no])
+
+  @@index([roll_no])
 }
 
 model students {
@@ -152,7 +165,7 @@ model students {
   academic_info academic_info?
   applied_to_drives applied_to_drives[]
   offers offers[]
-  resume_data resume_data[]
+  resume_data resume_data?
   extra_curricular extra_curricular[]
   projects projects[]
   work_experience work_experience[]
@@ -169,4 +182,6 @@ model work_experience {
   end_month    String? @db.VarChar(20)
   year         Int?
   students students    @relation(fields: [roll_no],references: [roll_no])
+
+  @@index([roll_no])
 }

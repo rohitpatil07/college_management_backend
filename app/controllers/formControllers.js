@@ -16,7 +16,6 @@ const createAcademicInfo = async (req, res) => {
 const createAppliedDrive = async (req, res) => {
   try {
     const data = req.body.applieddrive;
-    console.log(data)
     const result = await studentService.upsertAppliedDrive(data);
 
     res.json(result);
@@ -41,7 +40,7 @@ const createExtracurricular = async (req, res) => {
 const createOffer = async (req, res) => {
   try {
     const data = req.body.offer;
-    const result = await studentService.upsertOffer(data);
+    const result = await studentService.createOffer(data);
 
     res.json(result);
     return res.status(200);
@@ -76,8 +75,8 @@ const createResumedata = async (req, res) => {
 
 const createStudent = async (req, res) => {
   try {
-    const  student  = req.body;
-    const result = await studentService.upsertStudent(student);
+    const data = req.body.student;
+    const result = await studentService.createStudent(data);
 
     res.json(result);
     return res.status(200);
@@ -130,7 +129,6 @@ export default {
   createOffer,
   createProject,
   createResumedata,
-  createStudent,
   createWorkexperience,
   createCompany,
   createDrives,

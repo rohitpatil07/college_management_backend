@@ -34,4 +34,38 @@ const downloadCSV = async (req, res) => {
   }
 };
 
-export default { downloadExcel, downloadCSV };
+const resumeDownload = async (req, res) => {
+  try {
+    const rollno = String(req.params.roll_no);
+    const filename = await downloadService.resumeDownload(rollno);
+    res.download(filename, { dotfiles: 'deny' }, function (err) {
+      if (err) {
+        return err;
+      }
+      fs.unlinkSync(filename);
+    });
+  } catch (error) {
+    res.json(error);
+  }
+};
+
+const zipDownload = async (req, res) => {
+  try {
+    const students = req.body.data;
+    const filename = await downloadService.zipDownload(students);
+    res.download(filename, { dotfiles: 'deny' }, function (err) {
+      if (err) {
+        return err;
+      }
+      fs.unlinkSync(filename);
+      var CleanDir = fs.readdirSync('./Zip');
+      for (var v = 0; v < CleanDir.length; v++) {
+        fs.unlinkSync(`./Zip/` + CleanDir[v]);
+      }
+    });
+  } catch (error) {
+    res.json(error);
+  }
+};
+
+export default { downloadExcel, downloadCSV, resumeDownload, zipDownload };

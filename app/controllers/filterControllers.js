@@ -1,5 +1,6 @@
 import filterService from '../services/filterService.js';
 import utilityservice from '../util/eligibleUtility.js';
+import sendEmail from '../util/mail.js';
 
 const getAllStudents = async (req, res) => {
   try {
@@ -128,6 +129,41 @@ const getStudentsPlacedByDept = async (req, res) => {
     res.json(error);
   }
 };
+
+const notify = async (req, res) => {
+  try {
+    const { queries, subject, message } = req.body;
+
+    const students_data = await filterService.getDashboard(
+      { email: true },
+      {
+        department: queries.department,
+        academic_info: {
+          gap: queries.livekt,
+          cgpa: queries.cgpa,
+          livekt: queries.livekt,
+          deadkt: queries.deadkt,
+          tenth_percent: queries.tenth_percent,
+          twelveth_percent: queries.twelveth_percent,
+        },
+      },
+    );
+
+    let students = [];
+
+    students_data.forEach((student) => {
+      if (student.email) students.push(student.email);
+    });
+
+    const n = students.length;
+    sendEmail(students, message, subject);
+
+    res.json(`Notified ${n} students`);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
 export default {
   getAllStudents,
   getStudent,
@@ -141,4 +177,5 @@ export default {
   getSelectedStudentsCompanyWise,
   getSelectedStudentsLpaWise,
   getStudentsPlacedByDept,
+  notify,
 };

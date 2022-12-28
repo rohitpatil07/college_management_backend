@@ -1,4 +1,5 @@
 import filterService from '../services/filterService.js';
+import utilityservice from '../util/eligibleUtility.js';
 
 const getAllStudents = async (req, res) => {
   try {
@@ -69,6 +70,29 @@ const getAllDrives = async (req, res) => {
   }
 }
 
+const getEligibleDrives = async (req,res) => {
+  try{
+    const roll_no = String(req.params.roll_no);
+    const criteria = await filterService.getEligibleData(roll_no);
+    if(criteria.offers.length<=2)
+    {
+      const drives = await filterService.getAllDrives();
+      const eligible = await utilityservice.check(criteria,drives);
+      console.log('eligible',eligible)
+      res.json(eligible);
+    }
+    else
+    {
+      return "Not eligble for placement"
+    }
+
+  }
+  catch(error)
+  {
+    res.json(error);
+  }
+}
+
 const getAllCompanies = async (req, res) => {
   try {
     const students = await filterService.getAllCompanies();
@@ -85,5 +109,6 @@ export default {
   getPaginatedDashboard,
   getDashboard,
   getAllDrives,
+  getEligibleDrives,
   getAllCompanies,
 };

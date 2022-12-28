@@ -119,34 +119,73 @@ const getDashboard = async (select_fields, queries) => {
     return error;
   }
 };
-
 const getAllDrives = async () =>{
   try{
-    const drives = await prisma.drives.findMany();
-    const len=drives.length;
-    const id=drives.company_id;
-    const company= await prisma.company.findMany({
-      where:{
-        company_id:id,
-      },
+    let available_drives = await prisma.drives.findMany({});
+    let company_name = await prisma.company.findMany({
       select:{
+        company_id:true,
         company_name:true,
+      },
+    });
+    for(var i=0;i< available_drives.length;i++){
+      for(var j=0;j<company_name.length;j++){
+        if(company_name[j].company_id==available_drives[i].company_id){
+          available_drives[i].company_name = company_name[j].company_name;
+        }
       }
-     
-    })
-    for(var i=0;i<len;i++)
-    {
-      drives[i].company_name=company[i].company_name;
     }
-    console.log(drives);
-    return drives;
+    return available_drives;
+  }
+  catch(error){
+    return error;
+  }
+};
+
+
+const getEligibleData = async (roll_no) =>
+{
+  try
+  {
+    let student_data = await prisma.students.findUnique({
+      where: {
+        roll_no: roll_no,
+
+      },
+      select: {
+        gender:true,
+        academic_info:
+        {
+          select:
+          {
+            tenth_percent:true,
+            twelveth_percent:true,
+            diploma_percent:true,
+            cgpa:true,
+            be_percent:true,
+            gap:true,
+            livekt:true,
+            deadkt:true
+          }
+        },
+        applied_to_drives:true,
+        offers:
+        {
+          select:
+          {
+            company_name:true,
+            package:true
+          }
+        }
+      },
+    });
+    return student_data;
   }
   catch(error)
   {
-    return error;
+    console.log(error)
   }
-
-};
+}
 
 const getAllCompanies = async () => {
   try {
@@ -164,5 +203,6 @@ export default {
   getPaginatedDashboard,
   getDashboard,
   getAllDrives,
+  getEligibleData,
   getAllCompanies,
 };

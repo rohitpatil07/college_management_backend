@@ -3,7 +3,7 @@ import companyService from '../services/companyService.js';
 //Student
 const createAcademicInfo = async (req, res) => {
   try {
-    const data = req.body;
+    const data = req.body.academic;
     const result = await studentService.upsertAcademicInfo(data);
 
     res.json(result);

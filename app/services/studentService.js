@@ -98,7 +98,7 @@ const upsertResumedata = async (data) => {
   }
 };
 
-const upsertStudent = async (data) => {
+const createStudent = async (data) => {
   if (data.batch) {
     data.batch = parseInt(data.batch);
   }
@@ -139,6 +139,6 @@ export default {
   createOffer,
   upsertProject,
   upsertResumedata,
-  upsertStudent,
+  createStudent,
   upsertWorkexperience,
 };

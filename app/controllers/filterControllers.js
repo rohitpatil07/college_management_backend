@@ -164,6 +164,15 @@ const notify = async (req, res) => {
   }
 };
 
+const getAppliedDrives = async (req,res) => {
+  try{
+    const applied_drives = filterService.getAppliedDrives(req.params.roll_no);
+    res.json(applied_drives)
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 export default {
   getAllStudents,
   getStudent,
@@ -178,4 +187,5 @@ export default {
   getSelectedStudentsLpaWise,
   getStudentsPlacedByDept,
   notify,
+  getAppliedDrives,
 };

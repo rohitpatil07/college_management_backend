@@ -301,6 +301,29 @@ const getStudentsPlacedByDept = async () => {
     return error;
   }
 };
+
+const getAppliedDrives = async (roll_no) =>{
+  try{
+    let appliedskeleton = await prisma.students.findUnique({
+      where: {
+        roll_no: roll_no,
+      },
+      select: {
+        applied_to_drives: true,
+      }
+    })
+    const catalyst=appliedskeleton.applied_to_drives.map(a=>a.drive_id)
+    const applied_drives = await prisma.drives.findMany({
+      where: {
+          drive_id: { in: catalyst },
+      }
+  })
+  return applied_drives;
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 export default {
   getAllStudents,
   getStudent,
@@ -314,4 +337,5 @@ export default {
   getSelectedStudentsCompanyWise,
   getSelectedStudentsLpaWise,
   getStudentsPlacedByDept,
+  getAppliedDrives,
 };

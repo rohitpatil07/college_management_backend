@@ -14,4 +14,21 @@ const login = async (req, res) => {
   }
 };
 
-export default { login };
+const reset_password = async (req, res) => {
+  try {
+    const auth_token = req.headers['authorization'];
+    const token = auth_token.replace('Bearer ', '');
+    const { email, password, old_password } = req.body;
+    const response = await authService.reset_password(
+      email,
+      password,
+      old_password,
+      token,
+    );
+    res.json(response);
+  } catch (error) {
+    res.json({ error: 'Failed to update password' });
+  }
+};
+
+export default { login, reset_password };

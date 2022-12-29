@@ -132,6 +132,23 @@ const upsertWorkexperience = async (data) => {
   }
 };
 
+const updateStudentPassword = async (email, password) => {
+  try {
+    await prisma.students.updateMany({
+      where: {
+        email: email,
+      },
+      data: {
+        password: password,
+      },
+    });
+
+    return 'Password Updated';
+  } catch (error) {
+    return 'Invalid Credentials';
+  }
+};
+
 export default {
   upsertAcademicInfo,
   upsertAppliedDrive,
@@ -141,4 +158,5 @@ export default {
   upsertResumedata,
   createStudent,
   upsertWorkexperience,
+  updateStudentPassword,
 };

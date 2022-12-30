@@ -324,6 +324,97 @@ const getAppliedDrives = async (roll_no) =>{
   }
 }
 
+const getRequestOffers = async (roll_no) =>{
+  try{
+    let offers = await prisma.students.findUnique({
+      where: {
+        roll_no: roll_no,
+      },
+      select: {
+        offers: true,
+      }
+    })
+    return offers;
+  } catch(error){
+    res.json(error)
+  }
+}
+
+const getAllOffers = async (company_name) =>{
+  try{
+    let offers = await prisma.offers.findMany({
+      where: {
+        company_name:company_name
+      },
+      select:{
+        roll_no:true
+      }
+    })
+    const catalyst=offers.map(a=>a.roll_no)
+    let details = await prisma.students.findMany({
+      where: {
+        roll_no: { in:catalyst },
+      },
+      select: {
+        roll_no:true,
+        first_name:true,
+        last_name:true,
+        email:true,
+        _count:{
+          select:{
+            offers: true,
+          }
+        },
+        offers:true
+      }
+    })
+    return details;
+  } catch(error){
+    res.json(error)
+  }
+}
+
+const getOffersCount = async (roll_no) =>{
+  try{
+    let offers = await prisma.students.findUnique({
+      where: {
+        roll_no: roll_no,
+      },
+      select: {
+        _count:{
+          select:{
+            offers: true,
+          }
+        }
+      }
+    })
+    return offers._count.offers;
+  } catch(error){
+    res.json(error)
+  }
+}
+
+const getMultipleOffersCount = async (roll_no) =>{
+  try{
+    let offers = await prisma.students.findMany({
+      where: {
+        roll_no: { in:roll_no },
+      },
+      select: {
+        roll_no:true,
+        _count:{
+          select:{
+            offers: true,
+          }
+        }
+      }
+    })
+    return offers;
+  } catch(error){
+    res.json(error)
+  }
+}
+
 export default {
   getAllStudents,
   getStudent,
@@ -338,4 +429,8 @@ export default {
   getSelectedStudentsLpaWise,
   getStudentsPlacedByDept,
   getAppliedDrives,
+  getRequestOffers,
+  getAllOffers,
+  getOffersCount,
+  getMultipleOffersCount,
 };

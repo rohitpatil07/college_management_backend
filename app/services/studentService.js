@@ -68,6 +68,30 @@ const createOffer = async (data) => {
   }
 };
 
+const updateOffer = async (offer_id,data)=>{
+  try{
+    await prisma.offers.update({
+      where:{
+        offer_id:offer_id
+      },
+      data
+    }) 
+  } catch (error) {
+    return { error: 'Error updating Offer' };
+  }
+}
+
+const createBulkOffers = async (roll_no,data) => {
+  try {
+    await prisma.offers.createMany({
+      data,
+    });
+    return { success: 'Offers added' };
+  } catch (error) {
+    return { error: 'Error adding Offer' };
+  }
+};
+
 const upsertProject = async (data) => {
   try {
     await prisma.projects.upsert({
@@ -137,6 +161,8 @@ export default {
   upsertAppliedDrive,
   upsertExtracurricular,
   createOffer,
+  createBulkOffers,
+  updateOffer,
   upsertProject,
   upsertResumedata,
   createStudent,

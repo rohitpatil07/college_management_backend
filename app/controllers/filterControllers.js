@@ -166,8 +166,28 @@ const notify = async (req, res) => {
 
 const getAppliedDrives = async (req,res) => {
   try{
-    const applied_drives = filterService.getAppliedDrives(req.params.roll_no);
+    const applied_drives = await filterService.getAppliedDrives(req.params.roll_no);
     res.json(applied_drives)
+  } catch (error) {
+    res.json(error);
+  }
+}
+
+const getRequestedOffers = async (req,res) => {
+  try{
+    const offers = await filterService.getRequestOffers(req.params.roll_no);
+    res.json(offers)
+  } catch (error) {
+    res.json(error);
+  }
+}
+
+const getAllOffers = async (req, res) => {
+  try{
+    console.log(req.params.company)
+    const offers = await filterService.getAllOffers(req.params.company);
+    console.log(offers)
+    res.json(offers)
   } catch (error) {
     res.json(error);
   }
@@ -188,4 +208,6 @@ export default {
   getStudentsPlacedByDept,
   notify,
   getAppliedDrives,
+  getRequestedOffers,
+  getAllOffers,
 };

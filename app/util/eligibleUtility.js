@@ -50,4 +50,16 @@ const check = async (criteria, drives) => {
   return final_drive;
 };
 
-export default { check };
+const offercheck = async (offer_count,data) =>{
+  let final_offer=[]
+  for(let i=0; i<offer_count.length; i++){
+    if(offer_count[i]._count.offers<2){
+      var result = data.filter((e)=>e.roll_no == offer_count[i].roll_no )
+      result[0].offer_id = offer_count[i].roll_no+`${offer_count[i]._count.offers+1}`
+      final_offer.push(result[0])
+    }
+  }
+  return final_offer;
+};
+
+export default { check, offercheck, };

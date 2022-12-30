@@ -31,6 +31,16 @@ router.post(
   studentControllers.createOffer,
 );
 router.post(
+  '/admin/student/bulkoffers',
+  authenticate(['admin']),
+  studentControllers.createBulkOffers,
+);
+router.post(
+  '/admin/student/updateoffer',
+  authenticate(['admin']),
+  studentControllers.updateOffer,
+)
+router.post(
   '/student/project',
   authenticate(['student']),
   studentControllers.createProject,

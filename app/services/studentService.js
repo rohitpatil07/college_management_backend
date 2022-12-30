@@ -29,7 +29,7 @@ const upsertAcademicInfo = async (data) => {
   }
 };
 
-const upsertAppliedDrive = async (data) => {
+const createAppliedDrive = async (data) => {
   try {
     await prisma.applied_to_drives.create({
       data,
@@ -158,7 +158,7 @@ const upsertWorkexperience = async (data) => {
 
 export default {
   upsertAcademicInfo,
-  upsertAppliedDrive,
+  createAppliedDrive,
   upsertExtracurricular,
   createOffer,
   createBulkOffers,

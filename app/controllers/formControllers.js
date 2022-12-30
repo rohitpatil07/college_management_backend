@@ -18,7 +18,7 @@ const createAcademicInfo = async (req, res) => {
 const createAppliedDrive = async (req, res) => {
   try {
     const data = req.body.applieddrive;
-    const result = await studentService.upsertAppliedDrive(data);
+    const result = await studentService.createAppliedDrive(data);
 
     res.json(result);
     return res.status(200);

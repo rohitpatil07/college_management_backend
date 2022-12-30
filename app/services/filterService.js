@@ -125,18 +125,19 @@ const getDashboard = async (select_fields, queries) => {
 const getAllDrives = async () => {
   try {
     let available_drives = await prisma.drives.findMany({});
+    const comp_id=available_drives.map(a=>a.company_id)
     let company_name = await prisma.company.findMany({
+      where:{
+        company_id: { in:comp_id}
+      },
       select: {
         company_id: true,
         company_name: true,
       },
     });
     for (let i = 0; i < available_drives.length; i++) {
-      for (let j = 0; j < company_name.length; j++) {
-        if (company_name[j].company_id == available_drives[i].company_id) {
-          available_drives[i].company_name = company_name[j].company_name;
-        }
-      }
+      var result = company_name.filter((e)=>e.company_id == available_drives[i].company_id)
+      available_drives[i].company_name = result[0].company_name
     }
     return available_drives;
   } catch (error) {
@@ -313,12 +314,27 @@ const getAppliedDrives = async (roll_no) =>{
       }
     })
     const catalyst=appliedskeleton.applied_to_drives.map(a=>a.drive_id)
-    const applied_drives = await prisma.drives.findMany({
+    let applied_drives = await prisma.drives.findMany({
       where: {
           drive_id: { in: catalyst },
       }
-  })
-  return applied_drives;
+    })
+  const comp_id=applied_drives.map(a=>a.company_id)
+  
+    let company_name = await prisma.company.findMany({
+      where:{
+        company_id: { in:comp_id}
+      },
+      select: {
+        company_id: true,
+        company_name: true,
+      },
+    });
+    for (let i = 0; i < applied_drives.length; i++) {
+      var result = company_name.filter((e)=>e.company_id == applied_drives[i].company_id)
+      applied_drives[i].company_name = result[0].company_name
+    }
+    return applied_drives;
   } catch (error) {
     res.json(error);
   }

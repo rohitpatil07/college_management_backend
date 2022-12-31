@@ -182,8 +182,21 @@ const getEligibleData = async (roll_no) => {
 
 const getAllCompanies = async () => {
   try {
-    const students = await prisma.company.findMany();
-    return students;
+    const company = await prisma.company.findMany();
+    return company;
+  } catch (error) {
+    return error;
+  }
+};
+
+const getCompanyDrive = async (company_id) =>{
+  try {
+    const company = await prisma.drives.findMany({
+      where:{
+        company_id : company_id,
+      }
+    });
+    return company;
   } catch (error) {
     return error;
   }
@@ -440,6 +453,7 @@ export default {
   getAllDrives,
   getEligibleData,
   getAllCompanies,
+  getCompanyDrive,
   getTopPlacedStudents,
   getSelectedStudentsCompanyWise,
   getSelectedStudentsLpaWise,

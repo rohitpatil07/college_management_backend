@@ -58,7 +58,7 @@ router.post(
 router.post('/company', companyControllers.createCompany);
 router.post(
   '/company/drive',
-  authenticate(['company']),
+  authenticate(['admin','company']),
   companyControllers.createDrives,
 );
 

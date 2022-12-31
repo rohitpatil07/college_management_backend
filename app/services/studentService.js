@@ -41,6 +41,17 @@ const createAppliedDrive = async (data) => {
   }
 };
 
+const createBulkOffers = async (roll_no,data) => {
+  try {
+    await prisma.offers.createMany({
+      data,
+    });
+    return { success: 'Offers added' };
+  } catch (error) {
+    return { error: 'Error adding Offer' };
+  }
+};
+
 const upsertExtracurricular = async (data) => {
   try {
     //change pos_res varhar size to something bigger
@@ -80,17 +91,6 @@ const updateOffer = async (offer_id,data)=>{
     return { error: 'Error updating Offer' };
   }
 }
-
-const createBulkOffers = async (roll_no,data) => {
-  try {
-    await prisma.offers.createMany({
-      data,
-    });
-    return { success: 'Offers added' };
-  } catch (error) {
-    return { error: 'Error adding Offer' };
-  }
-};
 
 const upsertProject = async (data) => {
   try {
@@ -159,9 +159,9 @@ const upsertWorkexperience = async (data) => {
 export default {
   upsertAcademicInfo,
   createAppliedDrive,
+  createBulkOffers,
   upsertExtracurricular,
   createOffer,
-  createBulkOffers,
   updateOffer,
   upsertProject,
   upsertResumedata,

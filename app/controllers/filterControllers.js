@@ -87,8 +87,18 @@ const getEligibleDrives = async (req, res) => {
 
 const getAllCompanies = async (req, res) => {
   try {
-    const students = await filterService.getAllCompanies();
-    res.json(students);
+    const company = await filterService.getAllCompanies();
+    res.json(company);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
+const getCompanyDrive = async (req, res) => {
+  try {
+    const company_id = parseInt(req.params.company)
+    const company = await filterService.getCompanyDrive(company_id);
+    res.json(company);
   } catch (error) {
     res.json(error);
   }
@@ -208,6 +218,7 @@ export default {
   getAllDrives,
   getEligibleDrives,
   getAllCompanies,
+  getCompanyDrive,
   getTopPlacedStudents,
   getSelectedStudentsCompanyWise,
   getSelectedStudentsLpaWise,

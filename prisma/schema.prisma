@@ -67,6 +67,7 @@ model company {
   company_name String? @db.VarChar(50)
   email        String? @db.VarChar(50)
   password     String? @db.VarChar(300)
+  offers offers[] 
 }
 
 model drives {
@@ -84,6 +85,7 @@ model drives {
   gap               Int
   livekt            Int 
   deadkt            Int
+  offers offers[]
 
   @@index([company_id], map: "fk_comp_id")
 }
@@ -103,12 +105,17 @@ model extra_curricular {
 model offers {
   offer_id     String   @id @db.VarChar(10)
   roll_no      String   @db.VarChar(10)
-  company_name String   @db.VarChar(50)
+  company_id   Int
   package      Decimal? @db.Decimal(6, 2)
   offer_letter String?  @db.LongText
-  students     students    @relation(fields: [roll_no],references: [roll_no])
+  drive_id     Int  
+  students     students  @relation(fields: [roll_no],references: [roll_no])
+  company      company   @relation(fields: [company_id] , references: [company_id])
+  drives       drives    @relation(fields: [drive_id] , references: [drive_id])
 
   @@index([roll_no])
+  @@index([company_id])
+  @@index([drive_id])
 }
 
 model projects {

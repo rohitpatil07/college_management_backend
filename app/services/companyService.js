@@ -44,7 +44,25 @@ const upsertDrive = async (data) => {
   }
 };
 
+const updateCompanyPassword = async (email, password) => {
+  try {
+    await prisma.company.updateMany({
+      where: {
+        email: email,
+      },
+      data: {
+        password: password,
+      },
+    });
+
+    return 'Password Updated';
+  } catch (error) {
+    return 'Invalid Credentials';
+  }
+};
+
 export default {
   upsertCompany,
   upsertDrive,
+  updateCompanyPassword,
 };

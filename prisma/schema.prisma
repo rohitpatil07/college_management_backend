@@ -168,6 +168,8 @@ model students {
   photo          String? @db.LongText
   department     String? @db.VarChar(10)
   batch          Int?
+  subjects       String? @db.VarChar(200)
+  semester       Int
   secondary_mail String? @db.VarChar(50)
   college_name   String? @db.VarChar(100)
   academic_info academic_info?
@@ -192,4 +194,38 @@ model work_experience {
   students students    @relation(fields: [roll_no],references: [roll_no])
 
   @@index([roll_no])
+}
+
+//LMS modules
+
+model Faculty {
+  email       String  @id  @db.VarChar(30)
+  password    String       @db.VarChar(300)
+  subjects    String?      @db.VarChar(200)
+}
+
+
+model subjects {
+  subject_id        Int      @id @default(autoincrement())
+  subject_name      String   @db.VarChar(50)
+  semester          Int
+  department        String   @db.VarChar(10)
+  batch             Int
+  type              String   @db.VarChar(3)
+  modules           String?  @db.VarChar(200)
+}
+
+model modules {
+  module_id        Int      @id @default(autoincrement())
+  module_number    Int      
+  subject_id       Int 
+  module_name      String?  @db.VarChar(60)
+  reading_material String?  @db.VarChar(200)
+}
+
+model reading_material {
+  reading_material_id Int     @id @default(autoincrement())
+  module_id           Int
+  file_name           String? @db.VarChar(30) 
+  file                String? @db.LongText
 }

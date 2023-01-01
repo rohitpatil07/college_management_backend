@@ -55,8 +55,8 @@ model admins {
 
 model applied_to_drives {
   drive_id Int
-  roll_no  String @db.VarChar(10)
-  students students    @relation(fields: [roll_no],references: [roll_no])
+  roll_no  String    @db.VarChar(10)
+  students students  @relation(fields: [roll_no],references: [roll_no])
   @@id([drive_id, roll_no])
   @@index([drive_id], map: "fk_drive_id")
   @@index([roll_no], map: "fk_stud_roll")
@@ -67,7 +67,8 @@ model company {
   company_name String? @db.VarChar(50)
   email        String? @db.VarChar(50)
   password     String? @db.VarChar(300)
-  offers offers[] 
+  drives       drives[] 
+  offers       offers[] 
 }
 
 model drives {
@@ -86,7 +87,7 @@ model drives {
   livekt            Int 
   deadkt            Int
   offers offers[]
-
+  company company   @relation(fields: [company_id] , references: [company_id])
   @@index([company_id], map: "fk_comp_id")
 }
 

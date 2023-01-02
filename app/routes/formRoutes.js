@@ -7,8 +7,8 @@ const router = Router();
 
 router.post(
   '/student',
-  authenticate(['student']),
-  studentControllers.createStudent,
+  authenticate(['student',"admin"]),
+  studentControllers.upsertStudent,
 );
 router.post(
   '/student/academicinfo',

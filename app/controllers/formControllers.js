@@ -89,7 +89,7 @@ const createBulkOffers = async (req, res) => {
 
 const createProject = async (req, res) => {
   try {
-    const data = req.body;
+    const data = req.body.project;
     const result = await studentService.upsertProject(data);
 
     res.json(result);
@@ -111,10 +111,10 @@ const createResumedata = async (req, res) => {
   }
 };
 
-const createStudent = async (req, res) => {
+const upsertStudent = async (req, res) => {
   try {
     const data = req.body.student;
-    const result = await studentService.createStudent(data);
+    const result = await studentService.upsertStudent(data);
 
     res.json(result);
     return res.status(200);
@@ -125,7 +125,7 @@ const createStudent = async (req, res) => {
 
 const createWorkexperience = async (req, res) => {
   try {
-    const data = req.body;
+    const data = req.body.work;
     const result = await studentService.upsertWorkexperience(data);
 
     res.json(result);
@@ -160,7 +160,7 @@ const createDrives = async (req, res) => {
 };
 
 export default {
-  createStudent,
+  upsertStudent,
   createAcademicInfo,
   createAppliedDrive,
   createExtracurricular,

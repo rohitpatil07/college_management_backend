@@ -199,33 +199,63 @@ model work_experience {
 //LMS modules
 
 model Faculty {
-  email       String  @id  @db.VarChar(30)
-  password    String       @db.VarChar(300)
-  subjects    String?      @db.VarChar(200)
+  email          String  @id  @db.VarChar(30)
+  password       String  @db.VarChar(300)
+  subjects       String? @db.VarChar(200)
+  first_name     String? @db.VarChar(50)
+  middle_name    String? @db.VarChar(50)
+  last_name      String? @db.VarChar(50)
+  phone_number   String? @db.VarChar(15)
+  gender         String? @db.VarChar(1)
+  linkedin       String? @db.VarChar(50)
+  photo          String? @db.LongText
+  secondary_mail String? @db.VarChar(50)
+  college_name   String? @db.VarChar(100)
+  department     String? @db.VarChar(5)
 }
 
-
 model subjects {
-  subject_id        Int      @id @default(autoincrement())
+  subject_id        String   @id @db.VarChar(10)
   subject_name      String   @db.VarChar(50)
   semester          Int
   department        String   @db.VarChar(10)
-  batch             Int
+  batch             Int      
   type              String   @db.VarChar(3)
-  modules           String?  @db.VarChar(200)
+  assignment assignment[]
+  modules modules[]
+  reading_material reading_material[]
+}
+
+model assignment {
+  assignment_id     Int     @id @default(autoincrement())
+  subject_id        String  @db.VarChar(10)
+  assign_name       String? @db.VarChar(50)
+  assign_des        String?      @db.VarChar(200)
+  file_name         String? @db.VarChar(30)
+  file              String? @db.LongText
+  links             String? @db.LongText
+  subjects subjects  @relation(fields: [subject_id],references: [subject_id])
+
+  @@index([subject_id])
 }
 
 model modules {
   module_id        Int      @id @default(autoincrement())
+  subject_id       String  @db.VarChar(10)
   module_number    Int      
-  subject_id       Int 
   module_name      String?  @db.VarChar(60)
-  reading_material String?  @db.VarChar(200)
+  subjects subjects  @relation(fields: [subject_id],references: [subject_id])
+
+  @@index([subject_id])
 }
 
 model reading_material {
   reading_material_id Int     @id @default(autoincrement())
+  subject_id          String  @db.VarChar(10)
   module_id           Int
   file_name           String? @db.VarChar(30) 
   file                String? @db.LongText
+  subjects subjects  @relation(fields: [subject_id],references: [subject_id])
+
+  @@index([subject_id])
 }

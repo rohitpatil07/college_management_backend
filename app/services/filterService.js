@@ -66,6 +66,38 @@ const getStudentsByDept = async (department) => {
   }
 };
 
+const getStudentsForDrive = async (drive_id) => {
+  console.log(drive_id)
+  try {
+    let student_data = await prisma.students.findMany({
+      where: {
+        applied_to_drives:{
+          some:{
+            drive_id:drive_id
+          }
+        }
+      },
+      include:{
+        resume_data: true,
+        academic_info: true,
+        work_experience: true,
+        projects: true,
+        extra_curricular: true,
+      }
+    });
+    let students = [];
+    student_data.forEach((student_info) => {
+      // eslint-disable-next-line no-unused-vars
+      const { password, photo, ...student } = student_info;
+      students.push(student);
+    });
+    return students;
+  } catch (error) {
+    console.log(error)
+    return error;
+  }
+};
+
 const getPaginatedDashboard = async (select_fields, queries, page, limit) => {
   try {
     const startIndex = (page - 1) * limit;
@@ -448,6 +480,7 @@ export default {
   getAllStudents,
   getStudent,
   getStudentsByDept,
+  getStudentsForDrive,
   getPaginatedDashboard,
   getDashboard,
   getAllDrives,

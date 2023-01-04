@@ -4,7 +4,11 @@ import facultyController from '../../controllers/LMSControllers/formController.j
 
 const router = Router();
 
-router.post('/subject', subjectController.upsertSubject);
-router.post('/faculty', facultyController.upsertFaculty);
+router.post('/addmodule', subjectController.upsertModule);
+router.post('/addreadmat',subjectController.upsertReadingMaterial);
+router.post('/addsubject', subjectController.createSubject);
+//route below needs a finalised schema for more details visits subject services 
+//router.post('/addsubtostu', subjectController.updateStudents)
+router.post('/addfaculty', facultyController.upsertFaculty);
 
 export default router;

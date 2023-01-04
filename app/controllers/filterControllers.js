@@ -31,6 +31,15 @@ const getStudentsByDept = async (req, res) => {
   }
 };
 
+const getStudentsForDrive = async (req, res) => {
+  try {
+    let students = await filterService.getStudentsForDrive(parseInt(req.params.driveid));
+    res.json({ students: students });
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 const getPaginatedDashboard = async (req, res) => {
   try {
     const page = parseInt(req.params.page);
@@ -213,6 +222,7 @@ export default {
   getAllStudents,
   getStudent,
   getStudentsByDept,
+  getStudentsForDrive,
   getPaginatedDashboard,
   getDashboard,
   getAllDrives,

@@ -9,6 +9,15 @@ const getAllFaculty = async (req, res) => {
     }
 };
 
+const getAllFacSubs = async (req, res) => {
+    try{
+        const data = await filterService.getAllFacSubs(req.body.subjects);
+        res.json(data);
+    } catch(error){
+        res.json(error)
+    }
+};
+
 const getAllSubject = async (req, res) => {
     try{
         const data = await filterService.getAllSubject();
@@ -36,6 +45,33 @@ const getFacultybyMail = async (req, res) => {
     }
 }
 
+const getModulebyID = async (req, res) => {
+    try{
+        const data = await filterService.getOneModbyID(parseInt(req.params.moduleid));
+        res.json(data);
+    } catch(error){
+        res.json(error)
+    }
+}
+
+const getModulebySubject = async (req, res) => {
+    try{
+        const data = await filterService.getModbySub(req.params.subid);
+        res.json(data);
+    } catch(error){
+        res.json(error)
+    }
+}
+
+const getSubbyDept = async (req,res) => {
+    try{
+    const data = await filterService.getSubbyDept(parseInt(req.params.batch),req.params.dept);
+    res.json(data);
+    } catch(error){
+        res.json(error)
+    }
+};
+
 const getSubjectbyID = async (req,res) => {
     try{
     const data = await filterService.getSubjectbyID(req.params.subid);
@@ -47,8 +83,12 @@ const getSubjectbyID = async (req,res) => {
 
 export default {
   getAllFaculty,
+  getAllFacSubs,
   getAllSubject,
   getFacultybyDept,
   getFacultybyMail,
+  getModulebyID,
+  getModulebySubject,
+  getSubbyDept,
   getSubjectbyID,  
 };

@@ -1,6 +1,26 @@
 import subjectService from '../../services/LMSServices/subjectService.js';
 import facultyService from '../../services/LMSServices/facultyService.js';
 
+const createSubject = async (req,res) =>{
+  try{
+    const data = await subjectService.createSubject(req.body.subject)
+    res.json(data)
+  } catch (error){
+    console.log(error)
+    return res.json(error);
+  }
+}
+
+const updateStudents = async (req,res) =>{
+  try{
+      const data = await subjectService.updateStudents(req.body)
+      res.json(data)
+  } catch (error){
+      console.log(error)
+      return res.json(error);
+  }
+  }
+
 const upsertFaculty = async (req,res) =>{
   try{
     const data = await facultyService.upsertFaculty(req.body.faculty)
@@ -31,16 +51,6 @@ const upsertReadingMaterial = async (req,res) =>{
   }
 }
 
-const upsertSubject = async (req,res) =>{
-  try{
-    const data = await subjectService.upsertSubject(req.body.subject)
-    res.json(data)
-  } catch (error){
-    console.log(error)
-    return res.json(error);
-  }
-}
-
 // const  = async (req,res) =>{
 //   try{
 //     const data = await subjectService.
@@ -52,8 +62,9 @@ const upsertSubject = async (req,res) =>{
 // }
 
 export default { 
+  createSubject,
+  updateStudents,
   upsertFaculty,
   upsertModule,
   upsertReadingMaterial,
-  upsertSubject,
 };

@@ -64,7 +64,7 @@ model applied_to_drives {
 
 model company {
   company_id   Int     @id @default(autoincrement())
-  company_name String? @db.VarChar(50)
+  company_name String? @db.VarChar(50) @unique
   email        String? @db.VarChar(50)
   password     String? @db.VarChar(300)
   drives       drives[] 
@@ -106,16 +106,16 @@ model extra_curricular {
 model offers {
   offer_id     String   @id @db.VarChar(10)
   roll_no      String   @db.VarChar(10)
-  company_id   Int
+  company_name String   @db.VarChar(50)
   package      Decimal? @db.Decimal(6, 2)
   offer_letter String?  @db.LongText
   drive_id     Int  
   students     students  @relation(fields: [roll_no],references: [roll_no])
-  company      company   @relation(fields: [company_id] , references: [company_id])
+  company      company   @relation(fields: [company_name] , references: [company_name])
   drives       drives    @relation(fields: [drive_id] , references: [drive_id])
 
   @@index([roll_no])
-  @@index([company_id])
+  @@index([company_name])
   @@index([drive_id])
 }
 

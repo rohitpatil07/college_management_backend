@@ -42,6 +42,7 @@ const createExtracurricular = async (req, res) => {
 const createOffer = async (req, res) => {
   try {
     const data = req.body.offer;
+    console.log(data);
     const offer_count = await filterService.getOffersCount(data.roll_no);
      if(offer_count<2){
       data.offer_id = data.roll_no+`${offer_count+1}`

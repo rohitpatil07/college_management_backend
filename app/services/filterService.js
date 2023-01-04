@@ -224,17 +224,17 @@ const getTopPlacedStudents = async () => {
 const getSelectedStudentsCompanyWise = async () => {
   try {
     let lpa = await prisma.offers.groupBy({
-      by: ['company_name'],
+      by: ['company_id'],
       _count: {
-        company_name: true,
+        company_id: true,
       },
     });
 
     let restructure_array = [];
     for (let i = 0; i < lpa.length; i++) {
       let refined_object = {
-        placed_company: lpa[i].company_name,
-        count: lpa[i]._count.company_name,
+        placed_company: lpa[i].company_id,
+        count: lpa[i]._count.company_id,
       };
       restructure_array.push(refined_object);
     }

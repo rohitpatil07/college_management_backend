@@ -75,6 +75,7 @@ const createOffer = async (data) => {
     });
     return { success: 'Offer added' };
   } catch (error) {
+    console.log(error);
     return { error: 'Error adding Offer' };
   }
 };
@@ -142,6 +143,7 @@ const upsertStudent = async (data) => {
 };
 
 const upsertWorkexperience = async (data) => {
+  console.log(data);
   try {
     await prisma.work_experience.upsert({
       where: {
@@ -152,6 +154,7 @@ const upsertWorkexperience = async (data) => {
     });
     return { success: 'Experience added' };
   } catch (error) {
+    console.log(error);
     return { error: 'Error adding Experience' };
   }
 };

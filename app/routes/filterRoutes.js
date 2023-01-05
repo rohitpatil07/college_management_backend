@@ -21,7 +21,8 @@ authenticate(["admin"]),
 filterControllers.getAllOffers
 );
 router.get('/company',authenticate(["admin"]), filterControllers.getAllCompanies);
-router.get("/company/drive/:company", authenticate(["admin","company"]),filterControllers.getCompanyDrive);
+router.get('/company/drive/:company', authenticate(["admin","company"]),filterControllers.getCompanyDrive);
+router.get('/company/appliedstudents/:driveid', authenticate(["admin","company"]), filterControllers.getStudentsForDrive)
 
 router.get('/top10student',authenticate(["admin"]), filterControllers.getTopPlacedStudents);
 router.get(

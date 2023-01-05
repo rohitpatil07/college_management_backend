@@ -1,8 +1,10 @@
 import { Router } from 'express';
-import subjectController from '../../controllers/LMSControllers/subjectController.js';
+import filterRoutes from './filterRoutes.js'
+import formRoutes from './formRoutes.js'
 
 const router = Router();
 
-router.get('/', subjectController.getSubject);
+router.use('/filter', filterRoutes);
+router.use('/form', formRoutes)
 
 export default router;

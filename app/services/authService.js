@@ -124,6 +124,48 @@ const login = async (email, login_password, role) => {
       return err;
     }
   }
+  if (role == 'faculty') {
+    try {
+      const faculty_data = await prisma.Faculty.findMany({
+        where: {
+          email: {
+            equals: email,
+          },
+        },
+        select: {
+          college_name: true,
+          department: true,
+          email: true,
+          password: true,
+          first_name: true,
+          last_name: true,
+        },
+      });
+
+      if (!faculty_data[0]) {
+        return 'You are not authorized';
+      }
+
+      let auth_obj = {};
+
+      let { password, ...faculty } = faculty_data[0];
+      auth_obj['user'] = faculty;
+      auth_obj['user']['role'] = 'faculty';
+
+      const result = await bcrypt.compare(login_password, password);
+
+      if (result) {
+        let token = jwt.sign({ email: email, role: role }, config.JWT_SECRET);
+        auth_obj['token'] = token;
+      } else {
+        return 'You are not authorized';
+      }
+
+      return auth_obj;
+    } catch (err) {
+      return err;
+    }
+  }
 };
 
 const hash_password = async (password) => {

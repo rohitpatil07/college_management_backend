@@ -44,13 +44,12 @@ const createOffer = async (req, res) => {
     const data = req.body.offer;
     console.log(data);
     const offer_count = await filterService.getOffersCount(data.roll_no);
-     if(offer_count<2){
-      data.offer_id = data.roll_no+`${offer_count+1}`
+    if (offer_count < 2) {
+      data.offer_id = data.roll_no + `${offer_count + 1}`;
       const result = await studentService.createOffer(data);
       res.json(result);
       return res.status(200);
-    }
-    else{
+    } else {
       return res.status(401).json({ error: 'Maximum offers reached' });
     }
   } catch (error) {
@@ -62,10 +61,10 @@ const updateOffer = async (req, res) => {
   try {
     const offer_id = req.body.offer_id;
     const data = req.body.update;
-    console.log(data)
-      const result = await studentService.updateOffer(offer_id,data);
-      res.json(result);
-      return res.status(200);
+    console.log(data);
+    const result = await studentService.updateOffer(offer_id, data);
+    res.json(result);
+    return res.status(200);
   } catch (error) {
     return res.json(error);
   }
@@ -74,13 +73,13 @@ const updateOffer = async (req, res) => {
 const createBulkOffers = async (req, res) => {
   try {
     const data = req.body;
-    let roll_no = data.map(a=>a.roll_no)
+    let roll_no = data.map((a) => a.roll_no);
     const offer_count = await filterService.getMultipleOffersCount(roll_no);
-    const eligible = await utilityservice.offercheck(offer_count,data)
-    console.log(eligible)
-    let final_roll = eligible.map(a=>a.roll_no)
-    console.log(final_roll)
-    const result = await studentService.createBulkOffers(final_roll,eligible)
+    const eligible = await utilityservice.offercheck(offer_count, data);
+    console.log(eligible);
+    let final_roll = eligible.map((a) => a.roll_no);
+    console.log(final_roll);
+    const result = await studentService.createBulkOffers(final_roll, eligible);
     res.json(result);
     return res.status(200);
   } catch (error) {

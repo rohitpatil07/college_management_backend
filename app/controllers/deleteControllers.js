@@ -33,7 +33,8 @@ const removeExtracurricular = async (req,res) => {
 
 const removeOffer = async (req,res) => {
     try { 
-        let offerid=req.params.offerid
+        let offerid=req.params.offerid;
+        console.log(offerid);
         const offer = await deleteService.removeOffer(offerid);
         res.json(offer);
       } catch (error) {

@@ -247,7 +247,28 @@ const getTopPlacedStudents = async () => {
         package: 'desc',
       },
     });
-    return student_list;
+    console.log("stu",student_list);
+    const catalyst=student_list.map(a=>a.roll_no)
+    let details = await prisma.students.findMany({
+      where: {
+        roll_no: { in:catalyst },
+      },
+      select: {
+        roll_no:true,
+        first_name:true,
+        last_name:true,
+        email:true,
+        _count:{
+          select:{
+            offers: true,
+          }
+        },
+        offers:true
+      }
+    })
+    
+    console.log("yes",details);
+    return details;
   } catch (error) {
     return error;
   }
@@ -256,17 +277,17 @@ const getTopPlacedStudents = async () => {
 const getSelectedStudentsCompanyWise = async () => {
   try {
     let lpa = await prisma.offers.groupBy({
-      by: ['company_id'],
+      by: ['company_name'],
       _count: {
-        company_id: true,
+        company_name: true,
       },
     });
 
     let restructure_array = [];
     for (let i = 0; i < lpa.length; i++) {
       let refined_object = {
-        placed_company: lpa[i].company_id,
-        count: lpa[i]._count.company_id,
+        placed_company: lpa[i].company_name,
+        count: lpa[i]._count.company_name,
       };
       restructure_array.push(refined_object);
     }
@@ -284,7 +305,6 @@ const getSelectedStudentsLpaWise = async () => {
         package: true,
       },
     });
-
     let restructure_array = [];
     for (let i = 0; i < lpa.length; i++) {
       let refined_object = {

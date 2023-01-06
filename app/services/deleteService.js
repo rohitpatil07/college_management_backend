@@ -64,6 +64,7 @@ const removeOffer = async (offer_id,roll_no) => {
     }
     return { success: 'offer deleted.' };
   } catch (error) {
+    console.log(offer);
     return { error: 'Error deleting offer' };
   }
 };

@@ -48,6 +48,7 @@ const createBulkOffers = async (roll_no,data) => {
     });
     return { success: 'Offers added' };
   } catch (error) {
+    console.log(error);
     return { error: 'Error adding Offer' };
   }
 };
@@ -89,6 +90,7 @@ const updateOffer = async (offer_id,data)=>{
       data
     }) 
   } catch (error) {
+    console.log(error);
     return { error: 'Error updating Offer' };
   }
 }

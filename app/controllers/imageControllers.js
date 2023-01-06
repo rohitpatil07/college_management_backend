@@ -40,7 +40,7 @@ const downloadOfferLetter = async (req, res) => {
   try {
     const offer_id = String(req.params.offer_id);
     const photo = await imageService.downloadOfferLetter(offer_id);
-    let buff = Buffer.from(photo['offer_letter'], 'base64');
+    let buff = Buffer.from(photo['offer_letter'].slice(23,photo['offer_letter'].length), 'base64');
       fs.writeFileSync(`${offer_id}.jpg`, buff);
       res.download(`${offer_id}.jpg`, { dotfiles: 'deny' }, function (err) {
         if (err) {
@@ -57,15 +57,8 @@ const downloadOfferLetter = async (req, res) => {
 const uploadOfferLetter = async (req, res) => {
   try {
     const offer_id = String(req.params.offer_id);
-    const image = req.files.offer;
-    if (image.size <= 256000) {
-      const b64 = Buffer.from(image.data).toString('base64');
-
-      const message = await imageService.uploadOfferLetter(offer_id, b64);
-      res.json({ message: message });
-    } else {
-      res.json({ message: 'Please upload file size of 256kb or less' });
-    }
+    const message = await imageService.uploadOfferLetter(offer_id, req.body.offer_letter);
+    console.log(message);
   } catch (error) {
     res.json(error);
   }

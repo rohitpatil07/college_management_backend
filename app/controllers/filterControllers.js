@@ -33,12 +33,14 @@ const getStudentsByDept = async (req, res) => {
 
 const getStudentsForDrive = async (req, res) => {
   try {
-    let students = await filterService.getStudentsForDrive(parseInt(req.params.driveid));
+    let students = await filterService.getStudentsForDrive(
+      parseInt(req.params.driveid),
+    );
     res.json({ students: students });
   } catch (error) {
     res.json(error);
   }
-}
+};
 
 const getPaginatedDashboard = async (req, res) => {
   try {
@@ -105,7 +107,7 @@ const getAllCompanies = async (req, res) => {
 
 const getCompanyDrive = async (req, res) => {
   try {
-    const company_id = parseInt(req.params.company)
+    const company_id = parseInt(req.params.company);
     const company = await filterService.getCompanyDrive(company_id);
     res.json(company);
   } catch (error) {
@@ -183,40 +185,43 @@ const notify = async (req, res) => {
   }
 };
 
-const getAppliedDrives = async (req,res) => {
-  try{
-    const eligble = await filterService.getOffersCount(req.params.roll_no)
-    if(eligble<2){
-      const applied_drives = await filterService.getAppliedDrives(req.params.roll_no);
-      return res.json(applied_drives)
-    }
-    else{
-      return res.status(401).json({ error: 'Maximum offers reached so cannot sit for placement' });
+const getAppliedDrives = async (req, res) => {
+  try {
+    const eligble = await filterService.getOffersCount(req.params.roll_no);
+    if (eligble < 2) {
+      const applied_drives = await filterService.getAppliedDrives(
+        req.params.roll_no,
+      );
+      return res.json(applied_drives);
+    } else {
+      return res
+        .status(401)
+        .json({ error: 'Maximum offers reached so cannot sit for placement' });
     }
   } catch (error) {
     res.json(error);
   }
-}
+};
 
-const getRequestedOffers = async (req,res) => {
-  try{
+const getRequestedOffers = async (req, res) => {
+  try {
     const offers = await filterService.getRequestOffers(req.params.roll_no);
-    res.json(offers)
+    res.json(offers);
   } catch (error) {
     res.json(error);
   }
-}
+};
 
 const getAllOffers = async (req, res) => {
-  try{
-    console.log(req.params.company)
+  try {
+    console.log(req.params.company);
     const offers = await filterService.getAllOffers(req.params.company);
-    console.log(offers)
-    res.json(offers)
+    console.log(offers);
+    res.json(offers);
   } catch (error) {
     res.json(error);
   }
-}
+};
 
 export default {
   getAllStudents,

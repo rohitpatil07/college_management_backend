@@ -2,13 +2,11 @@ import prisma from '../../config/prisma.js';
 
 const createSubject = async (data) => {
   try {
-    console.log(data)
     const subjects = await prisma.subjects.create({
       data,
     })
    return subjects;
   } catch (error) {
-    console.log(error)
     return error;
   }
 }
@@ -16,7 +14,6 @@ const createSubject = async (data) => {
 //needs schema work regarding storing subject ids in students before usage
 const updateStudents = async (data)=> {
   try{
-    console.log(data)
     const subjects = await prisma.students.update({
       where:{
         roll_no:data.roll_no
@@ -25,7 +22,6 @@ const updateStudents = async (data)=> {
     })
    return subjects;
   } catch (error) {
-    console.log(error)
     return error;
   }
 }
@@ -49,7 +45,6 @@ const upsertModule = async (data) => {
       return modules;
     }
   } catch (error) {
-    console.log(error)
     return error;
   }
 }
@@ -72,7 +67,6 @@ const upsertReadingMaterial = async (data) => {
       return reading;
     }
   } catch (error) {
-    console.log(error)
     return error;
   }
 }

@@ -5,13 +5,11 @@ const getAllFaculty = async()=> {
         const faculty = await prisma.faculty.findMany()
         return faculty;
     } catch (error) {
-        console.log(error)
         return error;
     }
 }
 
 const getAllFacSubs = async(subject_id)=> {
-    console.log(subject_id[0])
     try{
         const faculty = await prisma.subjects.findMany({
             where:{
@@ -20,7 +18,6 @@ const getAllFacSubs = async(subject_id)=> {
         })
         return faculty;
     } catch (error) {
-        console.log(error)
         return error;
     }
 }
@@ -30,7 +27,6 @@ const getAllSubject = async () => {
         const subjects = await prisma.subjects.findMany()
         return subjects;
     } catch (error) {
-        console.log(error)
         return error;
     }
 };
@@ -44,7 +40,6 @@ const getFacultybyDept = async(department)=> {
         })
         return faculty;
     } catch (error) {
-        console.log(error)
         return error;
     }
 }
@@ -58,7 +53,6 @@ const getFacultybyMail = async(mail)=> {
         })
         return faculty;
     } catch (error) {
-        console.log(error)
         return error;
     }
 }
@@ -73,7 +67,6 @@ const getModbySub = async (subject_id) => {
         })
         return modules;
     } catch (error) {
-        console.log(error)
         return error;
     }
 }
@@ -87,7 +80,6 @@ const getOneModbyID = async (module_id) => {
         })
         return modules;
     } catch (error) {
-        console.log(error)
         return error;
     }
 }
@@ -102,7 +94,6 @@ const getSubbyDept = async (batch,department) => {
         })
         return subjects;
     } catch (error) {
-        console.log(error)
         return error;
     }
 }
@@ -116,7 +107,6 @@ const getSubjectbyID = async (subject_id) => {
         })
         return subjects;
     } catch (error) {
-        console.log(error)
         return error;
     }
 }
@@ -135,7 +125,6 @@ const getReadingMaterialByModuleId = async(module_id)=>{
         })
         return readmat;
     } catch(error) {
-        console.log(error)
         return error;
     }
 }

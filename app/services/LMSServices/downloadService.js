@@ -15,7 +15,6 @@ const getReadMatById=async(reading_material_id)=>{
         return download_file;
     }
     catch(error){
-        console.log(error);
         return error;
     }
 }

@@ -44,7 +44,7 @@ const upsertModule = async (req,res) =>{
 const upsertReadingMaterial = async (req,res) =>{
   try{
     const data = await subjectService.upsertReadingMaterial(req.body.reading)
-    res.json(data)
+    res.status(200).json(data);
   } catch (error){
     console.log(error)
     return res.json(error);

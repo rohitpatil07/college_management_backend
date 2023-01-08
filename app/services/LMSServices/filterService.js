@@ -121,6 +121,24 @@ const getSubjectbyID = async (subject_id) => {
     }
 }
 
+const getReadingMaterialByModuleId = async(module_id)=>{
+    try{
+        const readmat = await prisma.reading_material.findMany({
+            where:{
+                module_id : module_id
+            },
+            select:{
+                reading_material_id: true,
+                file_name: true,
+                file_type: true,
+            }
+        })
+        return readmat;
+    } catch(error) {
+        console.log(error)
+        return error;
+    }
+}
 export default { 
     getAllFaculty,
     getAllFacSubs,
@@ -131,4 +149,5 @@ export default {
     getOneModbyID,
     getSubbyDept,
     getSubjectbyID,
+    getReadingMaterialByModuleId,
 };

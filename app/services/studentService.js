@@ -140,6 +140,7 @@ const upsertStudent = async (data) => {
     });
     return { success: 'Student added' };
   } catch (error) {
+    console.log(error)
     return { error: 'Error adding student' };
   }
 };

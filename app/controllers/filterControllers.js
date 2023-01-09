@@ -192,11 +192,9 @@ const getAppliedDrives = async (req, res) => {
       const applied_drives = await filterService.getAppliedDrives(
         req.params.roll_no,
       );
-      return res.json(applied_drives);
+      return res.status(200).json(applied_drives);
     } else {
-      return res
-        .status(401)
-        .json({ error: 'Maximum offers reached so cannot sit for placement' });
+      return res.json({ error: 'Maximum offers reached so cannot sit for placement' });
     }
   } catch (error) {
     res.json(error);

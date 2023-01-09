@@ -11,7 +11,6 @@ const upsertFaculty = async (data) =>{
         })
         return faculty
     } catch (error){
-        console.log(error)
         return res.json(error);
     }
 }

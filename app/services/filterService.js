@@ -67,23 +67,23 @@ const getStudentsByDept = async (department) => {
 };
 
 const getStudentsForDrive = async (drive_id) => {
-  console.log(drive_id)
+  console.log(drive_id);
   try {
     let student_data = await prisma.students.findMany({
       where: {
-        applied_to_drives:{
-          some:{
-            drive_id:drive_id
-          }
-        }
+        applied_to_drives: {
+          some: {
+            drive_id: drive_id,
+          },
+        },
       },
-      include:{
+      include: {
         resume_data: true,
         academic_info: true,
         work_experience: true,
         projects: true,
         extra_curricular: true,
-      }
+      },
     });
     let students = [];
     student_data.forEach((student_info) => {
@@ -93,7 +93,7 @@ const getStudentsForDrive = async (drive_id) => {
     });
     return students;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return error;
   }
 };
@@ -157,10 +157,10 @@ const getDashboard = async (select_fields, queries) => {
 const getAllDrives = async () => {
   try {
     let available_drives = await prisma.drives.findMany({});
-    const comp_id=available_drives.map(a=>a.company_id)
+    const comp_id = available_drives.map((a) => a.company_id);
     let company_name = await prisma.company.findMany({
-      where:{
-        company_id: { in:comp_id}
+      where: {
+        company_id: { in: comp_id },
       },
       select: {
         company_id: true,
@@ -168,8 +168,10 @@ const getAllDrives = async () => {
       },
     });
     for (let i = 0; i < available_drives.length; i++) {
-      var result = company_name.filter((e)=>e.company_id == available_drives[i].company_id)
-      available_drives[i].company_name = result[0].company_name
+      var result = company_name.filter(
+        (e) => e.company_id == available_drives[i].company_id,
+      );
+      available_drives[i].company_name = result[0].company_name;
     }
     return available_drives;
   } catch (error) {
@@ -221,12 +223,12 @@ const getAllCompanies = async () => {
   }
 };
 
-const getCompanyDrive = async (company_id) =>{
+const getCompanyDrive = async (company_id) => {
   try {
     const company = await prisma.drives.findMany({
-      where:{
-        company_id : company_id,
-      }
+      where: {
+        company_id: company_id,
+      },
     });
     return company;
   } catch (error) {
@@ -247,27 +249,27 @@ const getTopPlacedStudents = async () => {
         package: 'desc',
       },
     });
-    console.log("stu",student_list);
-    const catalyst=student_list.map(a=>a.roll_no)
+    console.log('stu', student_list);
+    const catalyst = student_list.map((a) => a.roll_no);
     let details = await prisma.students.findMany({
       where: {
-        roll_no: { in:catalyst },
+        roll_no: { in: catalyst },
       },
       select: {
-        roll_no:true,
-        first_name:true,
-        last_name:true,
-        email:true,
-        _count:{
-          select:{
+        roll_no: true,
+        first_name: true,
+        last_name: true,
+        email: true,
+        _count: {
+          select: {
             offers: true,
-          }
+          },
         },
-        offers:true
-      }
-    })
-    
-    console.log("yes",details);
+        offers: true,
+      },
+    });
+
+    console.log('yes', details);
     return details;
   } catch (error) {
     return error;
@@ -368,27 +370,27 @@ const getStudentsPlacedByDept = async () => {
   }
 };
 
-const getAppliedDrives = async (roll_no) =>{
-  try{
+const getAppliedDrives = async (roll_no) => {
+  try {
     let appliedskeleton = await prisma.students.findUnique({
       where: {
         roll_no: roll_no,
       },
       select: {
         applied_to_drives: true,
-      }
-    })
-    const catalyst=appliedskeleton.applied_to_drives.map(a=>a.drive_id)
+      },
+    });
+    const catalyst = appliedskeleton.applied_to_drives.map((a) => a.drive_id);
     let applied_drives = await prisma.drives.findMany({
       where: {
-          drive_id: { in: catalyst },
-      }
-    })
-  const comp_id=applied_drives.map(a=>a.company_id)
-  
+        drive_id: { in: catalyst },
+      },
+    });
+    const comp_id = applied_drives.map((a) => a.company_id);
+
     let company_name = await prisma.company.findMany({
-      where:{
-        company_id: { in:comp_id}
+      where: {
+        company_id: { in: comp_id },
       },
       select: {
         company_id: true,
@@ -396,105 +398,107 @@ const getAppliedDrives = async (roll_no) =>{
       },
     });
     for (let i = 0; i < applied_drives.length; i++) {
-      var result = company_name.filter((e)=>e.company_id == applied_drives[i].company_id)
-      applied_drives[i].company_name = result[0].company_name
+      var result = company_name.filter(
+        (e) => e.company_id == applied_drives[i].company_id,
+      );
+      applied_drives[i].company_name = result[0].company_name;
     }
     return applied_drives;
   } catch (error) {
     res.json(error);
   }
-}
+};
 
-const getRequestOffers = async (roll_no) =>{
-  try{
+const getRequestOffers = async (roll_no) => {
+  try {
     let offers = await prisma.students.findUnique({
       where: {
         roll_no: roll_no,
       },
       select: {
         offers: true,
-      }
-    })
+      },
+    });
     return offers;
-  } catch(error){
-    res.json(error)
+  } catch (error) {
+    res.json(error);
   }
-}
+};
 
-const getAllOffers = async (company_name) =>{
-  try{
+const getAllOffers = async (company_name) => {
+  try {
     let offers = await prisma.offers.findMany({
       where: {
-        company_name:company_name
-      },
-      select:{
-        roll_no:true
-      }
-    })
-    const catalyst=offers.map(a=>a.roll_no)
-    let details = await prisma.students.findMany({
-      where: {
-        roll_no: { in:catalyst },
+        company_name: company_name,
       },
       select: {
-        roll_no:true,
-        first_name:true,
-        last_name:true,
-        email:true,
-        _count:{
-          select:{
+        roll_no: true,
+      },
+    });
+    const catalyst = offers.map((a) => a.roll_no);
+    let details = await prisma.students.findMany({
+      where: {
+        roll_no: { in: catalyst },
+      },
+      select: {
+        roll_no: true,
+        first_name: true,
+        last_name: true,
+        email: true,
+        _count: {
+          select: {
             offers: true,
-          }
+          },
         },
-        offers:true
-      }
-    })
+        offers: true,
+      },
+    });
     return details;
-  } catch(error){
-    res.json(error)
+  } catch (error) {
+    res.json(error);
   }
-}
+};
 
-const getOffersCount = async (roll_no) =>{
-  try{
+const getOffersCount = async (roll_no) => {
+  try {
     let offers = await prisma.students.findUnique({
       where: {
         roll_no: roll_no,
       },
       select: {
-        _count:{
-          select:{
+        _count: {
+          select: {
             offers: true,
-          }
-        }
-      }
-    })
+          },
+        },
+      },
+    });
     return offers._count.offers;
-  } catch(error){
-    res.json(error)
+  } catch (error) {
+    res.json(error);
   }
-}
+};
 
-const getMultipleOffersCount = async (roll_no) =>{
-  try{
+const getMultipleOffersCount = async (roll_no) => {
+  try {
     let offers = await prisma.students.findMany({
       where: {
-        roll_no: { in:roll_no },
+        roll_no: { in: roll_no },
       },
       select: {
-        roll_no:true,
-        _count:{
-          select:{
+        roll_no: true,
+        _count: {
+          select: {
             offers: true,
-          }
-        }
-      }
-    })
+          },
+        },
+      },
+    });
     return offers;
-  } catch(error){
-    res.json(error)
+  } catch (error) {
+    res.json(error);
   }
-}
+};
 
 export default {
   getAllStudents,

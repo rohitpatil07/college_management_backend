@@ -4,7 +4,7 @@ import filterService from '../../services/filterService.js';
 
 const createSubject = async (req, res) => {
   try {
-    const data = await subjectService.createSubject(req.body.subject);
+    const data = await subjectService.createSubject(req.body);
     res.json(data);
   } catch (error) {
     return res.json(error);

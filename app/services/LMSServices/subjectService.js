@@ -2,10 +2,128 @@ import prisma from '../../config/prisma.js';
 
 const createSubject = async (data) => {
   try {
-    const subjects = await prisma.subjects.create({
-      data,
+    const {
+      subject_id,
+      subject_name,
+      semester,
+      department,
+      division,
+      batch,
+      type,
+      email,
+    } = data;
+
+    if (type === 'DLO' || type === 'ILO') {
+      const subject = await prisma.subjects.create({
+        data: {
+          subject_id: subject_id,
+          subject_name: subject_name,
+          semester: semester,
+          department: department,
+          division: division,
+          batch: batch,
+          type: type,
+          email: email,
+        },
+      });
+
+      return subject;
+    } else if (type === 'LAB') {
+      //get students roll_no if subject type is mandatory ie "MD" and connect the subject to faculty
+
+      const students = await prisma.students.findMany({
+        where: {
+          department: department,
+          batch: batch,
+          division: { equals: division },
+          semester: semester,
+        },
+        select: {
+          roll_no: true,
+        },
+      });
+
+      //from students extract roll_nos
+      let student_data = [];
+
+      students.forEach((stu) => {
+        student_data.push({
+          student: {
+            connect: {
+              roll_no: stu.roll_no,
+            },
+          },
+        });
+      });
+
+      const subject = await prisma.subjects.create({
+        data: {
+          subject_id: subject_id,
+          subject_name: subject_name,
+          semester: semester,
+          department: department,
+          division: division,
+          batch: batch,
+          type: type,
+          email: email,
+          students: {
+            create: student_data,
+          },
+        },
+        include: {
+          students: true,
+        },
+      });
+      return subject;
+    }
+
+    //get students roll_no if subject type is mandatory ie "MD" and connect the subject to faculty
+
+    const students = await prisma.students.findMany({
+      where: {
+        department: department,
+        batch: batch,
+        division: { contains: division },
+        semester: semester,
+      },
+      select: {
+        roll_no: true,
+      },
     });
-    return subjects;
+
+    //from students extract roll_nos
+    let student_data = [];
+    students.forEach((student) => {
+      student_data.push({
+        student: {
+          connect: {
+            roll_no: student.roll_no,
+          },
+        },
+      });
+    });
+
+    //after extracting rollnos add the subject to them by creating an objects
+
+    const subject = await prisma.subjects.create({
+      data: {
+        subject_id: subject_id,
+        subject_name: subject_name,
+        semester: semester,
+        department: department,
+        division: division,
+        batch: batch,
+        type: type,
+        email: email,
+        students: {
+          create: student_data,
+        },
+      },
+      include: {
+        students: true,
+      },
+    });
+    return subject;
   } catch (error) {
     return error;
   }

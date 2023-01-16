@@ -28,10 +28,4 @@ router.post(
   facultyController.upsertFaculty,
 );
 
-router.post('/addsubjecttostudent', subjectController.addSubjectToStudent);
-
-router.post('/addsubjecttodept', subjectController.addSubjectToDept);
-
-router.post('/addfacultysubjects', subjectController.addSubjectToFaculty);
-
 export default router;

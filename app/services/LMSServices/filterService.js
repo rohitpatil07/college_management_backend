@@ -127,6 +127,23 @@ const getReadingMaterialByModuleId = async (module_id) => {
     return error;
   }
 };
+
+const getFacultySubjects = async (email) => {
+  try {
+    const { subjects } = await prisma.Faculty.findUnique({
+      select: {
+        subjects: true,
+      },
+      where: {
+        email: email,
+      },
+    });
+    return subjects;
+  } catch (error) {
+    return error;
+  }
+};
+
 export default {
   getAllFaculty,
   getAllFacSubs,
@@ -138,4 +155,5 @@ export default {
   getSubbyDept,
   getSubjectbyID,
   getReadingMaterialByModuleId,
+  getFacultySubjects,
 };

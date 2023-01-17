@@ -1,5 +1,4 @@
 import filterService from '../../services/LMSServices/filterService.js';
-import subjectService from '../../services/LMSServices/subjectService.js';
 
 const getAllFaculty = async (req, res) => {
   try {
@@ -101,7 +100,7 @@ const getReadMatByModuleId = async (req, res) => {
 const getFacultySubjects = async (req, res) => {
   try {
     const { email } = req.body;
-    const subjects = await subjectService.getFacultySubjects(email);
+    const subjects = await filterService.getFacultySubjects(email);
     return res.json(subjects);
   } catch (error) {
     res.json(error);

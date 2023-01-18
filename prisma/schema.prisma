@@ -294,3 +294,61 @@ model assignment_submissions{
     @@index([assignment_id])
     @@index([roll_no])
 }
+
+model products {
+  product_id   Int    @id @default(autoincrement())
+  product_name String
+  owner        String
+  owner_role   String
+  price        Int
+  sale         sales?
+}
+
+model sales {
+  sales_id    Int      @id @default(autoincrement())
+  product_id  Int      @unique
+  buyer       String
+  buyer_role  String
+  sold_at     DateTime
+  product     products @relation(fields: [product_id], references: [product_id])
+}
+
+model messages {
+  message_id Int        
+  reply_to   Int
+  text       String
+  email      String
+  item_id    Int
+  lost_item  lost_items @relation(fields: [item_id], references: [item_id])
+  @@id([message_id,email])
+  @@index([item_id])
+}
+
+model lost_items {
+  item_id     Int     @id @default(autoincrement())
+  item_name   String 
+  story       String
+  owner       String
+  messages    messages[]
+}
+
+model shops {
+  shop_id     Int      @id @default(autoincrement())
+  shop_name   String
+  status      String
+  closed_from String
+  closed_to   String
+  menu_items  menu_items[]
+}
+
+model menu_items{
+  shop_id    Int
+  item_name  String
+  item_cost  Int
+  shop       shops   @relation(fields: [shop_id],references: [shop_id])
+
+  @@id([shop_id,item_name])
+  @@index([shop_id])
+}
+
+

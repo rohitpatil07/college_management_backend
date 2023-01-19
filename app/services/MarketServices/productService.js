@@ -129,7 +129,7 @@ const createLostItem = async (item_data) => {
   }
 };
 
-const message = async (message_data) => {
+const createMessage = async (message_data) => {
   try {
     const { reply_to, text, email, item_id } = message_data;
     const msg = await prisma.messages.create({
@@ -150,7 +150,19 @@ const message = async (message_data) => {
   }
 };
 
-// const getThread = async();
+const getThread = async (item_id) => {
+  try {
+    const thread = await prisma.messages.findMany({
+      where: {
+        OR: [{ reply_to: 0 }, { reply_to: null }],
+        item_id: item_id,
+      },
+    });
+    return thread;
+  } catch (error) {
+    return 'Could not load thread';
+  }
+};
 
 const getReplies = async (message_id) => {
   try {
@@ -176,6 +188,7 @@ export default {
   getLostItem,
   getLostItems,
   getMyLostItems,
-  message,
+  createMessage,
   getReplies,
+  getThread,
 };

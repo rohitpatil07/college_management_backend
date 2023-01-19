@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "start": "yarn prisma generate && cross-env NODE_ENV=production node index.js",
-    "build": "yarn prisma generate"
+    "build": "yarn prisma generate",
+    "updatedb":"yarn prisma db push && yarn prisma generate"
   },
   "engines": {
     "node": "16.x"

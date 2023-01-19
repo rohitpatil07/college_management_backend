@@ -58,6 +58,16 @@ const getLostItems = async (req, res) => {
   }
 };
 
+const getMyLostItems = async (req, res) => {
+  try {
+    const { owner } = req.body;
+    const lost_items = await productService.getMyLostItems(owner);
+    res.json(lost_items);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
 const getLostItem = async (req, res) => {
   try {
     const { item_id } = req.body;
@@ -78,6 +88,36 @@ const createLostItem = async (req, res) => {
   }
 };
 
+const createMessage = async (req, res) => {
+  try {
+    const { message } = req.body;
+    const message_data = await productService.createMessage(message);
+    res.json(message_data);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
+const getThread = async (req, res) => {
+  try {
+    const { item_id } = req.body;
+    const thread = await productService.getThread(item_id);
+    res.json(thread);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
+const getReplies = async (req, res) => {
+  try {
+    const { message_id } = req.body;
+    const replies = await productService.getReplies(message_id);
+    res.json(replies);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
 export default {
   getProducts,
   getProduct,
@@ -86,5 +126,9 @@ export default {
   getTransactions,
   getLostItem,
   getLostItems,
+  getMyLostItems,
   createLostItem,
+  createMessage,
+  getThread,
+  getReplies,
 };

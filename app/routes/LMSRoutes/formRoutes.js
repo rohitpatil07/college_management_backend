@@ -20,6 +20,11 @@ router.post(
   authenticate(['faculty']),
   subjectController.createSubject,
 );
+router.post(
+  '/addDILO',
+  authenticate(['student']),
+  subjectController.addDILO,
+)
 //route below needs a finalised schema for more details visits subject services
 //router.post('/addsubtostu', subjectController.updateStudents)
 router.post(

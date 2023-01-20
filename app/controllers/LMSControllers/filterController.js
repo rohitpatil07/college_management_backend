@@ -3,9 +3,9 @@ import filterService from '../../services/LMSServices/filterService.js';
 const getAllFaculty = async (req, res) => {
   try {
     const data = await filterService.getAllFaculty();
-    res.json(data);
+    res.status(200).json(data);
   } catch (error) {
-    res.json(error);
+    res.status(422).json(error);
   }
 };
 

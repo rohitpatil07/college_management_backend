@@ -167,6 +167,45 @@ const login = async (email, login_password, role) => {
       return err;
     }
   }
+  if (role == 'lms_admin') {
+    try {
+      const lms_admin_data = await prisma.lms_admin.findMany({
+        where: {
+          email: {
+            equals: email,
+          },
+        },
+        select: {
+          college_name: true,
+          email: true,
+          password: true,
+        },
+      });
+
+      if (!lms_admin_data[0]) {
+        return 'You are not authorized';
+      }
+
+      let auth_obj = {};
+
+      let { password, ...lms_admin } = lms_admin_data[0];
+      auth_obj['user'] = lms_admin;
+      auth_obj['user']['role'] = 'lms_admin';
+
+      const result = await bcrypt.compare(login_password, password);
+
+      if (result) {
+        let token = jwt.sign({ email: email, role: role }, config.JWT_SECRET);
+        auth_obj['token'] = token;
+      } else {
+        return 'You are not authorized';
+      }
+
+      return auth_obj;
+    } catch (err) {
+      return err;
+    }
+  }
 };
 
 const hash_password = async (password) => {

@@ -9,19 +9,6 @@ const getAllFaculty = async () => {
   }
 };
 
-const getAllFacSubs = async (subject_id) => {
-  try {
-    const faculty = await prisma.subjects.findMany({
-      where: {
-        subject_id: { in: subject_id },
-      },
-    });
-    return faculty;
-  } catch (error) {
-    return error;
-  }
-};
-
 const getAllSubject = async () => {
   try {
     const subjects = await prisma.subjects.findMany();
@@ -83,12 +70,13 @@ const getOneModbyID = async (module_id) => {
   }
 };
 
-const getSubbyDept = async (batch, department) => {
+const getSubbyDept = async (batch, department, semester) => {
   try {
     const subjects = await prisma.subjects.findMany({
       where: {
         department: department,
         batch: batch,
+        semester: semester
       },
     });
     return subjects;
@@ -127,9 +115,26 @@ const getReadingMaterialByModuleId = async (module_id) => {
     return error;
   }
 };
+
+const getFacultySubjects = async (email) => {
+  try {
+    const { subjects } = await prisma.Faculty.findUnique({
+      select: {
+        subjects: true,
+      },
+      where: {
+        email: email,
+      },
+    });
+    return subjects;
+  } catch (error) {
+    return error;
+  }
+};
+
 export default {
   getAllFaculty,
-  getAllFacSubs,
+//  getAllFacSubs,
   getAllSubject,
   getFacultybyDept,
   getFacultybyMail,
@@ -138,4 +143,5 @@ export default {
   getSubbyDept,
   getSubjectbyID,
   getReadingMaterialByModuleId,
+  getFacultySubjects,
 };

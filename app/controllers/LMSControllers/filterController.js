@@ -1,5 +1,4 @@
 import filterService from '../../services/LMSServices/filterService.js';
-import subjectService from '../../services/LMSServices/subjectService.js';
 
 const getAllFaculty = async (req, res) => {
   try {
@@ -10,14 +9,14 @@ const getAllFaculty = async (req, res) => {
   }
 };
 
-const getAllFacSubs = async (req, res) => {
-  try {
-    const data = await filterService.getAllFacSubs(req.body.subjects);
-    res.json(data);
-  } catch (error) {
-    res.json(error);
-  }
-};
+// const getAllFacSubs = async (req, res) => {
+//   try {
+//     const data = await filterService.getAllFacSubs(req.body.subjects);
+//     res.json(data);
+//   } catch (error) {
+//     res.json(error);
+//   }
+// };
 
 const getAllSubject = async (req, res) => {
   try {
@@ -71,6 +70,7 @@ const getSubbyDept = async (req, res) => {
     const data = await filterService.getSubbyDept(
       parseInt(req.params.batch),
       req.params.dept,
+      parseInt(req.params.sem)
     );
     res.json(data);
   } catch (error) {
@@ -101,7 +101,7 @@ const getReadMatByModuleId = async (req, res) => {
 const getFacultySubjects = async (req, res) => {
   try {
     const { email } = req.body;
-    const subjects = await subjectService.getFacultySubjects(email);
+    const subjects = await filterService.getFacultySubjects(email);
     return res.json(subjects);
   } catch (error) {
     res.json(error);
@@ -110,7 +110,7 @@ const getFacultySubjects = async (req, res) => {
 
 export default {
   getAllFaculty,
-  getAllFacSubs,
+//  getAllFacSubs,
   getAllSubject,
   getFacultybyDept,
   getFacultybyMail,

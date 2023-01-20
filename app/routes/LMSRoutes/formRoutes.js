@@ -24,7 +24,7 @@ router.post(
 //router.post('/addsubtostu', subjectController.updateStudents)
 router.post(
   '/addfaculty',
-  authenticate(['faculty']),
+  authenticate(['lms_admin']),
   facultyController.upsertFaculty,
 );
 

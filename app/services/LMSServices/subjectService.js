@@ -190,98 +190,9 @@ const upsertReadingMaterial = async (data) => {
   }
 };
 
-const addSubjectToStudent = async (roll_no, newsubs) => {
-  try {
-    let { subjects } = await prisma.students.findUnique({
-      select: {
-        subjects: true,
-      },
-      where: {
-        roll_no: roll_no,
-      },
-    });
-
-    subjects = subjects ? JSON.parse(subjects) : [];
-
-    newsubs.forEach((sub) => {
-      subjects.push(sub);
-    });
-
-    await prisma.students.update({
-      where: {
-        roll_no: roll_no,
-      },
-      data: {
-        subjects: JSON.stringify(subjects),
-      },
-    });
-
-    return 'Subjects Added';
-  } catch (error) {
-    return error;
-  }
-};
-
-const addSubjectToDept = async (students, newsubs) => {
-  try {
-    await students.forEach((student) => {
-      addSubjectToStudent(student.roll_no, newsubs);
-    });
-    return `Subjects Added to ${students.length} Students`;
-  } catch (error) {
-    return error;
-  }
-};
-
-const addSubjectToFaculty = async (email, newsubs) => {
-  try {
-    let subjects = await getFacultySubjects(email);
-
-    newsubs.forEach((sub) => {
-      subjects.push(sub);
-    });
-
-    await prisma.Faculty.update({
-      where: {
-        email: email,
-      },
-      data: {
-        subjects: JSON.stringify(subjects),
-      },
-    });
-
-    return 'Subjects Added';
-  } catch (error) {
-    return error;
-  }
-};
-
-const getFacultySubjects = async (email) => {
-  try {
-    const { subjects } = await prisma.Faculty.findUnique({
-      select: {
-        subjects: true,
-      },
-      where: {
-        email: email,
-      },
-    });
-
-    return subjects ? JSON.parse(subjects) : [];
-
-    // return subjects;
-  } catch (error) {
-    return error;
-  }
-};
-
 export default {
   createSubject,
   updateStudents,
   upsertModule,
   upsertReadingMaterial,
-  addSubjectToStudent,
-  addSubjectToDept,
-  addSubjectToFaculty,
-  getFacultySubjects,
 };

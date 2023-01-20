@@ -1,4 +1,5 @@
 import filterService from '../../services/LMSServices/filterService.js';
+import subjectService from '../../services/LMSServices/subjectService.js';
 
 const getAllFaculty = async (req, res) => {
   try {
@@ -88,12 +89,25 @@ const getSubjectbyID = async (req, res) => {
 
 const getReadMatByModuleId = async (req, res) => {
   try {
-    const data = await filterService.getReadingMaterialByModuleId(parseInt(req.params.moduleid));
+    const data = await filterService.getReadingMaterialByModuleId(
+      parseInt(req.params.moduleid),
+    );
     res.json(data);
   } catch (error) {
     res.json(error);
   }
 };
+
+const getFacultySubjects = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const subjects = await subjectService.getFacultySubjects(email);
+    return res.json(subjects);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
 export default {
   getAllFaculty,
   getAllFacSubs,
@@ -105,4 +119,5 @@ export default {
   getSubbyDept,
   getSubjectbyID,
   getReadMatByModuleId,
+  getFacultySubjects,
 };

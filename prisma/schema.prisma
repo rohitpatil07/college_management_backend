@@ -172,8 +172,8 @@ model students {
   batch             Int?
   secondary_mail    String?             @db.VarChar(50)
   college_name      String?             @db.VarChar(100)
-  semester          Int
-  subjects          String?             @db.VarChar(200)
+  division          String?             @db.VarChar(2)  
+  semester          Int?
   academic_info     academic_info?
   applied_to_drives applied_to_drives[]
   extra_curricular  extra_curricular[]
@@ -181,6 +181,8 @@ model students {
   projects          projects[]
   resume_data       resume_data?
   work_experience   work_experience[]
+  subjects          subject_in_students[]
+  submissions       assignment_submissions[]
 }
 
 model work_experience {
@@ -201,7 +203,6 @@ model work_experience {
 model Faculty {
   email          String  @id @db.VarChar(30)
   password       String  @db.VarChar(300)
-  subjects       String? @db.VarChar(200)
   college_name   String? @db.VarChar(100)
   first_name     String? @db.VarChar(50)
   gender         String? @db.VarChar(1)
@@ -212,6 +213,7 @@ model Faculty {
   photo          String? @db.LongText
   secondary_mail String? @db.VarChar(50)
   department     String? @db.VarChar(5)
+  subjects       subjects[]
 }
 
 model subjects {
@@ -220,10 +222,16 @@ model subjects {
   semester         Int
   department       String             @db.VarChar(10)
   batch            Int
+  division         String             @db.VarChar(2)
   type             String             @db.VarChar(3)
+  email             String            @db.VarChar(30)
   assignment       assignment[]
   modules          modules[]
   reading_material reading_material[]
+  students         subject_in_students[]
+  faculty          Faculty            @relation(fields: [email],references: [email])
+
+  @@index([email])
 }
 
 model assignment {
@@ -236,6 +244,7 @@ model assignment {
   links         String?  @db.LongText
   file_type     String?  @db.VarChar(30)
   subjects      subjects @relation(fields: [subject_id], references: [subject_id])
+  student_submissions  assignment_submissions[]
 
   @@index([subject_id])
 }
@@ -260,4 +269,28 @@ model reading_material {
   subjects            subjects @relation(fields: [subject_id], references: [subject_id])
 
   @@index([subject_id])
+}
+
+
+model subject_in_students {
+  roll_no      String    @db.VarChar(10)
+  subject_id   String    @db.VarChar(10)
+  student      students  @relation(fields: [roll_no],references: [roll_no])
+  subject      subjects  @relation(fields: [subject_id],references: [subject_id])
+
+  @@id([roll_no,subject_id])
+  @@index([subject_id])
+  @@index([roll_no])
+}
+
+model assignment_submissions{
+    file          String?       @db.LongText      
+    roll_no       String        @db.VarChar(10)
+    assignment_id Int  
+    student       students    @relation(fields: [roll_no], references: [roll_no])
+    assignment    assignment  @relation(fields: [assignment_id],references: [assignment_id])
+
+    @@id([roll_no,assignment_id])
+    @@index([assignment_id])
+    @@index([roll_no])
 }

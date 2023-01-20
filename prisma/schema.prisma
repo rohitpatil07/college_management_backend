@@ -183,6 +183,7 @@ model students {
   work_experience   work_experience[]
   subjects          subject_in_students[]
   submissions       assignment_submissions[]
+  forum_messages    forum_messages[]
 }
 
 model work_experience {
@@ -224,10 +225,9 @@ model subjects {
   batch            Int
   division         String             @db.VarChar(2)
   type             String             @db.VarChar(3)
-  email             String            @db.VarChar(30)
+  email            String            @db.VarChar(30)
   assignment       assignment[]
   modules          modules[]
-  reading_material reading_material[]
   students         subject_in_students[]
   faculty          Faculty            @relation(fields: [email],references: [email])
 
@@ -237,6 +237,8 @@ model subjects {
 model assignment {
   assignment_id Int      @id @default(autoincrement())
   subject_id    String   @db.VarChar(10)
+  createdAt     DateTime @default(now())
+  deadlineAt    DateTime?
   assign_name   String?  @db.VarChar(50)
   assign_des    String?  @db.VarChar(200)
   file_name     String?  @db.VarChar(30)
@@ -254,6 +256,8 @@ model modules {
   module_number Int
   subject_id    String   @db.VarChar(10)
   module_name   String?  @db.VarChar(60)
+  reading_material reading_material[]
+  forum         forum[]
   subjects      subjects @relation(fields: [subject_id], references: [subject_id])
 
   @@index([subject_id])
@@ -264,13 +268,23 @@ model reading_material {
   module_id           Int
   file_name           String?  @db.VarChar(30)
   file                String?  @db.LongText
-  subject_id          String   @db.VarChar(10)
   file_type           String?  @db.VarChar(30)
-  subjects            subjects @relation(fields: [subject_id], references: [subject_id])
+  modules             modules  @relation(fields: [module_id], references: [module_id])
 
-  @@index([subject_id])
+  @@index([module_id])
 }
 
+model forum {
+  forum_id        Int @id @default(autoincrement())
+  module_id       Int
+  createdAt       DateTime  @default(now())
+  topic           String  @db.VarChar(30)
+  description     String  @db.VarChar(200)
+  forum_messages  forum_messages[]
+  modules             modules  @relation(fields: [module_id], references: [module_id])
+
+  @@index([module_id])
+}
 
 model subject_in_students {
   roll_no      String    @db.VarChar(10)
@@ -284,7 +298,8 @@ model subject_in_students {
 }
 
 model assignment_submissions{
-    file          String?       @db.LongText      
+    file          String?       @db.LongText
+    createdAt    DateTime  @default(now())
     roll_no       String        @db.VarChar(10)
     assignment_id Int  
     student       students    @relation(fields: [roll_no], references: [roll_no])
@@ -293,4 +308,80 @@ model assignment_submissions{
     @@id([roll_no,assignment_id])
     @@index([assignment_id])
     @@index([roll_no])
+}
+
+model forum_messages{
+  roll_no      String    @db.VarChar(10)
+  forum_id     Int
+  message      String    @db.VarChar(1000)
+  createdAt    DateTime  @default(now())
+  student      students  @relation(fields: [roll_no],references: [roll_no])
+  forum        forum  @relation(fields: [forum_id],references: [forum_id])
+
+  @@id([roll_no,forum_id])
+  @@index([forum_id])
+  @@index([roll_no])
+}
+
+model lms_admin {
+  type         String? @db.VarChar(20)
+  college_name String? @db.VarChar(100)
+  email        String  @id @db.VarChar(50)
+  password     String? @db.VarChar(300)
+}
+
+model products {
+  product_id   Int    @id @default(autoincrement())
+  product_image String?  @db.LongText
+  product_name String
+  owner        String
+  owner_role   String
+  price        Int
+  sale         sales?
+}
+
+model sales {
+  sales_id   Int      @id @default(autoincrement())
+  product_id Int      @unique
+  buyer      String
+  buyer_role String
+  sold_at    DateTime
+  product    products @relation(fields: [product_id], references: [product_id])
+}
+
+model messages {
+  message_id Int        @id @default(autoincrement())
+  reply_to   Int?
+  text       String
+  email      String
+  item_id    Int
+  lost_item  lost_items @relation(fields: [item_id], references: [item_id])
+  @@index([item_id])
+}
+
+model lost_items {
+  item_id   Int        @id @default(autoincrement())
+  product_image String?  @db.LongText
+  item_name String
+  story     String
+  owner     String
+  messages  messages[]
+}
+
+model shops {
+  shop_id     Int          @id @default(autoincrement())
+  shop_name   String
+  status      String
+  closed_from String
+  closed_to   String
+  menu_items  menu_items[]
+}
+
+model menu_items {
+  shop_id   Int
+  item_name String
+  item_cost Int
+  shop      shops  @relation(fields: [shop_id], references: [shop_id])
+  @@id([shop_id, item_name])
+  @@index([shop_id])
 }

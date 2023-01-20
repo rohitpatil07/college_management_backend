@@ -8,26 +8,22 @@ import authenticate from '../../middlewares/auth.js';
 
 const router = Router();
 
-router.get('/allfaculties', facultyController.getAllFaculty);
-router.get('/faculty/:dept', facultyController.getFacultybyDept);
-router.get('/mailfaculty/:mail', facultyController.getFacultybyMail);
+router.get('/allfaculties',authenticate(['lms_admin']), facultyController.getAllFaculty);
+router.get('/faculty/:dept',authenticate(['lms_admin']), facultyController.getFacultybyDept);
+router.get('/mailfaculty/:mail',authenticate(['lms_admin','faculty']), facultyController.getFacultybyMail);
 
 router.get(
   '/allsubjects',
-  authenticate(['faculty', 'student']),
+  authenticate(['lms_admin']),
   subjectController.getAllSubject,
 );
-router.get('/subject/:subid', subjectController.getSubjectbyID);
-router.post(
-  '/faculty/subject',
-  authenticate(['admin', 'faculty']),
-  subjectController.getAllFacSubs,
-);
-router.get('/department/subject/:batch/:dept', subjectController.getSubbyDept);
+router.get('/subject/:subid',authenticate(['lms_admin','student','faculty']), subjectController.getSubjectbyID);
+router.post('/facultysubjects',authenticate(['lms_admin','faculty']), filterController.getFacultySubjects);
+router.get('/department/subject/:batch/:dept/:sem',authenticate(['lms_admin','student','faculty']), subjectController.getSubbyDept);
 
 router.get(
   '/module/:moduleid',
-  authenticate(['faculty', 'student']),
+  authenticate(['faculty','student']),
   moduleController.getModulebyID,
 );
 router.get(
@@ -38,10 +34,9 @@ router.get(
 
 router.get(
   '/readmat/module/:moduleid',
-  authenticate(['faculty', 'student']),
+  authenticate(['faculty','student']),
   readingController.getReadMatByModuleId,
 );
 
-router.post('/facultysubjects', filterController.getFacultySubjects);
 
 export default router;

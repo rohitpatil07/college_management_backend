@@ -9,14 +9,14 @@ const getAllFaculty = async (req, res) => {
   }
 };
 
-const getAllFacSubs = async (req, res) => {
-  try {
-    const data = await filterService.getAllFacSubs(req.body.subjects);
-    res.json(data);
-  } catch (error) {
-    res.json(error);
-  }
-};
+// const getAllFacSubs = async (req, res) => {
+//   try {
+//     const data = await filterService.getAllFacSubs(req.body.subjects);
+//     res.json(data);
+//   } catch (error) {
+//     res.json(error);
+//   }
+// };
 
 const getAllSubject = async (req, res) => {
   try {
@@ -70,6 +70,7 @@ const getSubbyDept = async (req, res) => {
     const data = await filterService.getSubbyDept(
       parseInt(req.params.batch),
       req.params.dept,
+      parseInt(req.params.sem)
     );
     res.json(data);
   } catch (error) {
@@ -109,7 +110,7 @@ const getFacultySubjects = async (req, res) => {
 
 export default {
   getAllFaculty,
-  getAllFacSubs,
+//  getAllFacSubs,
   getAllSubject,
   getFacultybyDept,
   getFacultybyMail,

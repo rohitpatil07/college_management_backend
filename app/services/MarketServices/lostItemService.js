@@ -106,6 +106,33 @@ const getReplies = async (message_id) => {
   }
 };
 
+const updateLostItem = async (item_data, item_id) => {
+  try {
+    const product = await prisma.lost_items.update({
+      where: {
+        item_id: item_id,
+      },
+      data: item_data,
+    });
+    return product;
+  } catch (error) {
+    return 'Error prcoessing request';
+  }
+};
+
+const deleteLostItem = async (item_id) => {
+  try {
+    const lost_item = await prisma.lost_items.delete({
+      where: {
+        item_id: item_id,
+      },
+    });
+    return lost_item;
+  } catch (error) {
+    return 'Error removing product';
+  }
+};
+
 export default {
   createLostItem,
   getLostItem,
@@ -114,4 +141,6 @@ export default {
   createMessage,
   getReplies,
   getThread,
+  updateLostItem,
+  deleteLostItem,
 };

@@ -10,5 +10,7 @@ router.post('/lost_item', lostItemControllers.getLostItem);
 router.post('/addmessage', lostItemControllers.createMessage);
 router.post('/lostitemthread', lostItemControllers.getThread);
 router.post('/replies', lostItemControllers.getReplies);
+router.post('/update', lostItemControllers.updateLostItem);
+router.post('/delete', lostItemControllers.deleteLostItem);
 
 export default router;

@@ -82,6 +82,16 @@ const updateProduct = async (req, res) => {
   }
 };
 
+const deleteProduct = async (req, res) => {
+  try {
+    const { product_id } = req.body;
+    const product = await productService.deleteProduct(product_id);
+    res.json(product);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
 export default {
   getProducts,
   getProduct,
@@ -91,4 +101,5 @@ export default {
   getProducstByName,
   getProductsByCategory,
   updateProduct,
+  deleteProduct,
 };

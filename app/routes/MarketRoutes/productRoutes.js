@@ -10,5 +10,6 @@ router.post('/buyproduct', productControllers.buyProduct);
 router.post('/transactions', productControllers.getTransactions);
 router.post('/product_name', productControllers.getProducstByName);
 router.post('/category', productControllers.getProductsByCategory);
+router.post('/update', productControllers.updateProduct);
 
 export default router;

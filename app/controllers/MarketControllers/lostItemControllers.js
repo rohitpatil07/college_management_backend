@@ -69,6 +69,26 @@ const getReplies = async (req, res) => {
   }
 };
 
+const updateLostItem = async (req, res) => {
+  try {
+    const { item_id, item_data } = req.body;
+    const lost_items = await lostItemService.updateLostItem(item_data, item_id);
+    res.json(lost_items);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
+const deleteLostItem = async (req, res) => {
+  try {
+    const { item_id } = req.body;
+    const product = await lostItemService.deleteLostItem(item_id);
+    res.json(product);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
 export default {
   getLostItem,
   getLostItems,
@@ -77,4 +97,6 @@ export default {
   createMessage,
   getThread,
   getReplies,
+  updateLostItem,
+  deleteLostItem,
 };

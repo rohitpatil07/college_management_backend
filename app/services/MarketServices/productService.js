@@ -123,6 +123,19 @@ const updateProduct = async (product_data, product_id) => {
   }
 };
 
+const deleteProduct = async (product_id) => {
+  try {
+    const product = await prisma.products.delete({
+      where: {
+        product_id: product_id,
+      },
+    });
+    return product;
+  } catch (error) {
+    return 'Error removing product';
+  }
+};
+
 export default {
   getProducts,
   getProduct,
@@ -133,4 +146,5 @@ export default {
   getProductsByCategory,
   getProductsByName,
   updateProduct,
+  deleteProduct,
 };

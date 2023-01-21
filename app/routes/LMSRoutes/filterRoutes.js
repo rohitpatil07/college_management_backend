@@ -38,5 +38,10 @@ router.get(
   readingController.getReadMatByModuleId,
 );
 
+router.get('/findDILO/:batch/:dept/:sem',authenticate(['lms_admin']), subjectController.getDILOs)
 
+router.get('/admin/DILOform/:form_id',authenticate(['lms_admin']), subjectController.getDILOform)
+router.get('/admin/data/:email',authenticate(['lms_admin']), subjectController.getAdminData)
+
+router.post('/student/subjects',authenticate(['student']), subjectController.getSubjectofStudent)
 export default router;

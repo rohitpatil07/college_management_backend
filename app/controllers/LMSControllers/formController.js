@@ -4,11 +4,22 @@ import facultyService from '../../services/LMSServices/facultyService.js';
 const addDILO = async (req, res) => {
   try{
     const data = await subjectService.addDILO(req.body);
-    res.json(data);
+    res.status(200).json(data);
   } catch (error){
-    return res.json(error);
+    return res.status(422).json(error);
   }
 }
+
+const createForm = async (req, res) => {
+    try {
+      let form = req.body.form
+      form.DILO=JSON.stringify(form.DILO)
+      const data = await subjectService.createForm(form);
+      res.status(200).json(data);
+  } catch (error){
+    return res.status(422).json(error);
+    }
+  };
 
 const createSubject = async (req, res) => {
   try {
@@ -39,7 +50,7 @@ const upsertFaculty = async (req, res) => {
 
 const upsertModule = async (req, res) => {
   try {
-    const data = await subjectService.upsertModule(req.body.module);
+    const data = await facultyService.upsertModule(req.body.module);
     res.json(data);
   } catch (error) {
     return res.json(error);
@@ -48,7 +59,7 @@ const upsertModule = async (req, res) => {
 
 const upsertReadingMaterial = async (req, res) => {
   try {
-    const data = await subjectService.upsertReadingMaterial(req.body.reading);
+    const data = await facultyService.upsertReadingMaterial(req.body.reading);
     res.status(200).json(data);
   } catch (error) {
     return res.json(error);
@@ -57,6 +68,7 @@ const upsertReadingMaterial = async (req, res) => {
 
 export default {
   addDILO,
+  createForm,
   createSubject,
   upsertFaculty,
   upsertModule,

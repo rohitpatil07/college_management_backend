@@ -130,13 +130,27 @@ const createSubject = async (data) => {
 };
 
 //needs schema work regarding storing subject ids in students before usage
-const updateStudents = async (data) => {
+const addDILO = async (data) => {
   try {
+    let subject_data = [];
+    data.subject_id.forEach((subject_id) => {
+      subject_data.push({
+        subject: {
+          connect: {
+            subject_id: subject_id,
+          },
+        },
+      });
+    });
     const subjects = await prisma.students.update({
       where: {
         roll_no: data.roll_no,
       },
-      data,
+      data:{
+        subjects: {
+          create: subject_data
+        },
+      }
     });
     return subjects;
   } catch (error) {
@@ -192,7 +206,7 @@ const upsertReadingMaterial = async (data) => {
 
 export default {
   createSubject,
-  updateStudents,
+  addDILO,
   upsertModule,
   upsertReadingMaterial,
 };

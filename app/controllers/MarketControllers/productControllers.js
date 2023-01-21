@@ -49,70 +49,34 @@ const getTransactions = async (req, res) => {
   }
 };
 
-const getLostItems = async (req, res) => {
+const getProducstByName = async (req, res) => {
   try {
-    const products = await productService.getLostItems();
+    const { product_name } = req.body;
+    const products = await productService.getProductsByName(product_name);
     res.json(products);
   } catch (error) {
     res.json(error);
   }
 };
 
-const getMyLostItems = async (req, res) => {
+const getProductsByCategory = async (req, res) => {
   try {
-    const { owner } = req.body;
-    const lost_items = await productService.getMyLostItems(owner);
-    res.json(lost_items);
+    const { category } = req.body;
+    const products = await productService.getProductsByCategory(category);
+    res.json(products);
   } catch (error) {
     res.json(error);
   }
 };
 
-const getLostItem = async (req, res) => {
+const updateProduct = async (req, res) => {
   try {
-    const { item_id } = req.body;
-    const lost_item = await productService.getLostItem(item_id);
-    res.json(lost_item);
-  } catch (error) {
-    res.json(error);
-  }
-};
-
-const createLostItem = async (req, res) => {
-  try {
-    const { lost_item } = req.body;
-    const my_lost_item = await productService.createLostItem(lost_item);
-    res.json(my_lost_item);
-  } catch (error) {
-    res.json(error);
-  }
-};
-
-const createMessage = async (req, res) => {
-  try {
-    const { message } = req.body;
-    const message_data = await productService.createMessage(message);
-    res.json(message_data);
-  } catch (error) {
-    res.json(error);
-  }
-};
-
-const getThread = async (req, res) => {
-  try {
-    const { item_id } = req.body;
-    const thread = await productService.getThread(item_id);
-    res.json(thread);
-  } catch (error) {
-    res.json(error);
-  }
-};
-
-const getReplies = async (req, res) => {
-  try {
-    const { message_id } = req.body;
-    const replies = await productService.getReplies(message_id);
-    res.json(replies);
+    const { product_id, product_data } = req.body;
+    const products = await productService.updateProduct(
+      product_data,
+      product_id,
+    );
+    res.json(products);
   } catch (error) {
     res.json(error);
   }
@@ -124,11 +88,7 @@ export default {
   createProduct,
   buyProduct,
   getTransactions,
-  getLostItem,
-  getLostItems,
-  getMyLostItems,
-  createLostItem,
-  createMessage,
-  getThread,
-  getReplies,
+  getProducstByName,
+  getProductsByCategory,
+  updateProduct,
 };

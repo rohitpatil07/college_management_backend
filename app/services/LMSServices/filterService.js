@@ -1,5 +1,22 @@
 import prisma from '../../config/prisma.js';
 
+const getAdminData = async (email) => {
+  try {
+    console.log(email);
+    const admin = await prisma.lms_admin.findUnique({
+      where: {
+        email: email,
+      },
+      include: {
+        forms: true,
+      }
+    });
+    return admin;
+  } catch (error) {
+    return error;
+  }
+}
+
 const getAllFaculty = async () => {
   try {
     const faculty = await prisma.faculty.findMany();
@@ -12,6 +29,78 @@ const getAllFaculty = async () => {
 const getAllSubject = async () => {
   try {
     const subjects = await prisma.subjects.findMany();
+    return subjects;
+  } catch (error) {
+    return error;
+  }
+};
+
+const getDILOs = async (batch, department, semester) => {
+  try {
+    const DLO = await prisma.subjects.findMany({
+      where: {
+        department: department,
+        batch: batch,
+        semester: semester,
+        type: "DLO"
+      },
+    });
+    const ILO = await prisma.subjects.findMany({
+      where: {
+        batch: batch,
+        semester: semester,
+        type: "ILO"
+      },
+    });
+    const subjects = {
+      DLO:DLO,
+      ILO:ILO
+    }
+    return subjects;
+  } catch (error) {
+    return error;
+  }
+};
+
+const getDILOform = async (batch, department, semester) => {
+  try {
+    console.log(department,batch,semester)
+    const form = await prisma.forms.findMany({
+      where:{
+        department: department,
+        batch: batch,
+        semester: semester
+      }
+    });
+    return form;
+  } catch (error) {
+    return error;
+  }
+};
+
+const getDILOformbyID = async (form_id) => {
+  try {
+    const form = await prisma.forms.findUnique({
+      where:{
+        form_id: form_id
+      }
+    });
+    return form;
+  } catch (error) {
+    return error;
+  }
+}
+
+const getFacultySubjects = async (email) => {
+  try {
+    const { subjects } = await prisma.Faculty.findUnique({
+      select: {
+        subjects: true,
+      },
+      where: {
+        email: email,
+      },
+    });
     return subjects;
   } catch (error) {
     return error;
@@ -98,6 +187,41 @@ const getSubjectbyID = async (subject_id) => {
   }
 };
 
+const getSubjectbyMultipleID = async (subject_id) => {
+  try {
+    const subjects = await prisma.subjects.findMany({
+      where: {
+        subject_id: {in: subject_id},
+      },
+    });
+    return subjects;
+  } catch (error) {
+    return error;
+  }
+};
+
+const getSubjectofStudent = async (roll_no) => {
+  try {
+    const {subjects} = await prisma.students.findUnique({
+      where: {
+        roll_no: roll_no,
+      },
+      select:{
+        subjects:{
+          select:{
+            subject:true
+          }
+        }
+      }
+    });
+    let finalsubject = [];
+    subjects.map(subject=>{finalsubject.push(subject.subject)})
+    return finalsubject;
+  } catch (error) {
+    return error;
+  }
+};
+
 const getReadingMaterialByModuleId = async (module_id) => {
   try {
     const readmat = await prisma.reading_material.findMany({
@@ -116,32 +240,21 @@ const getReadingMaterialByModuleId = async (module_id) => {
   }
 };
 
-const getFacultySubjects = async (email) => {
-  try {
-    const { subjects } = await prisma.Faculty.findUnique({
-      select: {
-        subjects: true,
-      },
-      where: {
-        email: email,
-      },
-    });
-    return subjects;
-  } catch (error) {
-    return error;
-  }
-};
-
 export default {
+  getAdminData,
   getAllFaculty,
-//  getAllFacSubs,
   getAllSubject,
+  getDILOs,
+  getDILOform,
+  getDILOformbyID,
+  getFacultySubjects,
   getFacultybyDept,
   getFacultybyMail,
   getModbySub,
   getOneModbyID,
   getSubbyDept,
   getSubjectbyID,
+  getSubjectbyMultipleID,
+  getSubjectofStudent,
   getReadingMaterialByModuleId,
-  getFacultySubjects,
 };

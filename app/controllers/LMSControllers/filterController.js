@@ -110,7 +110,7 @@ const getFacultySubjects = async (req, res) => {
 
 export default {
   getAllFaculty,
-//  getAllFacSubs,
+  //  getAllFacSubs,
   getAllSubject,
   getFacultybyDept,
   getFacultybyMail,

@@ -231,6 +231,8 @@ model subjects {
   division         String             @db.VarChar(2)
   type             String             @db.VarChar(3)
   email            String            @db.VarChar(30)
+  DOD              DateTime?
+  designation      String?            @db.VarChar(50)
   assignment       assignment[]
   modules          modules[]
   students         subject_in_students[]
@@ -315,12 +317,16 @@ model subject_in_students {
 }
 
 model assignment_submissions{
-    file          String?       @db.LongText
-    createdAt    DateTime  @default(now())
-    roll_no       String        @db.VarChar(10)
-    assignment_id Int  
-    student       students    @relation(fields: [roll_no], references: [roll_no])
-    assignment    assignment  @relation(fields: [assignment_id],references: [assignment_id])
+    file              String?       @db.LongText
+    file_name         String?  @db.VarChar(30)
+    file_type         String?  @db.VarChar(30)
+    submission_des    String?  @db.VarChar(200)
+    createdAt         DateTime      @default(now())
+    last_modified     DateTime      @updatedAt  
+    roll_no           String        @db.VarChar(10)
+    assignment_id     Int
+    student           students    @relation(fields: [roll_no], references: [roll_no])
+    assignment        assignment  @relation(fields: [assignment_id],references: [assignment_id])
 
     @@id([roll_no,assignment_id])
     @@index([assignment_id])
@@ -351,6 +357,8 @@ model lms_admin {
 model products {
   product_id   Int    @id @default(autoincrement())
   product_image String?  @db.LongText
+  category      String?
+  product_des   String?
   product_name String
   owner        String
   owner_role   String
@@ -370,6 +378,7 @@ model sales {
 model messages {
   message_id Int        @id @default(autoincrement())
   reply_to   Int?
+  replies    Int        @default(0)
   text       String
   email      String
   item_id    Int
@@ -379,7 +388,7 @@ model messages {
 
 model lost_items {
   item_id   Int        @id @default(autoincrement())
-  product_image String?  @db.LongText
+  item_image String?  @db.LongText
   item_name String
   story     String
   owner     String

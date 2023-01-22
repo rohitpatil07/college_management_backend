@@ -1,5 +1,6 @@
 import subjectService from '../../services/LMSServices/subjectService.js';
 import facultyService from '../../services/LMSServices/facultyService.js';
+import studentService from '../../services/LMSServices/studentService.js';
 
 const addDILO = async (req, res) => {
   try{
@@ -19,7 +20,34 @@ const createForm = async (req, res) => {
   } catch (error){
     return res.status(422).json(error);
     }
-  };
+};
+
+const upsertAssignmentTeachers = async (req, res) => {
+  try {
+    const data = await facultyService.upsertAssignmentTeachers(req.body);
+    res.status(200).json(data);
+  } catch (error) {
+    return res.status(422).json(error);
+  }
+}
+
+const createAssignmentStudents = async (req, res) => {
+  try {
+    const data = await studentService.createAssignmentStudents(req.body);
+    res.status(200).json(data);
+  } catch (error) {
+    return res.status(422).json(error);
+  }
+}
+
+const updateAssignmentStudents = async (req, res) => {
+  try {
+    const data = await studentService.updateAssignmentStudents(req.body);
+    res.status(200).json(data);
+  } catch (error) {
+    return res.status(422).json(error);
+  }
+}
 
 const createSubject = async (req, res) => {
   try {
@@ -69,6 +97,9 @@ const upsertReadingMaterial = async (req, res) => {
 export default {
   addDILO,
   createForm,
+  upsertAssignmentTeachers,
+  createAssignmentStudents,
+  updateAssignmentStudents,
   createSubject,
   upsertFaculty,
   upsertModule,

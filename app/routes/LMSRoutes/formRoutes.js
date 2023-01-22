@@ -25,7 +25,28 @@ router.post(
   authenticate(['student','lms_admin']),
   subjectController.addDILO,
 )
-router.post('/addDILOform',authenticate(['lms_admin']), subjectController.createForm)
+router.post(
+  '/addDILOform',
+  authenticate(['lms_admin']), 
+  subjectController.createForm
+)
+
+router.post(
+  '/faculty/upsertAssignment',
+  authenticate(['faculty']),
+  subjectController.upsertAssignmentTeachers,
+);
+router.post(
+  '/student/submitAssignment',
+  authenticate(['student']),
+  subjectController.createAssignmentStudents,
+)
+router.post(
+  '/student/updatesubmission',
+  authenticate(['student']),
+  subjectController.updateAssignmentStudents,
+)
+
 router.post(
   '/addfaculty',
   authenticate(['lms_admin']),

@@ -21,6 +21,9 @@ const login = async (email, login_password, role) => {
           password: true,
           first_name: true,
           last_name: true,
+          semester:true,
+          batch:true,
+          department:true
         },
       });
 

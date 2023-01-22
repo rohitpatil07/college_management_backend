@@ -22,11 +22,10 @@ router.post(
 );
 router.post(
   '/addDILO',
-  authenticate(['student']),
+  authenticate(['student','lms_admin']),
   subjectController.addDILO,
 )
-//route below needs a finalised schema for more details visits subject services
-//router.post('/addsubtostu', subjectController.updateStudents)
+router.post('/addDILOform',authenticate(['lms_admin']), subjectController.createForm)
 router.post(
   '/addfaculty',
   authenticate(['lms_admin']),

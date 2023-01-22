@@ -1,9 +1,37 @@
 import prisma from '../../config/prisma.js';
 
+const addDILO = async (data) => {
+  try {
+    const roll_nos = data.roll_no;
+    const subject_ids = data.subject_id;    
+    const students = await prisma.students.findMany({
+      where: { roll_no: { in: roll_nos } },
+      select:{ roll_no: true}
+    });
+    const subjects = await prisma.subjects.findMany({
+      where: { subject_id: { in: subject_ids } },
+      select:{subject_id:true}
+    });
+    let subject_to_students = [];
+    students.map(student => {
+        subjects.map(subject=>  {
+            subject_to_students.push({...student,...subject})
+        }
+        )
+    })
+    const finalydone = await prisma.subject_in_students.createMany({
+      data: subject_to_students
+    });
+    return finalydone;
+  } catch (error) {
+    return error;
+  }
+};
+
 const createSubject = async (data) => {
   try {
     const {
-      subject_id,
+      subject_code,
       subject_name,
       semester,
       department,
@@ -16,7 +44,7 @@ const createSubject = async (data) => {
     if (type === 'DLO' || type === 'ILO') {
       const subject = await prisma.subjects.create({
         data: {
-          subject_id: subject_id,
+          subject_code: subject_code,
           subject_name: subject_name,
           semester: semester,
           department: department,
@@ -58,7 +86,7 @@ const createSubject = async (data) => {
 
       const subject = await prisma.subjects.create({
         data: {
-          subject_id: subject_id,
+          subject_code: subject_code,
           subject_name: subject_name,
           semester: semester,
           department: department,
@@ -107,7 +135,7 @@ const createSubject = async (data) => {
 
     const subject = await prisma.subjects.create({
       data: {
-        subject_id: subject_id,
+        subject_code: subject_code,
         subject_name: subject_name,
         semester: semester,
         department: department,
@@ -129,84 +157,19 @@ const createSubject = async (data) => {
   }
 };
 
-//needs schema work regarding storing subject ids in students before usage
-const addDILO = async (data) => {
-  try {
-    let subject_data = [];
-    data.subject_id.forEach((subject_id) => {
-      subject_data.push({
-        subject: {
-          connect: {
-            subject_id: subject_id,
-          },
-        },
-      });
-    });
-    const subjects = await prisma.students.update({
-      where: {
-        roll_no: data.roll_no,
-      },
-      data:{
-        subjects: {
-          create: subject_data
-        },
-      }
-    });
-    return subjects;
+const createForm = async(data) => {
+  try{
+    const form = await prisma.forms.create({
+      data
+    })
+    return form;
   } catch (error) {
     return error;
   }
-};
-//-------------------*-------------------//
-
-const upsertModule = async (data) => {
-  try {
-    if (data.module_id == null || data.module_id == undefined) {
-      const modules = await prisma.modules.create({
-        data,
-      });
-      return modules;
-    } else {
-      const modules = await prisma.modules.update({
-        where: {
-          module_id: data.module_id,
-        },
-        data,
-      });
-      return modules;
-    }
-  } catch (error) {
-    return error;
-  }
-};
-
-const upsertReadingMaterial = async (data) => {
-  try {
-    if (
-      data.reading_material_id == null ||
-      data.reading_material_id == undefined
-    ) {
-      const reading = await prisma.reading_material.create({
-        data,
-      });
-      return reading;
-    } else {
-      const reading = await prisma.reading_material.update({
-        where: {
-          reading_material_id: data.reading_material_id,
-        },
-        data,
-      });
-      return reading;
-    }
-  } catch (error) {
-    return error;
-  }
-};
+}
 
 export default {
-  createSubject,
   addDILO,
-  upsertModule,
-  upsertReadingMaterial,
+  createSubject,
+  createForm,
 };

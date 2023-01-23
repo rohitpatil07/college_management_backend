@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import subjectController from '../../controllers/LMSControllers/formController.js';
 import facultyController from '../../controllers/LMSControllers/formController.js';
+import lmsadminController from '../../controllers/LMSControllers/formController.js';
 import authenticate from '../../middlewares/auth.js';
 
 const router = Router();
@@ -8,33 +9,33 @@ const router = Router();
 router.post(
   '/addmodule',
   authenticate(['faculty']),
-  subjectController.upsertModule,
+  facultyController.upsertModule,
 );
 router.post(
   '/addreadmat',
   authenticate(['faculty']),
-  subjectController.upsertReadingMaterial,
+  facultyController.upsertReadingMaterial,
 );
 router.post(
   '/addsubject',
   authenticate(['faculty']),
-  subjectController.createSubject,
+  facultyController.createSubject,
 );
 router.post(
   '/addDILO',
   authenticate(['student','lms_admin']),
-  subjectController.addDILO,
+  lmsadminController.addDILO,
 )
 router.post(
   '/addDILOform',
   authenticate(['lms_admin']), 
-  subjectController.createForm
+  lmsadminController.createForm
 )
 
 router.post(
   '/faculty/upsertAssignment',
   authenticate(['faculty']),
-  subjectController.upsertAssignmentTeachers,
+  facultyController.upsertAssignmentTeachers,
 );
 router.post(
   '/student/submitAssignment',
@@ -46,11 +47,21 @@ router.post(
   authenticate(['student']),
   subjectController.updateAssignmentStudents,
 )
+router.post(
+  '/faculty/createForum',
+  authenticate(['faculty']),
+  facultyController.createForum,
+)
+router.post(
+  '/create/bulkstudent/',
+  authenticate(['lms_admin']),
+  lmsadminController.createBulkStudent,
+)
 
 router.post(
   '/addfaculty',
   authenticate(['lms_admin']),
-  facultyController.upsertFaculty,
+  lmsadminController.upsertFaculty,
 );
 
 export default router;

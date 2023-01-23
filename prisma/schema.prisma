@@ -187,7 +187,7 @@ model students {
   work_experience   work_experience[]
   subjects          subject_in_students[]
   submissions       assignment_submissions[]
-  forum_messages    forum_messages[]
+  forums    forum[]
 }
 
 model work_experience {
@@ -282,14 +282,18 @@ model reading_material {
 }
 
 model forum {
-  forum_id        Int @id @default(autoincrement())
-  module_id       Int
+  forum_id        Int       @id @default(autoincrement())
+  module_id       Int       
+  roll_no         String    @db.VarChar(10)
   createdAt       DateTime  @default(now())
-  topic           String  @db.VarChar(30)
-  description     String  @db.VarChar(200)
+  last_modified   DateTime  @updatedAt
+  topic           String    @db.VarChar(30)
+  description     String    @db.VarChar(200)
+  email           String    @db.VarChar(30)
   forum_messages  forum_messages[]
-  modules             modules  @relation(fields: [module_id], references: [module_id])
-
+  modules         modules  @relation(fields: [module_id], references: [module_id])
+  students        students @relation(fields: [roll_no], references: [roll_no])
+  @@index([roll_no])
   @@index([module_id])
 }
 
@@ -334,16 +338,17 @@ model assignment_submissions{
 }
 
 model forum_messages{
-  roll_no      String    @db.VarChar(10)
-  forum_id     Int
-  message      String    @db.VarChar(1000)
-  createdAt    DateTime  @default(now())
-  student      students  @relation(fields: [roll_no],references: [roll_no])
-  forum        forum  @relation(fields: [forum_id],references: [forum_id])
+  message_id        Int       @id @default(autoincrement())
+  email             String    @db.VarChar(30)
+  forum_id          Int
+  createdAt         DateTime      @default(now())
+  last_modified     DateTime      @updatedAt  
+  reply_to          Int?
+  replies           Int        @default(0)
+  text              String
+  forum             forum  @relation(fields: [forum_id],references: [forum_id])
 
-  @@id([roll_no,forum_id])
   @@index([forum_id])
-  @@index([roll_no])
 }
 
 model lms_admin {
@@ -377,6 +382,8 @@ model sales {
 
 model messages {
   message_id Int        @id @default(autoincrement())
+  createdAt         DateTime      @default(now())
+  last_modified     DateTime      @updatedAt  
   reply_to   Int?
   replies    Int        @default(0)
   text       String

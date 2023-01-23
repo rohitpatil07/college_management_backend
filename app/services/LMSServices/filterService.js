@@ -183,6 +183,19 @@ const getFacultybyMail = async (mail) => {
   }
 };
 
+const getForumByModuleId = async (module_id) => {
+  try {
+    const forum = await prisma.forum.findMany({
+      where: {
+        module_id: module_id
+      },
+    });
+    return forum[0];
+  } catch (error) {
+    return error;
+  }
+}
+
 const getModbySub = async (subject_id) => {
   try {
     const modules = await prisma.modules.findMany({
@@ -240,6 +253,19 @@ const getSubbyDept = async (batch, department, semester) => {
     return error;
   }
 };
+
+const getSubmissionsforStu = async (roll_no) => {
+  try {
+    const submissions = await prisma.assignment_submissions.findMany({
+      where: {
+        roll_no: roll_no
+      },
+    });
+    return submissions;
+  } catch (error) {
+    return error;
+  }
+}
 
 const getSubjectbyID = async (subject_id) => {
   try {
@@ -333,10 +359,12 @@ export default {
   getFacultySubjects,
   getFacultybyDept,
   getFacultybyMail,
+  getForumByModuleId,
   getModbySub,
   getOneModbyID,
   getStudentsbySubID,
   getSubbyDept,
+  getSubmissionsforStu,
   getSubjectbyID,
   getSubjectbyMultipleID,
   getSubjectofStudent,

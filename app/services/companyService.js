@@ -1,4 +1,6 @@
 import prisma from '../config/prisma.js';
+import filterService from './filterService.js';
+import sendMail from '../util/mail.js';
 
 const upsertCompany = async (data) => {
   try {
@@ -24,10 +26,15 @@ const upsertCompany = async (data) => {
 
 const upsertDrive = async (data) => {
   try {
+    let { subject, message, queries, ...data } = data;
     if(data.drive_id==null||data.drive_id==undefined){
       await prisma.drives.create({
         data,
       });
+      let students = await filterService.getDashboard({email:true},queries)
+      const emails = students.map((student) => student.email);
+      console.log(emails)
+      //sendMail(['sohamtalekar7@gmail.com'], 'Drive Added', 'This is a test mail')
       return { success: 'Drive added' };
     }
     else{

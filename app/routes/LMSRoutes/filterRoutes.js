@@ -39,10 +39,12 @@ router.get(
   readingController.getReadMatByModuleId,
 );
 
+router.get('/getForum/:moduleid',authenticate(['faculty','student']), subjectController.getForumByModuleId)
+
 router.get('/getallassignments/:subid',authenticate(['student','faculty']), subjectController.getAssignBySub)
 router.get('/faculty/getassignment/:assign_id',authenticate(['faculty']), subjectController.getAssforFacbyID)
 router.get('/student/getassignment/:assign_id/:roll_no',authenticate(['student']), subjectController.getAssforStubyID)
-
+router.get('/student/getsubmission/:roll_no',authenticate(['student']), subjectController.getSubmissionsforStu)
 router.get('/findDILO/:batch/:dept/:sem',authenticate(['lms_admin']), subjectController.getDILOs)
 
 router.get('/admin/DILOform/:form_id',authenticate(['lms_admin']), subjectController.getDILOform)

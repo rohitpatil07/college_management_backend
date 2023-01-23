@@ -121,6 +121,15 @@ const getFacultybyMail = async (req, res) => {
   }
 };
 
+const getForumByModuleId = async (req, res) => {
+  try {
+    const data = await filterService.getForumByModuleId(parseInt(req.params.moduleid));
+    res.json(data);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 const getModulebyID = async (req, res) => {
   try {
     const data = await filterService.getOneModbyID(
@@ -162,6 +171,15 @@ const getSubbyDept = async (req, res) => {
     res.json(error);
   }
 };
+
+const getSubmissionsforStu = async (req, res) => {
+  try {
+    const data = await filterService.getSubmissionsforStu(req.params.roll_no);
+    res.json(data);
+  } catch (error) {
+    res.json(error);
+  }
+}
 
 const getSubjectbyID = async (req, res) => {
   try {
@@ -235,10 +253,12 @@ export default {
   getFacultySubjects,
   getFacultybyDept,
   getFacultybyMail,
+  getForumByModuleId,
   getModulebyID,
   getModulebySubject,
   getStudentsbySubID,
   getSubbyDept,
+  getSubmissionsforStu,
   getSubjectbyID,
   getSubjectofStudent,
   getReadMatByModuleId,

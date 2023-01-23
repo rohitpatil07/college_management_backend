@@ -1,13 +1,13 @@
 import downloadService from '../../services/LMSServices/downloadService.js';
 import fs from 'fs';
+import AdmZip from 'adm-zip';
 
 const downloadMaterial = async (req, res) => {
   try {
     const file_data = await downloadService.getReadMatById(
       parseInt(req.params.reading_material_id),
     );
-    const l = await downFunc(file_data , req, res);
-    console.log(l)
+    await downFunc(file_data , req, res);
   } catch (error) {
     res.status(500).json({error: "Internal Server Error"});
   }
@@ -19,9 +19,34 @@ const downloadSubmission = async (req, res) => {
       parseInt(req.params.assignment_id),
       req.params.roll_no
     );
-    await downFunc(file_data);
+    await downFunc(file_data, req, res);
   } catch (error) {
-    return error;
+    res.status(500).json({error: "Internal Server Error"});
+  }
+}
+
+const downloadZip = async (req, res) => {
+  try {
+    const file_data = await downloadService.getAllSubmissions(parseInt(req.params.assignment_id));
+    const zip = new AdmZip();
+    file_data.forEach((file) => {
+      const buff = Buffer.from(file.file, 'base64');
+      zip.addFile(`${file.file_name}.${file.file_type}`, buff);
+    });
+    const zipFile = zip.toBuffer();
+    const fileName = `assignment_${req.params.assignment_id}.zip`;
+    res.set({
+      'Content-Type': 'application/zip',
+      'Content-Disposition': `attachment; filename=${fileName}`,
+      'Content-Length': zipFile.length
+    });
+    res.send(zipFile);
+    if(fs.existsSync(fileName)){
+      await fs.promises.unlink(fileName);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
   }
 }
 
@@ -44,4 +69,5 @@ const downFunc = async (fileData, req, res) => {
 export default {
   downloadMaterial,
   downloadSubmission,
+  downloadZip,
 };

@@ -157,19 +157,7 @@ const createSubject = async (data) => {
   }
 };
 
-const createForm = async(data) => {
-  try{
-    const form = await prisma.forms.create({
-      data
-    })
-    return form;
-  } catch (error) {
-    return error;
-  }
-}
-
 export default {
   addDILO,
   createSubject,
-  createForm,
 };

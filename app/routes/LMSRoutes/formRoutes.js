@@ -53,6 +53,21 @@ router.post(
   facultyController.upsertForum,
 )
 router.post(
+  '/postcomment',
+  authenticate(['student','facilty']),
+  subjectController.postComment,
+)
+router.post(
+  '/postreply',
+  authenticate(['student','facilty']),
+  subjectController.postComment,
+)
+router.post(
+  '/updatecomment',
+  authenticate(['student','facilty']),
+  subjectController.updateComment,
+)
+router.post(
   '/create/bulkstudent/',
   authenticate(['lms_admin']),
   lmsadminController.createBulkStudent,

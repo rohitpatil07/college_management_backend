@@ -198,6 +198,14 @@ const getForumByModuleId = async (module_id) => {
       where: {
         module_id: module_id
       },
+      include:{
+        students:{
+          select:{
+            first_name:true,
+            last_name:true
+          }
+        }
+      }
     });
     return forum;
   } catch (error) {
@@ -212,7 +220,13 @@ const getForumById = async (forum_id) => {
         forum_id: forum_id
       },
       include:{
-        forum_messages:true
+        forum_messages:true,
+        students:{
+          select:{
+            first_name:true,
+            last_name:true
+          }
+        }
       }
     });
     return forum;
@@ -353,6 +367,20 @@ const getSubjectofStudent = async (roll_no) => {
   }
 };
 
+const getTopComments = async (forum_id) => {
+  try {
+    const comments = await prisma.forum_messages.findMany({
+      where: {
+        forum_id: forum_id,
+        reply_to: 0,
+      }
+    });
+    return comments;
+  } catch (error) {
+    return error;
+  }
+} 
+
 const getReadingMaterialByModuleId = async (module_id) => {
   try {
     const readmat = await prisma.reading_material.findMany({
@@ -370,6 +398,19 @@ const getReadingMaterialByModuleId = async (module_id) => {
     return error;
   }
 };
+
+const getReplies = async (message_id) => {
+  try {
+    const replies = await prisma.forum_messages.findMany({
+      where: {
+        reply_to: message_id,
+      },
+    });
+    return replies;
+  } catch (error) {
+    return error;
+  }
+}
 
 function exclude(A, keys) {
   for (let key of keys) {
@@ -402,5 +443,7 @@ export default {
   getSubjectbyID,
   getSubjectbyMultipleID,
   getSubjectofStudent,
+  getTopComments,
   getReadingMaterialByModuleId,
+  getReplies,
 };

@@ -31,18 +31,41 @@ const createBulkStudent = async (req, res) => {
   }
 }
 
-const upsertAssignmentTeachers = async (req, res) => {
+const createAssignmentStudents = async (req, res) => {
   try {
-    const data = await facultyService.upsertAssignmentTeachers(req.body);
+    const data = await studentService.createAssignmentStudents(req.body);
     res.status(200).json(data);
   } catch (error) {
     return res.status(422).json(error);
   }
 }
 
-const createAssignmentStudents = async (req, res) => {
+const createSubject = async (req, res) => {
   try {
-    const data = await studentService.createAssignmentStudents(req.body);
+    const data = await subjectService.createSubject(req.body.subject);
+    res.json(data);
+  } catch (error) {
+    return res.json(error);
+  }
+};
+
+const postComment = async (req, res) => {
+  try {
+    let comment = req.body.comment
+    if(comment['reply_to'] == null || comment['reply_to'] == undefined){
+      comment['reply_to'] = 0
+      comment['replies']=0
+    }
+    const data = await studentService.postComment(comment);
+    res.status(200).json(data);
+  } catch (error) {
+    return res.status(422).json(error);
+  }
+}
+
+const updateComment = async (req, res) => {
+  try {
+    const data = await studentService.updateComment(req.body.comment);
     res.status(200).json(data);
   } catch (error) {
     return res.status(422).json(error);
@@ -58,14 +81,14 @@ const updateAssignmentStudents = async (req, res) => {
   }
 }
 
-const createSubject = async (req, res) => {
+const upsertAssignmentTeachers = async (req, res) => {
   try {
-    const data = await subjectService.createSubject(req.body.subject);
-    res.json(data);
+    const data = await facultyService.upsertAssignmentTeachers(req.body);
+    res.status(200).json(data);
   } catch (error) {
-    return res.json(error);
+    return res.status(422).json(error);
   }
-};
+}
 
 // const updateStudents = async (req, res) => {
 //   try {
@@ -116,10 +139,12 @@ export default {
   addDILO,
   createBulkStudent,
   createForm,
-  upsertAssignmentTeachers,
   createAssignmentStudents,
-  updateAssignmentStudents,
   createSubject,
+  postComment,
+  updateComment,
+  updateAssignmentStudents,
+  upsertAssignmentTeachers,
   upsertFaculty,
   upsertForum,
   upsertModule,

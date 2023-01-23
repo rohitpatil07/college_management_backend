@@ -22,6 +22,42 @@ const createBulkStudent = async (data) => {
   }
 }
 
+const postComment = async (data) => {
+  try {
+    const comment = await prisma.forum_messages.create({
+      data,
+    });
+    if(data.reply_to != 0){
+      const reply = await prisma.forum_messages.update({
+        where: {
+          message_id: data.reply_to
+        },
+        data: {
+          replies: {
+            increment: 1
+          }
+        }
+      })
+    }
+    return comment;
+  } catch (error) {
+    return error;
+  }
+}
+
+const updateComment = async (data) => {
+  try {
+    const reply = await prisma.forum_messages.update({
+      where: {
+        message_id: data.message_id
+      },
+      data,
+    });
+    return reply;
+  } catch (error) {
+    return error;
+  }
+}
 const upsertForum = async (data) => {
   try {
     if(data.forum_id == null || data.forum_id == undefined){
@@ -64,6 +100,8 @@ const updateAssignmentStudents = async (data) => {
 export default {
     createAssignmentStudents,
     createBulkStudent,
+    postComment,
+    updateComment,
     upsertForum,
     updateAssignmentStudents,
   };

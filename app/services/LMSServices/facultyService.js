@@ -1,5 +1,26 @@
 import prisma from '../../config/prisma.js';
 
+const upsertAssignmentTeachers = async (data) => {
+  try {
+    if (data.assignment_id == null || data.assignment_id == undefined) {
+      const assignment = await prisma.assignment.create({
+        data,
+      });
+      return assignment;
+    } else {
+      const assignment = await prisma.assignment.update({
+        where: {
+          assignment_id: data.assignment_id,
+        },
+        data,
+      });
+      return assignment;
+    }
+  } catch (error) {
+    return error;
+  }
+}
+
 const upsertFaculty = async (data) =>{
     try{
         const faculty = await prisma.Faculty.upsert({
@@ -36,31 +57,29 @@ const upsertModule = async (data) => {
     }
   };
   
-  const upsertReadingMaterial = async (data) => {
-    try {
-      if (
-        data.reading_material_id == null ||
-        data.reading_material_id == undefined
-      ) {
-        const reading = await prisma.reading_material.create({
-          data,
-        });
-        return reading;
-      } else {
-        const reading = await prisma.reading_material.update({
-          where: {
-            reading_material_id: data.reading_material_id,
-          },
-          data,
-        });
-        return reading;
-      }
-    } catch (error) {
-      return error;
+const upsertReadingMaterial = async (data) => {
+  try {
+    if (data.reading_material_id == null ||data.reading_material_id == undefined){
+      const reading = await prisma.reading_material.create({
+        data,
+      });
+      return reading;
+    } else {
+      const reading = await prisma.reading_material.update({
+        where: {
+          reading_material_id: data.reading_material_id,
+        },
+        data,
+      });
+      return reading;
     }
-  };
+  } catch (error) {
+    return error;
+  }
+};
   
 export default { 
+    upsertAssignmentTeachers,
     upsertFaculty,
     upsertModule,
     upsertReadingMaterial,

@@ -36,6 +36,33 @@ const getAllSubject = async (req, res) => {
   }
 };
 
+const getAssignBySub = async (req, res) => {
+  try {
+    const data = await filterService.getAssignBySub(parseInt(req.params.subid));
+    res.json(data);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
+const getAssforFacbyID = async (req, res) => {
+  try {
+    const data = await filterService.getAssforFacbyID(parseInt(req.params.assign_id));
+    res.json(data);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
+const getAssforStubyID = async (req, res) => {
+  try {
+    const data = await filterService.getAssforStubyID(parseInt(req.params.assign_id), req.params.roll_no);
+    res.json(data);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 const getDILOs = async (req, res) => {
   try {
     const data = await filterService.getDILOs(
@@ -113,6 +140,15 @@ const getModulebySubject = async (req, res) => {
     res.json(error);
   }
 };
+
+const getStudentsbySubID = async (req, res) => {
+  try {
+    const data = await filterService.getStudentsbySubID(parseInt(req.params.subid));
+    res.json(data);
+  } catch (error) {
+    res.json(error);
+  }
+}
 
 const getSubbyDept = async (req, res) => {
   try {
@@ -192,6 +228,9 @@ export default {
   getAllFaculty,
   //  getAllFacSubs,
   getAllSubject,
+  getAssignBySub,
+  getAssforFacbyID,
+  getAssforStubyID,
   getDILOs,
   getDILOform,
   getFacultySubjects,
@@ -199,6 +238,7 @@ export default {
   getFacultybyMail,
   getModulebyID,
   getModulebySubject,
+  getStudentsbySubID,
   getSubbyDept,
   getSubjectbyID,
   getSubjectofStudent,

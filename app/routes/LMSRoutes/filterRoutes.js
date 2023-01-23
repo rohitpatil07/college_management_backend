@@ -18,6 +18,7 @@ router.get(
   subjectController.getAllSubject,
 );
 router.get('/subject/:subid', authenticate(['lms_admin', 'student', 'faculty']), subjectController.getSubjectbyID);
+router.get('/subject/getstudents/:subid', authenticate(['lms_admin', 'faculty']), subjectController.getStudentsbySubID);
 router.post('/facultysubjects', authenticate(['lms_admin', 'faculty']), filterController.getFacultySubjects);
 router.get('/department/subject/:batch/:dept/:sem', authenticate(['lms_admin', 'student', 'faculty']), subjectController.getSubbyDept);
 
@@ -37,6 +38,10 @@ router.get(
   authenticate(['faculty', 'student']),
   readingController.getReadMatByModuleId,
 );
+
+router.get('/getallassignments/:subid', authenticate(['student', 'faculty']), subjectController.getAssignBySub)
+router.get('/faculty/getassignment/:assign_id', authenticate(['faculty']), subjectController.getAssforFacbyID)
+router.get('/student/getassignment/:assign_id/:roll_no', authenticate(['student']), subjectController.getAssforStubyID)
 
 router.get('/findDILO/:batch/:dept/:sem', authenticate(['lms_admin']), subjectController.getDILOs)
 

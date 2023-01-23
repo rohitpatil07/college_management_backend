@@ -39,11 +39,13 @@ const getAllSubject = async () => {
 
 const getAssignBySub = async (subject_id) => {
   try {
-    const assignment = await prisma.assignment.findMany({
+    const assign = await prisma.assignment.findMany({
       where: {
         subject_id: subject_id
-      },
+      }
     });
+    const assignment = []
+    assign.map(A=>(assignment.push(exclude(A, ['file']))));
     return assignment;
   } catch (error) {
     return error;
@@ -52,7 +54,7 @@ const getAssignBySub = async (subject_id) => {
 
 const getAssforFacbyID = async (assignment_id) => {
   try {
-    const assignment = await prisma.assignment.findUnique({
+    const assi = await prisma.assignment.findUnique({
       where: {
         assignment_id: assignment_id
       },
@@ -60,6 +62,10 @@ const getAssforFacbyID = async (assignment_id) => {
         student_submissions: true,
       }
     });
+    const assign = []
+    const assignment = exclude(assi, ['file']);
+    assignment.student_submissions.map(A=>(assign.push(exclude(A, ['file']))))
+    assignment.student_submissions=assign;
     return assignment;
   } catch (error) {
     return error;
@@ -68,7 +74,7 @@ const getAssforFacbyID = async (assignment_id) => {
 
 const getAssforStubyID = async (assignment_id,roll_no) => {
   try {
-    const assignment = await prisma.assignment.findUnique({
+    const assi = await prisma.assignment.findUnique({
       where: {
         assignment_id: assignment_id
       },
@@ -80,6 +86,9 @@ const getAssforStubyID = async (assignment_id,roll_no) => {
         },
       }
     });
+    const assign = []
+    const assignment = exclude(assi, ['file']);
+    assignment.student_submissions = exclude(assignment.student_submissions[0], ['file'])
     return assignment;
   } catch (error) {
     return error;
@@ -345,6 +354,14 @@ const getReadingMaterialByModuleId = async (module_id) => {
     return error;
   }
 };
+
+function exclude(A, keys) {
+  for (let key of keys) {
+    console.log(A)
+    delete A[key]
+  }
+  return A
+}
 
 export default {
   getAdminData,

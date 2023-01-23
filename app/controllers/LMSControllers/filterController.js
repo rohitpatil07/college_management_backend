@@ -130,6 +130,15 @@ const getForumByModuleId = async (req, res) => {
   }
 }
 
+const getForumById = async (req, res) => {
+  try {
+    const data = await filterService.getForumById(parseInt(req.params.forumid));
+    res.json(data);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 const getModulebyID = async (req, res) => {
   try {
     const data = await filterService.getOneModbyID(
@@ -254,6 +263,7 @@ export default {
   getFacultybyDept,
   getFacultybyMail,
   getForumByModuleId,
+  getForumById,
   getModulebyID,
   getModulebySubject,
   getStudentsbySubID,

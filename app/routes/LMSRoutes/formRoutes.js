@@ -48,9 +48,9 @@ router.post(
   subjectController.updateAssignmentStudents,
 )
 router.post(
-  '/faculty/createForum',
-  authenticate(['faculty']),
-  facultyController.createForum,
+  '/upsertForum',
+  authenticate(['student']),
+  facultyController.upsertForum,
 )
 router.post(
   '/create/bulkstudent/',

@@ -199,7 +199,23 @@ const getForumByModuleId = async (module_id) => {
         module_id: module_id
       },
     });
-    return forum[0];
+    return forum;
+  } catch (error) {
+    return error;
+  }
+}
+
+const getForumById = async (forum_id) => {
+  try {
+    const forum = await prisma.forum.findUnique({
+      where: {
+        forum_id: forum_id
+      },
+      include:{
+        forum_messages:true
+      }
+    });
+    return forum;
   } catch (error) {
     return error;
   }
@@ -377,6 +393,7 @@ export default {
   getFacultybyDept,
   getFacultybyMail,
   getForumByModuleId,
+  getForumById,
   getModbySub,
   getOneModbyID,
   getStudentsbySubID,

@@ -11,22 +11,6 @@ const createForm = async(data) => {
   }
 }
 
-const createForum = async (data) => {
-  try {
-    console.log(data);
-    const forum = await prisma.forum.upsert({
-      where: {
-        module_id: data.module_id,
-      },
-      update: data,
-      create: data,
-    });
-    return forum;
-  } catch (error) {
-    return error;
-  }
-}
-
 const upsertAssignmentTeachers = async (data) => {
   try {
     if (data.assignment_id == null || data.assignment_id == undefined) {
@@ -107,7 +91,6 @@ const upsertReadingMaterial = async (data) => {
   
 export default {
     createForm,
-    createForum,
     upsertAssignmentTeachers,
     upsertFaculty,
     upsertModule,

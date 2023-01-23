@@ -22,6 +22,28 @@ const createBulkStudent = async (data) => {
   }
 }
 
+const upsertForum = async (data) => {
+  try {
+    if(data.forum_id == null || data.forum_id == undefined){
+      const forum = await prisma.forum.create({
+        data
+      })
+      return forum;
+    }
+    else {
+      const forum = await prisma.forum.update({
+        where: {
+          forum_id: data.forum_id
+        },
+        data
+      })
+      return forum;
+    }
+  } catch (error) {
+    return error;
+  }
+}
+
 const updateAssignmentStudents = async (data) => {
   try {
       const {roll_no, assignment_id}=data
@@ -42,5 +64,6 @@ const updateAssignmentStudents = async (data) => {
 export default {
     createAssignmentStudents,
     createBulkStudent,
+    upsertForum,
     updateAssignmentStudents,
   };

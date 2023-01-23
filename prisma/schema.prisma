@@ -283,11 +283,11 @@ model reading_material {
 
 model forum {
   forum_id        Int       @id @default(autoincrement())
-  module_id       Int       
+  module_id       Int
   roll_no         String    @db.VarChar(10)
   createdAt       DateTime  @default(now())
   last_modified   DateTime  @updatedAt
-  topic           String    @db.VarChar(30)
+  topic           String    @db.VarChar(100)
   description     String    @db.VarChar(200)
   email           String    @db.VarChar(30)
   forum_messages  forum_messages[]

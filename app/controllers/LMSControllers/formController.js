@@ -22,15 +22,6 @@ const createForm = async (req, res) => {
     }
 };
 
-const createForum = async (req, res) => {
-  try {
-    const data = await facultyService.createForum(req.body.forum);
-    res.status(200).json(data);
-  } catch (error) {
-    return res.status(422).json(error);
-  }
-}
-
 const createBulkStudent = async (req, res) => {
   try {
     const data = await studentService.createBulkStudent(req.body);
@@ -94,6 +85,15 @@ const upsertFaculty = async (req, res) => {
   }
 };
 
+const upsertForum = async (req, res) => {
+  try {
+    const data = await studentService.upsertForum(req.body.forum);
+    res.status(200).json(data);
+  } catch (error) {
+    return res.status(422).json(error);
+  }
+}
+
 const upsertModule = async (req, res) => {
   try {
     const data = await facultyService.upsertModule(req.body.module);
@@ -116,12 +116,12 @@ export default {
   addDILO,
   createBulkStudent,
   createForm,
-  createForum,
   upsertAssignmentTeachers,
   createAssignmentStudents,
   updateAssignmentStudents,
   createSubject,
   upsertFaculty,
+  upsertForum,
   upsertModule,
   upsertReadingMaterial,
 };

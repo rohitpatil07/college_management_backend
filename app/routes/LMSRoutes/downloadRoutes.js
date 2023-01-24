@@ -5,6 +5,12 @@ import downloadControllers from '../../controllers/LMSControllers/downloadContro
 const router = Router();
 
 router.get(
+  '/getassignment/:assignment_id',
+  authenticate(['faculty', 'student']),
+  downloadControllers.downloadAssignment,
+);
+
+router.get(
   '/getmaterial/:reading_material_id',
   authenticate(['faculty', 'student']),
   downloadControllers.downloadMaterial,

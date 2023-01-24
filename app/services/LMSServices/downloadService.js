@@ -19,6 +19,25 @@ const getAllSubmissions=async(assignment_id)=>{
     }
 }
 
+const getAssignmentById=async(assignment_id)=>{
+    try{
+        const download_file = await prisma.assignment.findUnique({
+            where:{
+                assignment_id: assignment_id
+            },
+            select:{
+                file_name: true,
+                file: true,
+                file_type: true
+            }
+        })
+        return download_file;
+    }
+    catch(error){
+        return error;
+    }
+}
+
 const getReadMatById=async(reading_material_id)=>{
     try{
         const download_file = await prisma.reading_material.findUnique({
@@ -63,6 +82,7 @@ const getSubmissionById=async(assignment_id,roll_no)=>{
 
 export default{
     getAllSubmissions,
+    getAssignmentById,
     getReadMatById,
     getSubmissionById,
 }

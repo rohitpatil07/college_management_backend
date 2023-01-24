@@ -39,11 +39,13 @@ const getAllSubject = async () => {
 
 const getAssignBySub = async (subject_id) => {
   try {
-    const assignment = await prisma.assignment.findMany({
+    const assign = await prisma.assignment.findMany({
       where: {
         subject_id: subject_id
-      },
+      }
     });
+    const assignment = []
+    assign.map(A=>(assignment.push(exclude(A, ['file']))));
     return assignment;
   } catch (error) {
     return error;
@@ -52,7 +54,7 @@ const getAssignBySub = async (subject_id) => {
 
 const getAssforFacbyID = async (assignment_id) => {
   try {
-    const assignment = await prisma.assignment.findUnique({
+    const assi = await prisma.assignment.findUnique({
       where: {
         assignment_id: assignment_id
       },
@@ -60,6 +62,10 @@ const getAssforFacbyID = async (assignment_id) => {
         student_submissions: true,
       }
     });
+    const assign = []
+    const assignment = exclude(assi, ['file']);
+    assignment.student_submissions.map(A=>(assign.push(exclude(A, ['file']))))
+    assignment.student_submissions=assign;
     return assignment;
   } catch (error) {
     return error;
@@ -68,7 +74,7 @@ const getAssforFacbyID = async (assignment_id) => {
 
 const getAssforStubyID = async (assignment_id,roll_no) => {
   try {
-    const assignment = await prisma.assignment.findUnique({
+    const assi = await prisma.assignment.findUnique({
       where: {
         assignment_id: assignment_id
       },
@@ -80,6 +86,9 @@ const getAssforStubyID = async (assignment_id,roll_no) => {
         },
       }
     });
+    const assign = []
+    const assignment = exclude(assi, ['file']);
+    assignment.student_submissions = exclude(assignment.student_submissions[0], ['file'])
     return assignment;
   } catch (error) {
     return error;
@@ -189,8 +198,38 @@ const getForumByModuleId = async (module_id) => {
       where: {
         module_id: module_id
       },
+      include:{
+        students:{
+          select:{
+            first_name:true,
+            last_name:true
+          }
+        }
+      }
     });
-    return forum[0];
+    return forum;
+  } catch (error) {
+    return error;
+  }
+}
+
+const getForumById = async (forum_id) => {
+  try {
+    const forum = await prisma.forum.findUnique({
+      where: {
+        forum_id: forum_id
+      },
+      include:{
+        forum_messages:true,
+        students:{
+          select:{
+            first_name:true,
+            last_name:true
+          }
+        }
+      }
+    });
+    return forum;
   } catch (error) {
     return error;
   }
@@ -328,6 +367,20 @@ const getSubjectofStudent = async (roll_no) => {
   }
 };
 
+const getTopComments = async (forum_id) => {
+  try {
+    const comments = await prisma.forum_messages.findMany({
+      where: {
+        forum_id: forum_id,
+        reply_to: 0,
+      }
+    });
+    return comments;
+  } catch (error) {
+    return error;
+  }
+} 
+
 const getReadingMaterialByModuleId = async (module_id) => {
   try {
     const readmat = await prisma.reading_material.findMany({
@@ -346,6 +399,27 @@ const getReadingMaterialByModuleId = async (module_id) => {
   }
 };
 
+const getReplies = async (message_id) => {
+  try {
+    const replies = await prisma.forum_messages.findMany({
+      where: {
+        reply_to: message_id,
+      },
+    });
+    return replies;
+  } catch (error) {
+    return error;
+  }
+}
+
+function exclude(A, keys) {
+  for (let key of keys) {
+    console.log(A)
+    delete A[key]
+  }
+  return A
+}
+
 export default {
   getAdminData,
   getAllFaculty,
@@ -360,6 +434,7 @@ export default {
   getFacultybyDept,
   getFacultybyMail,
   getForumByModuleId,
+  getForumById,
   getModbySub,
   getOneModbyID,
   getStudentsbySubID,
@@ -368,5 +443,7 @@ export default {
   getSubjectbyID,
   getSubjectbyMultipleID,
   getSubjectofStudent,
+  getTopComments,
   getReadingMaterialByModuleId,
+  getReplies,
 };

@@ -19,6 +19,7 @@ router.get(
 );
 router.get('/subject/:subid', authenticate(['lms_admin', 'student', 'faculty']), subjectController.getSubjectbyID);
 router.get('/subject/getstudents/:subid', authenticate(['lms_admin', 'faculty']), subjectController.getStudentsbySubID);
+router.post('/student/subjects', authenticate(['student']), subjectController.getSubjectofStudent)
 router.post('/facultysubjects', authenticate(['lms_admin', 'faculty']), filterController.getFacultySubjects);
 router.get('/department/subject/:batch/:dept/:sem', authenticate(['lms_admin', 'student', 'faculty']), subjectController.getSubbyDept);
 
@@ -32,23 +33,25 @@ router.get(
   authenticate(['faculty', 'student']),
   moduleController.getModulebySubject,
 );
-
 router.get(
   '/readmat/module/:moduleid',
   authenticate(['faculty', 'student']),
   readingController.getReadMatByModuleId,
 );
 
-router.get('/getForum/:moduleid', authenticate(['faculty', 'student']), subjectController.getForumByModuleId)
+router.get('/getForum/:forumid', authenticate(['faculty', 'student']), subjectController.getForumById)
+router.get('/getallForums/:moduleid', authenticate(['faculty', 'student']), subjectController.getForumByModuleId)
+router.get('/top/comments/:forumid', authenticate(['faculty', 'student']), subjectController.getTopComments)
+router.get('/getreplies/:message_id', authenticate(['faculty', 'student']), subjectController.getReplies)
 
 router.get('/getallassignments/:subid', authenticate(['student', 'faculty']), subjectController.getAssignBySub)
 router.get('/faculty/getassignment/:assign_id', authenticate(['faculty']), subjectController.getAssforFacbyID)
 router.get('/student/getassignment/:assign_id/:roll_no', authenticate(['student']), subjectController.getAssforStubyID)
 router.get('/student/getsubmission/:roll_no', authenticate(['student']), subjectController.getSubmissionsforStu)
-router.get('/findDILO/:batch/:dept/:sem', authenticate(['lms_admin']), subjectController.getDILOs)
 
+router.get('/findDILO/:batch/:dept/:sem', authenticate(['lms_admin']), subjectController.getDILOs)
 router.get('/admin/DILOform/:form_id', authenticate(['lms_admin']), subjectController.getDILOform)
+
 router.get('/admin/data/:email', authenticate(['lms_admin']), subjectController.getAdminData)
 
-router.post('/student/subjects', authenticate(['student']), subjectController.getSubjectofStudent)
 export default router;

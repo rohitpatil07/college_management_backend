@@ -130,6 +130,15 @@ const getForumByModuleId = async (req, res) => {
   }
 }
 
+const getForumById = async (req, res) => {
+  try {
+    const data = await filterService.getForumById(parseInt(req.params.forumid));
+    res.json(data);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 const getModulebyID = async (req, res) => {
   try {
     const data = await filterService.getOneModbyID(
@@ -230,6 +239,15 @@ const getSubjectofStudent = async (req, res) => {
   }
 };
 
+const getTopComments = async (req, res) => {
+  try {
+    const data = await filterService.getTopComments(parseInt(req.params.forumid));
+    res.json(data);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 const getReadMatByModuleId = async (req, res) => {
   try {
     const data = await filterService.getReadingMaterialByModuleId(
@@ -240,6 +258,15 @@ const getReadMatByModuleId = async (req, res) => {
     res.json(error);
   }
 };
+
+const getReplies = async (req, res) => {
+  try {
+    const data = await filterService.getReplies(parseInt(req.params.message_id));
+    res.json(data);
+  } catch (error) {
+    res.json(error);
+  }
+}
 
 export default {
   getAdminData,
@@ -255,6 +282,7 @@ export default {
   getFacultybyDept,
   getFacultybyMail,
   getForumByModuleId,
+  getForumById,
   getModulebyID,
   getModulebySubject,
   getStudentsbySubID,
@@ -262,5 +290,7 @@ export default {
   getSubmissionsforStu,
   getSubjectbyID,
   getSubjectofStudent,
+  getTopComments,
   getReadMatByModuleId,
+  getReplies,
 };

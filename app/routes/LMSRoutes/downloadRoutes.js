@@ -10,4 +10,15 @@ router.get(
   downloadControllers.downloadMaterial,
 );
 
+router.get(
+  '/getsubmission/:assignment_id/:roll_no',
+  authenticate(['faculty', 'student']),
+  downloadControllers.downloadSubmission,
+)
+
+router.get(
+  '/getzip/:assignment_id',
+  authenticate(['faculty']),
+  downloadControllers.downloadZip,
+)
 export default router;

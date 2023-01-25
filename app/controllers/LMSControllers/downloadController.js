@@ -2,6 +2,17 @@ import downloadService from '../../services/LMSServices/downloadService.js';
 import fs from 'fs';
 import AdmZip from 'adm-zip';
 
+const downloadAssignment = async (req, res) => {
+  try {
+    const file_data = await downloadService.getAssignmentById(
+      parseInt(req.params.assignment_id),
+    );
+    await downFunc(file_data, req, res);
+  } catch (error) {
+    res.status(500).json({error: "Internal Server Error"});
+  }
+}
+
 const downloadMaterial = async (req, res) => {
   try {
     const file_data = await downloadService.getReadMatById(
@@ -67,6 +78,7 @@ const downFunc = async (fileData, req, res) => {
 }
 
 export default {
+  downloadAssignment,
   downloadMaterial,
   downloadSubmission,
   downloadZip,

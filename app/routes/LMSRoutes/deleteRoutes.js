@@ -10,4 +10,10 @@ router.post(
   deleteController.deleteDILO,
 );
 
+router.get(
+  '/deleteforum/:forum_id',
+  authenticate(['faculty']),
+  deleteController.deleteForum,
+)
+
 export default router;

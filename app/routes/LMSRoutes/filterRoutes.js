@@ -41,7 +41,7 @@ router.get(
 
 router.get('/getForum/:forumid',authenticate(['faculty','student']), subjectController.getForumById)
 router.get('/getallForums/:moduleid',authenticate(['faculty','student']), subjectController.getForumByModuleId)
-router.get('/top/comments/:forumid',authenticate(['faculty','student']), subjectController.getTopComments)
+//router.get('/top/comments/:forumid',authenticate(['faculty','student']), subjectController.getTopComments)
 router.get('/getreplies/:message_id', authenticate(['faculty','student']), subjectController.getReplies)
 
 router.get('/getallassignments/:subid',authenticate(['student','faculty']), subjectController.getAssignBySub)

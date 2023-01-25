@@ -218,6 +218,7 @@ model Faculty {
   photo          String? @db.LongText
   secondary_mail String? @db.VarChar(50)
   department     String? @db.VarChar(5)
+  designation    String? @db.VarChar(70)
   subjects       subjects[]
 }
 
@@ -345,6 +346,7 @@ model forum_messages{
   last_modified     DateTime      @updatedAt  
   reply_to          Int?
   replies           Int        @default(0)
+  upvotes           Int        @default(0)
   text              String
   forum             forum  @relation(fields: [forum_id],references: [forum_id])
 

@@ -1,4 +1,5 @@
 import prisma from '../../config/prisma.js';
+import sendMail from '../../util/mail.js';
 
 const createAssignmentStudents = async (data) => {
   try {
@@ -17,6 +18,24 @@ const createBulkStudent = async (data) => {
       data,
     })
     return bulkstudents;
+  } catch (error) {
+    return error;
+  }
+}
+
+const downvoteComment = async (message_id) => {
+  try {
+    const comment = await prisma.forum_messages.update({
+      where: {
+        message_id: message_id
+      },
+      data: {
+        upvotes: {
+          decrement: 1
+        }
+      }
+    })
+    return comment;
   } catch (error) {
     return error;
   }
@@ -62,8 +81,27 @@ const upsertForum = async (data) => {
   try {
     if(data.forum_id == null || data.forum_id == undefined){
       const forum = await prisma.forum.create({
-        data
+        data,
+        include: {
+          students:{
+            select:{
+              first_name:true,
+              last_name:true,
+              semester:true,
+            }
+          },
+          modules:{
+            select:{
+              subjects:{
+                select:{
+                  subject_name:true,
+                }
+              }
+            }
+          }
+        }
       })
+      //sendMail([data.email], `Your student ${forum.students.first_name} ${forum.students.last_name} of ${forum.students.semester}th has raised a doubt titled ${data.topic}.`, `A doubt has been raised in ${forum.modules.subjects.subject_name}`)      
       return forum;
     }
     else {
@@ -97,11 +135,32 @@ const updateAssignmentStudents = async (data) => {
   }
 }  
 
+const upvoteComment = async (message_id) => {
+  console.log(message_id)
+  try {
+    const comment = await prisma.forum_messages.update({
+      where: {
+        message_id: message_id
+      },
+      data: {
+        upvotes: {
+          increment: 1
+        }
+      }
+    })
+    return comment;
+  } catch (error) {
+    return error;
+  }
+}
+
 export default {
     createAssignmentStudents,
     createBulkStudent,
+    downvoteComment,
     postComment,
     updateComment,
     upsertForum,
     updateAssignmentStudents,
+    upvoteComment,
   };

@@ -67,6 +67,17 @@ router.post(
   authenticate(['student','facilty']),
   subjectController.updateComment,
 )
+router.get(
+  '/upvotecomment/:message_id',
+  authenticate(['student','facilty']),
+  subjectController.upvoteComment,
+)
+router.get(
+  '/downvotecomment/:message_id',
+  authenticate(['student','facilty']),
+  subjectController.downvoteComment,
+)
+
 router.post(
   '/create/bulkstudent/',
   authenticate(['lms_admin']),

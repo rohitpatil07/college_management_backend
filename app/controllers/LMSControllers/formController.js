@@ -49,6 +49,15 @@ const createSubject = async (req, res) => {
   }
 };
 
+const downvoteComment = async (req, res) => {
+  try {
+    const data = await studentService.downvoteComment(parseInt(req.params.message_id));
+    res.status(200).json(data);
+  } catch (error) {
+    return res.status(422).json(error);
+  }
+}
+
 const postComment = async (req, res) => {
   try {
     let comment = req.body.comment
@@ -135,12 +144,22 @@ const upsertReadingMaterial = async (req, res) => {
   }
 };
 
+const upvoteComment = async (req, res) => {
+  try {
+    const data = await studentService.upvoteComment(parseInt(req.params.message_id));
+    res.status(200).json(data);
+  } catch (error) {
+    return res.status(422).json(error);
+  }
+}
+
 export default {
   addDILO,
   createBulkStudent,
   createForm,
   createAssignmentStudents,
   createSubject,
+  downvoteComment,
   postComment,
   updateComment,
   updateAssignmentStudents,
@@ -149,4 +168,5 @@ export default {
   upsertForum,
   upsertModule,
   upsertReadingMaterial,
+  upvoteComment,
 };

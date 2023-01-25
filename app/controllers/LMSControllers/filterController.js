@@ -239,14 +239,14 @@ const getSubjectofStudent = async (req, res) => {
   }
 };
 
-const getTopComments = async (req, res) => {
-  try {
-    const data = await filterService.getTopComments(parseInt(req.params.forumid));
-    res.json(data);
-  } catch (error) {
-    res.json(error);
-  }
-}
+// const getTopComments = async (req, res) => {
+//   try {
+//     const data = await filterService.getTopComments(parseInt(req.params.forumid));
+//     res.json(data);
+//   } catch (error) {
+//     res.json(error);
+//   }
+// }
 
 const getReadMatByModuleId = async (req, res) => {
   try {
@@ -290,7 +290,7 @@ export default {
   getSubmissionsforStu,
   getSubjectbyID,
   getSubjectofStudent,
-  getTopComments,
+//  getTopComments,
   getReadMatByModuleId,
   getReplies,
 };

@@ -220,7 +220,14 @@ const getForumById = async (forum_id) => {
         forum_id: forum_id
       },
       include:{
-        forum_messages:true,
+        forum_messages:{
+          where:{
+            reply_to: 0,
+          },
+          orderBy:{
+            upvotes: "desc"
+          }
+        },
         students:{
           select:{
             first_name:true,
@@ -231,6 +238,7 @@ const getForumById = async (forum_id) => {
     });
     return forum;
   } catch (error) {
+    console.log(error)
     return error;
   }
 }
@@ -321,7 +329,7 @@ const getSubjectbyID = async (subject_id) => {
             email:true,
             phone_number:true,
             gender:true,
-            //designation:true,
+            designation:true,
           }
         }
       }
@@ -367,19 +375,19 @@ const getSubjectofStudent = async (roll_no) => {
   }
 };
 
-const getTopComments = async (forum_id) => {
-  try {
-    const comments = await prisma.forum_messages.findMany({
-      where: {
-        forum_id: forum_id,
-        reply_to: 0,
-      }
-    });
-    return comments;
-  } catch (error) {
-    return error;
-  }
-} 
+// const getTopComments = async (forum_id) => {
+//   try {
+//     const comments = await prisma.forum_messages.findMany({
+//       where: {
+//         forum_id: forum_id,
+//         reply_to: 0,
+//       }
+//     });
+//     return comments;
+//   } catch (error) {
+//     return error;
+//   }
+// } 
 
 const getReadingMaterialByModuleId = async (module_id) => {
   try {
@@ -405,6 +413,9 @@ const getReplies = async (message_id) => {
       where: {
         reply_to: message_id,
       },
+      orderBy:{
+        upvotes: "desc"
+      }
     });
     return replies;
   } catch (error) {
@@ -443,7 +454,7 @@ export default {
   getSubjectbyID,
   getSubjectbyMultipleID,
   getSubjectofStudent,
-  getTopComments,
+//  getTopComments,
   getReadingMaterialByModuleId,
   getReplies,
 };

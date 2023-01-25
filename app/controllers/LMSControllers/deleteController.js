@@ -9,6 +9,16 @@ const deleteDILO = async (req, res) => {
     }
 }
 
+const deleteForum = async (req, res) => {
+    try{
+      const data = await deleteService.deleteForum(parseInt(req.params.forum_id));
+      res.json(data);
+    } catch (error){
+      return res.json(error);
+    }
+}
+
 export default {
     deleteDILO,
+    deleteForum,
 };  

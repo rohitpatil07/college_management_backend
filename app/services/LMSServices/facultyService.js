@@ -1,11 +1,40 @@
 import prisma from '../../config/prisma.js';
 
+const closeForum = async (forum_id) => {
+  console.log(forum_id);
+  try {
+    const forum = await prisma.forum.update({
+      where: {
+        forum_id: forum_id
+      },
+      data: {
+        status: false
+      }
+    })
+    return forum;
+  } catch (error) {
+    console.log(error)
+    return error;
+  }
+}
+
 const createForm = async(data) => {
   try{
     const form = await prisma.forms.create({
       data
     })
     return form;
+  } catch (error) {
+    return error;
+  }
+}
+
+const takeAttendance = async (data) => {
+  try {
+    const attendance = await prisma.attendance.create({
+      data
+    })
+    return attendance;
   } catch (error) {
     return error;
   }
@@ -90,7 +119,9 @@ const upsertReadingMaterial = async (data) => {
 };
   
 export default {
+    closeForum,
     createForm,
+    takeAttendance,
     upsertAssignmentTeachers,
     upsertFaculty,
     upsertModule,

@@ -95,6 +95,23 @@ const getAssforStubyID = async (assignment_id,roll_no) => {
   }
 }
 
+const getAttendence = async (subject_id,date) => {
+  console.log(subject_id,date)
+  try {
+    const attendence = await prisma.attendance.findMany({
+      where: {
+        subject_id: subject_id,
+        date: date,
+      },
+    });
+    console.log(attendence)
+    return attendence;
+  } catch (error) {
+    console.log(error)
+    return error;
+  }
+}
+
 const getDILOs = async (batch, department, semester) => {
   try {
     const DLO = await prisma.subjects.findMany({
@@ -225,7 +242,7 @@ const getForumById = async (forum_id) => {
             reply_to: 0,
           },
           orderBy:{
-            upvotes: "desc"
+            votes: "desc"
           }
         },
         students:{
@@ -236,6 +253,7 @@ const getForumById = async (forum_id) => {
         }
       }
     });
+    forum.forum_messages.map((message)=>{message.upvotes=(JSON.parse(message.upvotes));message.downvotes=(JSON.parse(message.downvotes))})
     return forum;
   } catch (error) {
     console.log(error)
@@ -269,6 +287,32 @@ const getOneModbyID = async (module_id) => {
   }
 };
 
+const getStudentsbyBatch = async (department,division,batch,semester) => {
+  try{
+    const students = await prisma.students.findMany({
+      where: {
+        department: department,
+        division: { contains: division },
+        batch: batch,
+        semester: semester
+      },
+      select:{
+        roll_no:true,
+        first_name:true,
+        last_name:true,
+        email:true,
+        gender:true,
+        phone_number:true,
+        division:true,
+      }
+    })
+    return students;
+  } catch (error) {
+    console.log(error)
+    return error;
+  }
+}
+
 const getStudentsbySubID = async (subject_id) => {
   try {
     const students = await prisma.students.findMany({
@@ -279,6 +323,15 @@ const getStudentsbySubID = async (subject_id) => {
           },
         },
       },
+      select:{
+        roll_no:true,
+        first_name:true,
+        last_name:true,
+        email:true,
+        gender:true,
+        phone_number:true,
+        division:true,
+      }
     });
     return students;
   } catch (error) {
@@ -438,6 +491,7 @@ export default {
   getAssignBySub,
   getAssforFacbyID,
   getAssforStubyID,
+  getAttendence,
   getDILOs,
   getDILOform,
   getDILOformbyID,
@@ -448,6 +502,7 @@ export default {
   getForumById,
   getModbySub,
   getOneModbyID,
+  getStudentsbyBatch,
   getStudentsbySubID,
   getSubbyDept,
   getSubmissionsforStu,

@@ -63,6 +63,15 @@ const getAssforStubyID = async (req, res) => {
   }
 }
 
+const getAttendence = async (req, res) => {
+  try {
+    const data = await filterService.getAttendence(req.body.subject_id, req.body.date);
+    res.json(data);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 const getDILOs = async (req, res) => {
   try {
     const data = await filterService.getDILOs(
@@ -158,6 +167,15 @@ const getModulebySubject = async (req, res) => {
     res.json(error);
   }
 };
+
+const getStudentsbyBatch = async (req, res) => {
+  try {
+    const data = await filterService.getStudentsbyBatch(req.params.dept,req.params.div,parseInt(req.params.batch),parseInt(req.params.sem));
+    res.json(data);
+  } catch (error) {
+    res.json(error);
+  }
+}
 
 const getStudentsbySubID = async (req, res) => {
   try {
@@ -275,6 +293,7 @@ export default {
   getAssignBySub,
   getAssforFacbyID,
   getAssforStubyID,
+  getAttendence,
   getDILOs,
   getDILOform,
   getFacultySubjects,
@@ -284,6 +303,7 @@ export default {
   getForumById,
   getModulebyID,
   getModulebySubject,
+  getStudentsbyBatch,
   getStudentsbySubID,
   getSubbyDept,
   getSubmissionsforStu,

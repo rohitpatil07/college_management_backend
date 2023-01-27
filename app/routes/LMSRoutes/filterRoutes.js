@@ -18,10 +18,13 @@ router.get(
   subjectController.getAllSubject,
 );
 router.get('/subject/:subid',authenticate(['lms_admin','student','faculty']), subjectController.getSubjectbyID);
-router.get('/subject/getstudents/:subid',authenticate(['lms_admin','faculty']), subjectController.getStudentsbySubID);
 router.post('/student/subjects',authenticate(['student']), subjectController.getSubjectofStudent)
 router.post('/facultysubjects',authenticate(['lms_admin','faculty']), filterController.getFacultySubjects);
 router.get('/department/subject/:batch/:dept/:sem',authenticate(['lms_admin','student','faculty']), subjectController.getSubbyDept);
+
+router.get('/subject/getstudents/:subid',authenticate(['lms_admin','faculty']), subjectController.getStudentsbySubID);
+router.get('/divison/getstudents/:dept/:div/:batch/:sem',authenticate(['lms_admin','faculty']), subjectController.getStudentsbyBatch);
+router.post('/faculty/attendence',authenticate(['faculty']), subjectController.getAttendence);
 
 router.get(
   '/module/:moduleid',

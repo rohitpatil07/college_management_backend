@@ -11,6 +11,15 @@ const addDILO = async (req, res) => {
   }
 }
 
+const closeForum = async (req, res) => {
+  try {
+    const data = await facultyService.closeForum(parseInt(req.params.forum_id));
+    res.status(200).json(data);
+  } catch (error) {
+    return res.status(422).json(error);
+  }
+}
+
 const createForm = async (req, res) => {
     try {
       let form = req.body.form
@@ -51,7 +60,7 @@ const createSubject = async (req, res) => {
 
 const downvoteComment = async (req, res) => {
   try {
-    const data = await studentService.downvoteComment(parseInt(req.params.message_id));
+    const data = await studentService.downvoteComment(req.body.message_id, req.body.downvotes);
     res.status(200).json(data);
   } catch (error) {
     return res.status(422).json(error);
@@ -66,6 +75,15 @@ const postComment = async (req, res) => {
       comment['replies']=0
     }
     const data = await studentService.postComment(comment);
+    res.status(200).json(data);
+  } catch (error) {
+    return res.status(422).json(error);
+  }
+}
+
+const takeAttendance = async (req, res) => {
+  try {
+    const data = await facultyService.takeAttendance(req.body.attendence);
     res.status(200).json(data);
   } catch (error) {
     return res.status(422).json(error);
@@ -146,7 +164,7 @@ const upsertReadingMaterial = async (req, res) => {
 
 const upvoteComment = async (req, res) => {
   try {
-    const data = await studentService.upvoteComment(parseInt(req.params.message_id));
+    const data = await studentService.upvoteComment(req.body.message_id, req.body.upvotes);
     res.status(200).json(data);
   } catch (error) {
     return res.status(422).json(error);
@@ -155,12 +173,14 @@ const upvoteComment = async (req, res) => {
 
 export default {
   addDILO,
+  closeForum,
   createBulkStudent,
   createForm,
   createAssignmentStudents,
   createSubject,
   downvoteComment,
   postComment,
+  takeAttendance,
   updateComment,
   updateAssignmentStudents,
   upsertAssignmentTeachers,

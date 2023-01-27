@@ -232,14 +232,23 @@ model subjects {
   division         String             @db.VarChar(2)
   type             String             @db.VarChar(3)
   email            String            @db.VarChar(30)
-  DOD              DateTime?
-  designation      String?            @db.VarChar(50)
   assignment       assignment[]
   modules          modules[]
   students         subject_in_students[]
+  attendance       attendance[]
   faculty          Faculty            @relation(fields: [email],references: [email])
 
   @@index([email])
+}
+
+model attendance{
+  attendance_id Int      @id @default(autoincrement())
+  subject_id    Int
+  roll_nos      String?  @db.LongText
+  date          DateTime  @default(now())
+  subjects      subjects @relation(fields: [subject_id], references: [subject_id])
+
+  @@index([subject_id])
 }
 
 model assignment {
@@ -291,6 +300,7 @@ model forum {
   topic           String    @db.VarChar(100)
   description     String    @db.VarChar(200)
   email           String    @db.VarChar(30)
+  status          Boolean   @default(true)
   forum_messages  forum_messages[]
   modules         modules  @relation(fields: [module_id], references: [module_id])
   students        students @relation(fields: [roll_no], references: [roll_no])
@@ -341,12 +351,16 @@ model assignment_submissions{
 model forum_messages{
   message_id        Int       @id @default(autoincrement())
   email             String    @db.VarChar(30)
+  first_name        String    @db.VarChar(30)
+  last_name         String    @db.VarChar(30)
   forum_id          Int
   createdAt         DateTime      @default(now())
   last_modified     DateTime      @updatedAt  
   reply_to          Int?
   replies           Int        @default(0)
-  upvotes           Int        @default(0)
+  upvotes           String?
+  downvotes         String?
+  votes             Int        @default(0)
   text              String
   forum             forum  @relation(fields: [forum_id],references: [forum_id])
 

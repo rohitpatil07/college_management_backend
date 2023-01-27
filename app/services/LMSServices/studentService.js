@@ -23,14 +23,15 @@ const createBulkStudent = async (data) => {
   }
 }
 
-const downvoteComment = async (message_id) => {
+const downvoteComment = async (message_id, downvotes) => {
   try {
     const comment = await prisma.forum_messages.update({
       where: {
         message_id: message_id
       },
       data: {
-        upvotes: {
+        downvotes: downvotes,
+        votes: {
           decrement: 1
         }
       }
@@ -42,6 +43,7 @@ const downvoteComment = async (message_id) => {
 }
 
 const postComment = async (data) => {
+  console.log(data)
   try {
     const comment = await prisma.forum_messages.create({
       data,
@@ -70,7 +72,9 @@ const updateComment = async (data) => {
       where: {
         message_id: data.message_id
       },
-      data,
+      data:{
+        text: data.text
+      },
     });
     return reply;
   } catch (error) {
@@ -78,6 +82,7 @@ const updateComment = async (data) => {
   }
 }
 const upsertForum = async (data) => {
+  console.log(data)
   try {
     if(data.forum_id == null || data.forum_id == undefined){
       const forum = await prisma.forum.create({
@@ -135,19 +140,21 @@ const updateAssignmentStudents = async (data) => {
   }
 }  
 
-const upvoteComment = async (message_id) => {
+const upvoteComment = async (message_id, upvotes) => {
   console.log(message_id)
   try {
-    const comment = await prisma.forum_messages.update({
-      where: {
-        message_id: message_id
-      },
-      data: {
-        upvotes: {
-          increment: 1
-        }
-      }
-    })
+    // const comment = await prisma.forum_messages.update({
+    //   where: {
+    //     message_id: message_id
+    //   },
+    //   data: {
+    //     upvotes: upvotes,
+    //     votes: {
+    //       increment: 1
+    //     }
+    //   }
+    // })
+    let comment = upvotes
     return comment;
   } catch (error) {
     return error;

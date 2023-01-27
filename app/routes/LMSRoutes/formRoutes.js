@@ -67,15 +67,26 @@ router.post(
   authenticate(['student','facilty']),
   subjectController.updateComment,
 )
-router.get(
-  '/upvotecomment/:message_id',
+router.post(
+  '/upvotecomment',
   authenticate(['student','facilty']),
   subjectController.upvoteComment,
 )
-router.get(
-  '/downvotecomment/:message_id',
+router.post(
+  '/downvotecomment',
   authenticate(['student','facilty']),
   subjectController.downvoteComment,
+)
+router.get(
+  '/closeForum/:forum_id',
+  authenticate(['faculty']),
+  facultyController.closeForum,
+)
+
+router.post(
+  '/take/attendance',
+  authenticate(['faculty']),
+  facultyController.takeAttendance,
 )
 
 router.post(

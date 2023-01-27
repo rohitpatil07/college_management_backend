@@ -95,17 +95,47 @@ const getAssforStubyID = async (assignment_id,roll_no) => {
   }
 }
 
-const getAttendence = async (subject_id,date) => {
-  console.log(subject_id,date)
+const getFacAtt = async (subject_id,date) => {
   try {
+    let start_date = new Date(date).toISOString();
+    let end_date = new Date(date);
+    end_date.setHours(28,89,59,999);
+    end_date = end_date.toISOString();
+    console.log(start_date,end_date)
     const attendence = await prisma.attendance.findMany({
       where: {
         subject_id: subject_id,
-        date: date,
+        date: {gte: start_date, lte: end_date}
       },
     });
-    console.log(attendence)
-    return attendence;
+    let present=JSON.parse(attendence[0].present);
+    let absent=JSON.parse(attendence[0].absent);
+    console.log(attendence[0].present,present)
+    const presenties = await prisma.students.findMany({
+      where: {
+        roll_no: { in: present },
+      },
+      select:{
+        roll_no:true,
+        first_name:true,
+        last_name:true,
+        division:true,
+      }
+    })
+    const absenties = await prisma.students.findMany({
+      where: {
+        roll_no: { in: absent },
+      },
+      select:{
+        roll_no:true,
+        first_name:true,
+        last_name:true,
+        division:true,
+      }
+    })
+
+    let students={date,subject_id,presenties,absenties}
+    return students;
   } catch (error) {
     console.log(error)
     return error;
@@ -286,6 +316,34 @@ const getOneModbyID = async (module_id) => {
     return error;
   }
 };
+
+const getStuAtt = async (subject_id,roll_no) => {
+  try {
+    const present = await prisma.attendance.findMany({
+      where: {
+        subject_id: subject_id,
+        present: {contains: roll_no}
+      },
+      select:{
+        date:true,
+      }
+    });
+    const absent = await prisma.attendance.findMany({
+      where: {
+        subject_id: subject_id,
+        absent: {contains: roll_no}
+      },
+      select:{
+        date:true,
+      }
+    })
+    const attendence = {present,absent}
+    return attendence;
+  } catch (error) {
+    console.log(error)
+    return error;
+  }
+}
 
 const getStudentsbyBatch = async (department,division,batch,semester) => {
   try{
@@ -491,7 +549,7 @@ export default {
   getAssignBySub,
   getAssforFacbyID,
   getAssforStubyID,
-  getAttendence,
+  getFacAtt,
   getDILOs,
   getDILOform,
   getDILOformbyID,
@@ -502,6 +560,7 @@ export default {
   getForumById,
   getModbySub,
   getOneModbyID,
+  getStuAtt,
   getStudentsbyBatch,
   getStudentsbySubID,
   getSubbyDept,

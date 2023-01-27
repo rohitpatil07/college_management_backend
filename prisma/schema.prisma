@@ -244,7 +244,8 @@ model subjects {
 model attendance{
   attendance_id Int      @id @default(autoincrement())
   subject_id    Int
-  roll_nos      String?  @db.LongText
+  present      String?  @db.LongText
+  absent       String?  @db.LongText
   date          DateTime  @default(now())
   subjects      subjects @relation(fields: [subject_id], references: [subject_id])
 

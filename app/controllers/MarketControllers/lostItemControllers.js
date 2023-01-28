@@ -89,6 +89,16 @@ const deleteLostItem = async (req, res) => {
   }
 };
 
+const getFoundItems = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const found_items = await lostItemService.getFoundItems(email);
+    res.json(found_items);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
 export default {
   getLostItem,
   getLostItems,
@@ -99,4 +109,5 @@ export default {
   getReplies,
   updateLostItem,
   deleteLostItem,
+  getFoundItems,
 };

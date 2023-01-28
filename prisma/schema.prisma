@@ -187,7 +187,7 @@ model students {
   work_experience   work_experience[]
   subjects          subject_in_students[]
   submissions       assignment_submissions[]
-  forum_messages    forum_messages[]
+  forums    forum[]
 }
 
 model work_experience {
@@ -218,6 +218,7 @@ model Faculty {
   photo          String? @db.LongText
   secondary_mail String? @db.VarChar(50)
   department     String? @db.VarChar(5)
+  designation    String? @db.VarChar(70)
   subjects       subjects[]
 }
 
@@ -234,9 +235,21 @@ model subjects {
   assignment       assignment[]
   modules          modules[]
   students         subject_in_students[]
+  attendance       attendance[]
   faculty          Faculty            @relation(fields: [email],references: [email])
 
   @@index([email])
+}
+
+model attendance{
+  attendance_id Int      @id @default(autoincrement())
+  subject_id    Int
+  present      String?  @db.LongText
+  absent       String?  @db.LongText
+  date          DateTime  @default(now())
+  subjects      subjects @relation(fields: [subject_id], references: [subject_id])
+
+  @@index([subject_id])
 }
 
 model assignment {
@@ -280,14 +293,19 @@ model reading_material {
 }
 
 model forum {
-  forum_id        Int @id @default(autoincrement())
+  forum_id        Int       @id @default(autoincrement())
   module_id       Int
+  roll_no         String    @db.VarChar(10)
   createdAt       DateTime  @default(now())
-  topic           String  @db.VarChar(30)
-  description     String  @db.VarChar(200)
+  last_modified   DateTime  @updatedAt
+  topic           String    @db.VarChar(100)
+  description     String    @db.VarChar(200)
+  email           String    @db.VarChar(30)
+  status          Boolean   @default(true)
   forum_messages  forum_messages[]
-  modules             modules  @relation(fields: [module_id], references: [module_id])
-
+  modules         modules  @relation(fields: [module_id], references: [module_id])
+  students        students @relation(fields: [roll_no], references: [roll_no])
+  @@index([roll_no])
   @@index([module_id])
 }
 
@@ -315,12 +333,16 @@ model subject_in_students {
 }
 
 model assignment_submissions{
-    file          String?       @db.LongText
-    createdAt    DateTime  @default(now())
-    roll_no       String        @db.VarChar(10)
-    assignment_id Int  
-    student       students    @relation(fields: [roll_no], references: [roll_no])
-    assignment    assignment  @relation(fields: [assignment_id],references: [assignment_id])
+    file              String?       @db.LongText
+    file_name         String?  @db.VarChar(30)
+    file_type         String?  @db.VarChar(30)
+    submission_des    String?  @db.VarChar(200)
+    createdAt         DateTime      @default(now())
+    last_modified     DateTime      @updatedAt  
+    roll_no           String        @db.VarChar(10)
+    assignment_id     Int
+    student           students    @relation(fields: [roll_no], references: [roll_no])
+    assignment        assignment  @relation(fields: [assignment_id],references: [assignment_id])
 
     @@id([roll_no,assignment_id])
     @@index([assignment_id])
@@ -328,16 +350,22 @@ model assignment_submissions{
 }
 
 model forum_messages{
-  roll_no      String    @db.VarChar(10)
-  forum_id     Int
-  message      String    @db.VarChar(1000)
-  createdAt    DateTime  @default(now())
-  student      students  @relation(fields: [roll_no],references: [roll_no])
-  forum        forum  @relation(fields: [forum_id],references: [forum_id])
+  message_id        Int       @id @default(autoincrement())
+  email             String    @db.VarChar(30)
+  first_name        String    @db.VarChar(30)
+  last_name         String    @db.VarChar(30)
+  forum_id          Int
+  createdAt         DateTime      @default(now())
+  last_modified     DateTime      @updatedAt  
+  reply_to          Int?
+  replies           Int        @default(0)
+  upvotes           String?
+  downvotes         String?
+  votes             Int        @db.Int @default(0)
+  text              String
+  forum             forum  @relation(fields: [forum_id],references: [forum_id])
 
-  @@id([roll_no,forum_id])
   @@index([forum_id])
-  @@index([roll_no])
 }
 
 model lms_admin {
@@ -349,9 +377,10 @@ model lms_admin {
 }
 
 model products {
-  product_id    Int    @id @default(autoincrement())
+  product_id   Int    @id @default(autoincrement())
   product_image String?  @db.LongText
   category      String?
+  product_des   String?
   product_name String
   owner        String
   owner_role   String
@@ -370,6 +399,8 @@ model sales {
 
 model messages {
   message_id Int        @id @default(autoincrement())
+  createdAt         DateTime      @default(now())
+  last_modified     DateTime      @updatedAt  
   reply_to   Int?
   replies    Int        @default(0)
   text       String
@@ -381,10 +412,11 @@ model messages {
 
 model lost_items {
   item_id   Int        @id @default(autoincrement())
-  item_image String?   @db.LongText
+  item_image String?  @db.LongText
   item_name String
   story     String
   owner     String
+  found    Boolean    @default(false)
   messages  messages[]
 }
 

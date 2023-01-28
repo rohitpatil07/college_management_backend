@@ -46,6 +46,20 @@ const createLostItem = async (item_data) => {
   }
 };
 
+const getFoundItems = async (email) => {
+  try {
+    const found_items = await prisma.lost_items.findMany({
+      where: {
+        found: true,
+        owner: email,
+      },
+    });
+    return found_items;
+  } catch (error) {
+    return error;
+  }
+};
+
 const createMessage = async (message_data) => {
   try {
     const { reply_to, text, email, item_id } = message_data;
@@ -143,4 +157,5 @@ export default {
   getThread,
   updateLostItem,
   deleteLostItem,
+  getFoundItems,
 };

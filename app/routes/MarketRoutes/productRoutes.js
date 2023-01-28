@@ -45,4 +45,10 @@ router.post(
   productControllers.updateProduct,
 );
 
+router.post(
+  '/delete',
+  authenticate(['student,faculty']),
+  productControllers.deleteProduct,
+);
+
 export default router;

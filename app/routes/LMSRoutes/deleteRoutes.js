@@ -12,7 +12,7 @@ router.post(
 
 router.get(
   '/deleteforum/:forum_id',
-  authenticate(['faculty']),
+  authenticate(['faculty','student']),
   deleteController.deleteForum,
 )
 

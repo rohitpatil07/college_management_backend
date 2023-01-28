@@ -21,6 +21,7 @@ router.get('/subject/:subid',authenticate(['lms_admin','student','faculty']), su
 router.post('/student/subjects',authenticate(['student']), subjectController.getSubjectofStudent)
 router.post('/facultysubjects',authenticate(['lms_admin','faculty']), filterController.getFacultySubjects);
 router.get('/department/subject/:batch/:dept/:sem',authenticate(['lms_admin','student','faculty']), subjectController.getSubbyDept);
+router.post('/faculty/subjectfiter',authenticate(['lms_admin','faculty']), subjectController.getSubforFaculty);
 
 router.get('/subject/getstudents/:subid',authenticate(['lms_admin','faculty']), subjectController.getStudentsbySubID);
 router.get('/divison/getstudents/:dept/:div/:batch/:sem',authenticate(['lms_admin','faculty']), subjectController.getStudentsbyBatch);

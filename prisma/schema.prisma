@@ -416,6 +416,7 @@ model lost_items {
   item_name String
   story     String
   owner     String
+  found    Boolean    @default(false)
   messages  messages[]
 }
 

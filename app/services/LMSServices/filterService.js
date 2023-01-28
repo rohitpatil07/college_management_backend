@@ -425,6 +425,21 @@ const getSubmissionsforStu = async (roll_no) => {
   }
 }
 
+const getSubforFaculty = async (email,batch,semester) => {
+  try{
+    const subjects = await prisma.subjects.findMany({
+      where: {
+        email: email,
+        batch: batch,
+        semester: semester,
+      },
+    });
+    return subjects;    
+  } catch(error){
+    return error;
+  }
+}
+
 const getSubjectbyID = async (subject_id) => {
   try {
     const subjects = await prisma.subjects.findUnique({
@@ -565,6 +580,7 @@ export default {
   getStudentsbySubID,
   getSubbyDept,
   getSubmissionsforStu,
+  getSubforFaculty,
   getSubjectbyID,
   getSubjectbyMultipleID,
   getSubjectofStudent,

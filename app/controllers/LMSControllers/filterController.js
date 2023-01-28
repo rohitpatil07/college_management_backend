@@ -217,6 +217,15 @@ const getSubmissionsforStu = async (req, res) => {
   }
 }
 
+const getSubforFaculty = async (req, res) => {
+  try {
+    const data = await filterService.getSubforFaculty(req.body.email,req.body.batch,req.body.semester);
+    res.json(data);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 const getSubjectbyID = async (req, res) => {
   try {
     const data = await filterService.getSubjectbyID(parseInt(req.params.subid));
@@ -317,6 +326,7 @@ export default {
   getStudentsbySubID,
   getSubbyDept,
   getSubmissionsforStu,
+  getSubforFaculty,
   getSubjectbyID,
   getSubjectofStudent,
 //  getTopComments,

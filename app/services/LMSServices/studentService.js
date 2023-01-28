@@ -141,20 +141,18 @@ const updateAssignmentStudents = async (data) => {
 }  
 
 const upvoteComment = async (message_id, upvotes) => {
-  console.log(message_id)
   try {
-    // const comment = await prisma.forum_messages.update({
-    //   where: {
-    //     message_id: message_id
-    //   },
-    //   data: {
-    //     upvotes: upvotes,
-    //     votes: {
-    //       increment: 1
-    //     }
-    //   }
-    // })
-    let comment = upvotes
+    const comment = await prisma.forum_messages.update({
+      where: {
+        message_id: message_id
+      },
+      data: {
+        upvotes: upvotes,
+        votes: {
+          increment: 1
+        }
+      }
+    })
     return comment;
   } catch (error) {
     return error;

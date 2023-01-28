@@ -361,7 +361,7 @@ model forum_messages{
   replies           Int        @default(0)
   upvotes           String?
   downvotes         String?
-  votes             Int        @default(0)
+  votes             Int        @db.Int @default(0)
   text              String
   forum             forum  @relation(fields: [forum_id],references: [forum_id])
 

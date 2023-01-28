@@ -63,6 +63,7 @@ const getFoundItems = async (email) => {
 const createMessage = async (message_data) => {
   try {
     const { reply_to, text, email, item_id } = message_data;
+
     const msg = await prisma.messages.create({
       data: {
         reply_to: reply_to,
@@ -76,7 +77,7 @@ const createMessage = async (message_data) => {
       },
     });
 
-    if (reply_to != null) {
+    if (reply_to != 0) {
       await prisma.messages.update({
         where: {
           message_id: reply_to,
@@ -147,6 +148,22 @@ const deleteLostItem = async (item_id) => {
   }
 };
 
+const updateMessage = async (message_id, text) => {
+  try {
+    const message = await prisma.messages.update({
+      where: {
+        message_id: message_id,
+      },
+      data: {
+        text: text,
+      },
+    });
+    return message;
+  } catch (error) {
+    return error;
+  }
+};
+
 export default {
   createLostItem,
   getLostItem,
@@ -158,4 +175,5 @@ export default {
   updateLostItem,
   deleteLostItem,
   getFoundItems,
+  updateMessage,
 };

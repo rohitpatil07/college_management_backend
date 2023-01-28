@@ -99,6 +99,16 @@ const getFoundItems = async (req, res) => {
   }
 };
 
+const updateMessage = async (req, res) => {
+  try {
+    const { message_id, text } = req.body;
+    const message = await lostItemService.updateMessage(message_id, text);
+    res.json(message);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
 export default {
   getLostItem,
   getLostItems,
@@ -110,4 +120,5 @@ export default {
   updateLostItem,
   deleteLostItem,
   getFoundItems,
+  updateMessage,
 };

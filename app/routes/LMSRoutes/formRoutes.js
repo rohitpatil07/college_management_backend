@@ -23,12 +23,12 @@ router.post(
 );
 router.post(
   '/addDILO',
-  authenticate(['student','lms_admin']),
+  authenticate(['student', 'lms_admin']),
   lmsadminController.addDILO,
 )
 router.post(
   '/addDILOform',
-  authenticate(['lms_admin']), 
+  authenticate(['lms_admin']),
   lmsadminController.createForm
 )
 
@@ -54,27 +54,27 @@ router.post(
 )
 router.post(
   '/postcomment',
-  authenticate(['student','facilty']),
+  authenticate(['student', 'faculty']),
   subjectController.postComment,
 )
 router.post(
   '/postreply',
-  authenticate(['student','facilty']),
+  authenticate(['student', 'faculty']),
   subjectController.postComment,
 )
 router.post(
   '/updatecomment',
-  authenticate(['student','facilty']),
+  authenticate(['student', 'faculty']),
   subjectController.updateComment,
 )
 router.post(
   '/upvotecomment',
-  authenticate(['student','facilty']),
+  authenticate(['student', 'faculty']),
   subjectController.upvoteComment,
 )
 router.post(
   '/downvotecomment',
-  authenticate(['student','facilty']),
+  authenticate(['student', 'faculty']),
   subjectController.downvoteComment,
 )
 router.get(

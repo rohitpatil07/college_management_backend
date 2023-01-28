@@ -3,10 +3,10 @@ import facultyService from '../../services/LMSServices/facultyService.js';
 import studentService from '../../services/LMSServices/studentService.js';
 
 const addDILO = async (req, res) => {
-  try{
+  try {
     const data = await subjectService.addDILO(req.body);
     res.status(200).json(data);
-  } catch (error){
+  } catch (error) {
     return res.status(422).json(error);
   }
 }
@@ -21,14 +21,14 @@ const closeForum = async (req, res) => {
 }
 
 const createForm = async (req, res) => {
-    try {
-      let form = req.body.form
-      form.DILO=JSON.stringify(form.DILO)
-      const data = await facultyService.createForm(form);
-      res.status(200).json(data);
-  } catch (error){
+  try {
+    let form = req.body.form
+    form.DILO = JSON.stringify(form.DILO)
+    const data = await facultyService.createForm(form);
+    res.status(200).json(data);
+  } catch (error) {
     return res.status(422).json(error);
-    }
+  }
 };
 
 const createBulkStudent = async (req, res) => {
@@ -70,9 +70,9 @@ const downvoteComment = async (req, res) => {
 const postComment = async (req, res) => {
   try {
     let comment = req.body.comment
-    if(comment['reply_to'] == null || comment['reply_to'] == undefined){
+    if (comment['reply_to'] == null || comment['reply_to'] == undefined) {
       comment['reply_to'] = 0
-      comment['replies']=0
+      comment['replies'] = 0
     }
     const data = await studentService.postComment(comment);
     res.status(200).json(data);

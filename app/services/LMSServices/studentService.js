@@ -3,17 +3,17 @@ import sendMail from '../../util/mail.js';
 
 const createAssignmentStudents = async (data) => {
   try {
-      const assignment = await prisma.assignment_submissions.create({
-        data,
-      });
-      return assignment;
+    const assignment = await prisma.assignment_submissions.create({
+      data,
+    });
+    return assignment;
   } catch (error) {
     return error;
   }
 }
 
 const createBulkStudent = async (data) => {
-  try{
+  try {
     const bulkstudents = await prisma.student.createMany({
       data,
     })
@@ -48,7 +48,7 @@ const postComment = async (data) => {
     const comment = await prisma.forum_messages.create({
       data,
     });
-    if(data.reply_to != 0){
+    if (data.reply_to != 0) {
       const reply = await prisma.forum_messages.update({
         where: {
           message_id: data.reply_to
@@ -72,7 +72,7 @@ const updateComment = async (data) => {
       where: {
         message_id: data.message_id
       },
-      data:{
+      data: {
         text: data.text
       },
     });
@@ -84,22 +84,22 @@ const updateComment = async (data) => {
 const upsertForum = async (data) => {
   console.log(data)
   try {
-    if(data.forum_id == null || data.forum_id == undefined){
+    if (data.forum_id == null || data.forum_id == undefined) {
       const forum = await prisma.forum.create({
         data,
         include: {
-          students:{
-            select:{
-              first_name:true,
-              last_name:true,
-              semester:true,
+          students: {
+            select: {
+              first_name: true,
+              last_name: true,
+              semester: true,
             }
           },
-          modules:{
-            select:{
-              subjects:{
-                select:{
-                  subject_name:true,
+          modules: {
+            select: {
+              subjects: {
+                select: {
+                  subject_name: true,
                 }
               }
             }
@@ -125,20 +125,20 @@ const upsertForum = async (data) => {
 
 const updateAssignmentStudents = async (data) => {
   try {
-      const {roll_no, assignment_id}=data
-      const assignment = await prisma.assignment_submissions.update({
-        where: {
-          roll_no_assignment_id:{
-              roll_no, assignment_id,
-            }
-        },
-        data,
-      });
-      return assignment;
+    const { roll_no, assignment_id } = data
+    const assignment = await prisma.assignment_submissions.update({
+      where: {
+        roll_no_assignment_id: {
+          roll_no, assignment_id,
+        }
+      },
+      data,
+    });
+    return assignment;
   } catch (error) {
-      return error;
+    return error;
   }
-}  
+}
 
 const upvoteComment = async (message_id, upvotes) => {
   try {
@@ -160,12 +160,12 @@ const upvoteComment = async (message_id, upvotes) => {
 }
 
 export default {
-    createAssignmentStudents,
-    createBulkStudent,
-    downvoteComment,
-    postComment,
-    updateComment,
-    upsertForum,
-    updateAssignmentStudents,
-    upvoteComment,
-  };
+  createAssignmentStudents,
+  createBulkStudent,
+  downvoteComment,
+  postComment,
+  updateComment,
+  upsertForum,
+  updateAssignmentStudents,
+  upvoteComment,
+};

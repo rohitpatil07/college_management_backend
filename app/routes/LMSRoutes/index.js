@@ -3,7 +3,6 @@ import filterRoutes from './filterRoutes.js';
 import formRoutes from './formRoutes.js';
 import downloadRoutes from './downloadRoutes.js';
 import deleteRoutes from './deleteRoutes.js';
-import prisma from '../../config/prisma.js';
 
 const router = Router();
 

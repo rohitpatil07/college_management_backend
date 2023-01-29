@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import companyService from './companyService.js';
 import studentService from './studentService.js';
+import sendEmail from '../util/mail.js';
 
 const login = async (email, login_password, role) => {
   if (role == 'student') {
@@ -388,7 +389,6 @@ const forgot_password = async (password,token) =>
           e_mail,
           new_password,
         );
-        console.log(response);
         return response;
       }
     } else if (verified.role == 'admin') {
@@ -448,7 +448,6 @@ const forgot_password = async (password,token) =>
           e_mail,
           new_password,
         );
-        console.log(response);
         return response;
       }
     }
@@ -466,7 +465,6 @@ const forgot_mail = async (mail,role) => {
     const message=`Click here to reset password :${link}`
     const email=mail
     const msg=await sendEmail(email,message,subject)
-    console.log(msg)
   }
   catch(error)
   {

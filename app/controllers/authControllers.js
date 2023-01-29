@@ -35,7 +35,6 @@ const forgot_mail = async (req, res) => {
   try{
     const mail = req.body.email;
     const role = req.body.role
-    console.log(role)
     const response = await authService.forgot_mail(mail,role);
     res.json(response)
   }

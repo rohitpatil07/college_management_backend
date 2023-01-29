@@ -31,4 +31,35 @@ const reset_password = async (req, res) => {
   }
 };
 
-export default { login, reset_password };
+const forgot_mail = async (req, res) => {
+  try{
+    const mail = req.body.email;
+    const role = req.body.role
+    console.log(role)
+    const response = await authService.forgot_mail(mail,role);
+    res.json(response)
+  }
+  catch(error)
+  {
+    console.log(error)
+  }
+}
+
+
+const forgot_password = async(req,res) =>
+{
+    try {
+      const auth_token = req.body.headers['Authorization'];
+      const token = auth_token.replace('Bearer ', '');
+      const new_password = req.body.data.new_password;
+      const response = await authService.forgot_password(
+        new_password,
+        token,
+      );
+      res.json(response);
+    } catch (error) {
+      res.json({ error: 'Failed to update password' });
+    }
+}
+
+export default { login, reset_password,forgot_mail,forgot_password };

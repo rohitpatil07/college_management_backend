@@ -45,7 +45,7 @@ const getAssignBySub = async (subject_id) => {
       }
     });
     const assignment = []
-    assign.map(A=>(assignment.push(exclude(A, ['file']))));
+    assign.map(A => (assignment.push(exclude(A, ['file']))));
     return assignment;
   } catch (error) {
     return error;
@@ -64,15 +64,15 @@ const getAssforFacbyID = async (assignment_id) => {
     });
     const assign = []
     const assignment = exclude(assi, ['file']);
-    assignment.student_submissions.map(A=>(assign.push(exclude(A, ['file']))))
-    assignment.student_submissions=assign;
+    assignment.student_submissions.map(A => (assign.push(exclude(A, ['file']))))
+    assignment.student_submissions = assign;
     return assignment;
   } catch (error) {
     return error;
   }
 }
 
-const getAssforStubyID = async (assignment_id,roll_no) => {
+const getAssforStubyID = async (assignment_id, roll_no) => {
   try {
     const assi = await prisma.assignment.findUnique({
       where: {
@@ -80,7 +80,7 @@ const getAssforStubyID = async (assignment_id,roll_no) => {
       },
       include: {
         student_submissions: {
-          where:{
+          where: {
             roll_no: roll_no
           }
         },
@@ -95,46 +95,46 @@ const getAssforStubyID = async (assignment_id,roll_no) => {
   }
 }
 
-const getFacAtt = async (subject_id,date) => {
+const getFacAtt = async (subject_id, date) => {
   try {
     let start_date = new Date(date).toISOString();
     let end_date = new Date(date);
-    end_date.setHours(28,89,59,999);
+    end_date.setHours(28, 89, 59, 999);
     end_date = end_date.toISOString();
-    console.log(start_date,end_date)
+    console.log(start_date, end_date)
     const attendence = await prisma.attendance.findMany({
       where: {
         subject_id: subject_id,
-        date: {gte: start_date, lte: end_date}
+        date: { gte: start_date, lte: end_date }
       },
     });
-    let present=JSON.parse(attendence[0].present);
-    let absent=JSON.parse(attendence[0].absent);
-    console.log(attendence[0].present,present)
+    let present = JSON.parse(attendence[0].present);
+    let absent = JSON.parse(attendence[0].absent);
+    console.log(attendence[0].present, present)
     const presenties = await prisma.students.findMany({
       where: {
         roll_no: { in: present },
       },
-      select:{
-        roll_no:true,
-        first_name:true,
-        last_name:true,
-        division:true,
+      select: {
+        roll_no: true,
+        first_name: true,
+        last_name: true,
+        division: true,
       }
     })
     const absenties = await prisma.students.findMany({
       where: {
         roll_no: { in: absent },
       },
-      select:{
-        roll_no:true,
-        first_name:true,
-        last_name:true,
-        division:true,
+      select: {
+        roll_no: true,
+        first_name: true,
+        last_name: true,
+        division: true,
       }
     })
 
-    let students={date,subject_id,presenties,absenties}
+    let students = { date, subject_id, presenties, absenties }
     return students;
   } catch (error) {
     console.log(error)
@@ -160,8 +160,8 @@ const getDILOs = async (batch, department, semester) => {
       },
     });
     const subjects = {
-      DLO:DLO,
-      ILO:ILO
+      DLO: DLO,
+      ILO: ILO
     }
     return subjects;
   } catch (error) {
@@ -172,7 +172,7 @@ const getDILOs = async (batch, department, semester) => {
 const getDILOform = async (batch, department, semester) => {
   try {
     const form = await prisma.forms.findMany({
-      where:{
+      where: {
         department: department,
         batch: batch,
         semester: semester
@@ -187,7 +187,7 @@ const getDILOform = async (batch, department, semester) => {
 const getDILOformbyID = async (form_id) => {
   try {
     const form = await prisma.forms.findUnique({
-      where:{
+      where: {
         form_id: form_id
       }
     });
@@ -245,11 +245,11 @@ const getForumByModuleId = async (module_id) => {
       where: {
         module_id: module_id
       },
-      include:{
-        students:{
-          select:{
-            first_name:true,
-            last_name:true
+      include: {
+        students: {
+          select: {
+            first_name: true,
+            last_name: true
           }
         }
       }
@@ -266,24 +266,24 @@ const getForumById = async (forum_id) => {
       where: {
         forum_id: forum_id
       },
-      include:{
-        forum_messages:{
-          where:{
+      include: {
+        forum_messages: {
+          where: {
             reply_to: 0,
           },
-          orderBy:{
+          orderBy: {
             votes: "desc"
           }
         },
-        students:{
-          select:{
-            first_name:true,
-            last_name:true
+        students: {
+          select: {
+            first_name: true,
+            last_name: true
           }
         }
       }
     });
-    forum.forum_messages.map((message)=>{message.upvotes=(JSON.parse(message.upvotes));message.downvotes=(JSON.parse(message.downvotes))})
+    forum.forum_messages.map((message) => { message.upvotes = (JSON.parse(message.upvotes)); message.downvotes = (JSON.parse(message.downvotes)) })
     return forum;
   } catch (error) {
     console.log(error)
@@ -317,27 +317,27 @@ const getOneModbyID = async (module_id) => {
   }
 };
 
-const getStuAtt = async (subject_id,roll_no) => {
+const getStuAtt = async (subject_id, roll_no) => {
   try {
     const present = await prisma.attendance.findMany({
       where: {
         subject_id: subject_id,
-        present: {contains: roll_no}
+        present: { contains: roll_no }
       },
-      select:{
-        date:true,
+      select: {
+        date: true,
       }
     });
     const absent = await prisma.attendance.findMany({
       where: {
         subject_id: subject_id,
-        absent: {contains: roll_no}
+        absent: { contains: roll_no }
       },
-      select:{
-        date:true,
+      select: {
+        date: true,
       }
     })
-    const attendence = {present,absent}
+    const attendence = { present, absent }
     return attendence;
   } catch (error) {
     console.log(error)
@@ -345,8 +345,8 @@ const getStuAtt = async (subject_id,roll_no) => {
   }
 }
 
-const getStudentsbyBatch = async (department,division,batch,semester) => {
-  try{
+const getStudentsbyBatch = async (department, division, batch, semester) => {
+  try {
     const students = await prisma.students.findMany({
       where: {
         department: department,
@@ -354,14 +354,14 @@ const getStudentsbyBatch = async (department,division,batch,semester) => {
         batch: batch,
         semester: semester
       },
-      select:{
-        roll_no:true,
-        first_name:true,
-        last_name:true,
-        email:true,
-        gender:true,
-        phone_number:true,
-        division:true,
+      select: {
+        roll_no: true,
+        first_name: true,
+        last_name: true,
+        email: true,
+        gender: true,
+        phone_number: true,
+        division: true,
       }
     })
     return students;
@@ -381,14 +381,14 @@ const getStudentsbySubID = async (subject_id) => {
           },
         },
       },
-      select:{
-        roll_no:true,
-        first_name:true,
-        last_name:true,
-        email:true,
-        gender:true,
-        phone_number:true,
-        division:true,
+      select: {
+        roll_no: true,
+        first_name: true,
+        last_name: true,
+        email: true,
+        gender: true,
+        phone_number: true,
+        division: true,
       }
     });
     return students;
@@ -425,8 +425,8 @@ const getSubmissionsforStu = async (roll_no) => {
   }
 }
 
-const getSubforFaculty = async (email,batch,semester) => {
-  try{
+const getSubforFaculty = async (email, batch, semester) => {
+  try {
     const subjects = await prisma.subjects.findMany({
       where: {
         email: email,
@@ -434,8 +434,8 @@ const getSubforFaculty = async (email,batch,semester) => {
         semester: semester,
       },
     });
-    return subjects;    
-  } catch(error){
+    return subjects;
+  } catch (error) {
     return error;
   }
 }
@@ -446,16 +446,16 @@ const getSubjectbyID = async (subject_id) => {
       where: {
         subject_id: subject_id,
       },
-      include:{
-        faculty:{
-          select:{
-            first_name:true,
-            middle_name:true,
-            last_name:true,
-            email:true,
-            phone_number:true,
-            gender:true,
-            designation:true,
+      include: {
+        faculty: {
+          select: {
+            first_name: true,
+            middle_name: true,
+            last_name: true,
+            email: true,
+            phone_number: true,
+            gender: true,
+            designation: true,
           }
         }
       }
@@ -470,7 +470,7 @@ const getSubjectbyMultipleID = async (subject_id) => {
   try {
     const subjects = await prisma.subjects.findMany({
       where: {
-        subject_id: {in: subject_id},
+        subject_id: { in: subject_id },
       },
     });
     return subjects;
@@ -481,20 +481,20 @@ const getSubjectbyMultipleID = async (subject_id) => {
 
 const getSubjectofStudent = async (roll_no) => {
   try {
-    const {subjects} = await prisma.students.findUnique({
+    const { subjects } = await prisma.students.findUnique({
       where: {
         roll_no: roll_no,
       },
-      select:{
-        subjects:{
-          select:{
-            subject:true
+      select: {
+        subjects: {
+          select: {
+            subject: true
           }
         }
       }
     });
     let finalsubject = [];
-    subjects.map(subject=>{finalsubject.push(subject.subject)})
+    subjects.map(subject => { finalsubject.push(subject.subject) })
     return finalsubject;
   } catch (error) {
     return error;
@@ -539,7 +539,7 @@ const getReplies = async (message_id) => {
       where: {
         reply_to: message_id,
       },
-      orderBy:{
+      orderBy: {
         upvotes: "desc"
       }
     });
@@ -555,6 +555,22 @@ function exclude(A, keys) {
     delete A[key]
   }
   return A
+}
+
+const getAttBySubId = async (subject_id) => {
+  try {
+    const attendance = await prisma.attendance.findMany({
+      where: {
+        subject_id: subject_id,
+      },
+      orderBy: {
+        attendance_id: "desc"
+      }
+    });
+    return attendance;
+  } catch (error) {
+    return error;
+  }
 }
 
 export default {
@@ -584,7 +600,8 @@ export default {
   getSubjectbyID,
   getSubjectbyMultipleID,
   getSubjectofStudent,
-//  getTopComments,
+  //  getTopComments,
   getReadingMaterialByModuleId,
   getReplies,
+  getAttBySubId
 };

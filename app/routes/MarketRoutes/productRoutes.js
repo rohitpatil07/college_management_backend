@@ -47,7 +47,7 @@ router.post(
 
 router.post(
   '/delete',
-  authenticate(['student,faculty']),
+  authenticate(['student', 'faculty']),
   productControllers.deleteProduct,
 );
 

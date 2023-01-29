@@ -11,7 +11,8 @@ const getProducts = async (req, res) => {
 
 const getProduct = async (req, res) => {
   try {
-    const products = await productService.getProduct(req.body);
+    const { product_id } = req.body;
+    const products = await productService.getProduct(product_id);
     res.json(products);
   } catch (error) {
     res.json(error);

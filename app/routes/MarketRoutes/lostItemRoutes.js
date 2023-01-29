@@ -26,7 +26,7 @@ router.post(
 );
 router.post(
   '/addmessage',
-  //   authenticate(['student,faculty,admin,lms_admin']),
+   authenticate(['student,faculty,admin,lms_admin']),
   lostItemControllers.createMessage,
 );
 router.post('/lostitemthread', lostItemControllers.getThread);
@@ -52,7 +52,7 @@ router.post(
 );
 router.post(
   '/updatemessage',
-  //   authenticate(['student', 'faculty']),
+  authenticate(['student', 'faculty']),
   lostItemControllers.updateMessage,
 );
 

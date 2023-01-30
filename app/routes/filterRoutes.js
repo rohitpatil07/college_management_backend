@@ -10,6 +10,7 @@ router.get('/student/dept/:dept',authenticate(["admin"]), filterControllers.getS
 router.get('/student/applied/:roll_no',authenticate(["student"]), filterControllers.getAppliedDrives);
 router.get('/student/offer/:roll_no',authenticate(["student","admin"]), filterControllers.getRequestedOffers);
 router.get('/drive',authenticate(["admin"]),filterControllers.getAllDrives);
+router.get('/onedrive/:drive_id',authenticate(["admin","company"]),filterControllers.getDrive);
 router.get('/edrive/:roll_no',authenticate(["student"]),filterControllers.getEligibleDrives);
 router.post('/dashboard',authenticate(["admin"]),filterControllers.getDashboard);
 router.post(

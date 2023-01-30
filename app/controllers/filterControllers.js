@@ -71,6 +71,16 @@ const getDashboard = async (req, res) => {
   }
 };
 
+const getDrive = async (req, res) => {
+  try {
+    const drive_id = parseInt(req.params.drive_id);
+    const drive = await filterService.getDrive(drive_id);
+    res.json(drive);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 const getAllDrives = async (req, res) => {
   try {
     const drives = await filterService.getAllDrives();
@@ -228,6 +238,7 @@ export default {
   getStudentsForDrive,
   getPaginatedDashboard,
   getDashboard,
+  getDrive,
   getAllDrives,
   getEligibleDrives,
   getAllCompanies,

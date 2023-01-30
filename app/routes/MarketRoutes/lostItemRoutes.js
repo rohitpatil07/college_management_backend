@@ -56,4 +56,6 @@ router.post(
   lostItemControllers.updateMessage,
 );
 
+router.post('/deletemessage', lostItemControllers.deleteMessage);
+
 export default router;

@@ -1,4 +1,5 @@
 import downloadService from '../../services/LMSServices/downloadService.js';
+import filterService from '../../services/LMSServices/filterService.js';
 import fs from 'fs';
 import AdmZip from 'adm-zip';
 
@@ -8,6 +9,22 @@ const downloadAssignment = async (req, res) => {
       parseInt(req.params.assignment_id),
     );
     await downFunc(file_data, req, res);
+  } catch (error) {
+    res.status(500).json({error: "Internal Server Error"});
+  }
+}
+
+const downloadAttendance = async (req, res) => {
+  try {
+    const att = await filterService.getAttBySubId(parseInt(req.params.subject_id));
+    const sub = await filterService.getStudentsbySubID(parseInt(req.params.subject_id));
+    const filename = await downloadService.createExcel (att,sub)
+    res.download(filename, { dotfiles: 'deny' }, function (err) {
+      if (err) {
+        return err;
+      }
+      fs.unlinkSync(filename);
+    });
   } catch (error) {
     res.status(500).json({error: "Internal Server Error"});
   }
@@ -79,6 +96,7 @@ const downFunc = async (fileData, req, res) => {
 
 export default {
   downloadAssignment,
+  downloadAttendance,
   downloadMaterial,
   downloadSubmission,
   downloadZip,

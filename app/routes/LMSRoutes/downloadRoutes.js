@@ -27,4 +27,10 @@ router.get(
   authenticate(['faculty']),
   downloadControllers.downloadZip,
 )
+
+router.get(
+  '/getattendance/:subject_id',
+  authenticate(['faculty']),
+  downloadControllers.downloadAttendance,
+)
 export default router;

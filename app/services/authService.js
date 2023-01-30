@@ -348,13 +348,12 @@ const reset_password = async (email, password, old_password, token) => {
   }
 };
 
-const forgot_password = async (password,token) =>
-{
+const forgot_password = async (password, token) => {
   try {
     //verify token
-    const pass=password
+    const pass = password
     const verified = jwt.verify(token, config.JWT_SECRET);
-    const e_mail=verified.email
+    const e_mail = verified.email
     if (!verified) {
       return 'Error Authenticating your account';
     }
@@ -378,7 +377,7 @@ const forgot_password = async (password,token) =>
           last_name: true,
         },
       });
-      if (student_data.length==0) {
+      if (student_data.length == 0) {
         return 'Invalid Credentials';
       }
       //update pass if matched
@@ -457,19 +456,18 @@ const forgot_password = async (password,token) =>
   }
 }
 
-const forgot_mail = async (mail,role) => {
-  try{
-    const subject="Password Reset"
-    let token = jwt.sign({ email: mail ,role:role}, config.JWT_SECRET);
-    const link=`http://localhost:3000/forgotpassword?token=${token}`
-    const message=`Click here to reset password :${link}`
-    const email=mail
-    const msg=await sendEmail(email,message,subject)
+const forgot_mail = async (mail, role) => {
+  try {
+    const subject = "Password Reset"
+    let token = jwt.sign({ email: mail, role: role }, config.JWT_SECRET);
+    const link = `http://localhost:3000/forgotpassword?token=${token}`
+    const message = `Click here to reset password :${link}`
+    const email = mail
+    const msg = await sendEmail(email, message, subject)
   }
-  catch(error)
-  {
+  catch (error) {
     console.log(error)
   }
 }
 
-export default { login, reset_password ,forgot_password,forgot_mail };
+export default { login, reset_password, forgot_password, forgot_mail };

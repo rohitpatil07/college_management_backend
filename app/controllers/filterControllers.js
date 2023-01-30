@@ -221,6 +221,14 @@ const getAllOffers = async (req, res) => {
   }
 };
 
+const getCompDriveData = async (req, res) => {
+  try {
+    const drive = await filterService.getCompanyDriveData();
+    res.json(drive);
+  } catch (error) {
+    res.json(error);
+  }
+};
 export default {
   getAllStudents,
   getStudent,
@@ -240,4 +248,5 @@ export default {
   getAppliedDrives,
   getRequestedOffers,
   getAllOffers,
+  getCompDriveData
 };

@@ -500,6 +500,35 @@ const getMultipleOffersCount = async (roll_no) => {
   }
 };
 
+const getCompanyDriveData = async () => {
+  try {
+    const getDrive = await prisma.drives.findMany({
+      select: {
+        role: true,
+        company_id: true,
+        package: true,
+        drive_id: true
+      }
+    })
+    const getCompany = await prisma.company.findMany({
+      select: {
+        company_id: true,
+        company_name: true
+      }
+    })
+    for (let i = 0; i < getCompany.length; i++) {
+      getCompany[i]['drive'] = []
+      for (let j = 0; j < getDrive.length; j++) {
+        if (getCompany[i]['company_id'] == getDrive[j]['company_id']) {
+          getCompany[i]['drive'].push(getDrive[j])
+        }
+      }
+    }
+    return getCompany;
+  } catch (error) {
+    res.json(error);
+  }
+};
 export default {
   getAllStudents,
   getStudent,
@@ -520,4 +549,5 @@ export default {
   getAllOffers,
   getOffersCount,
   getMultipleOffersCount,
+  getCompanyDriveData
 };

@@ -63,6 +63,15 @@ const getAssforStubyID = async (req, res) => {
   }
 }
 
+const getAttendanceBySubId = async (req, res) => {
+  try {
+    const data = await filterService.getAttBySubId(parseInt(req.params.subject_id));
+    res.json(data);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 const getFacAtt = async (req, res) => {
   try {
     const data = await filterService.getFacAtt(req.body.subject_id, req.body.date);
@@ -311,6 +320,7 @@ export default {
   getAssignBySub,
   getAssforFacbyID,
   getAssforStubyID,
+  getAttendanceBySubId,
   getFacAtt,
   getDILOs,
   getDILOform,

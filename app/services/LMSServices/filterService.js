@@ -95,6 +95,22 @@ const getAssforStubyID = async (assignment_id,roll_no) => {
   }
 }
 
+const getAttBySubId = async (subject_id) => {
+  try {
+    const attendance = await prisma.attendance.findMany({
+      where: {
+        subject_id: subject_id,
+      },
+      orderBy: {
+        attendance_id: "desc"
+      }
+    });
+    return attendance;
+  } catch (error) {
+    return error;
+  }
+}
+
 const getFacAtt = async (subject_id,date) => {
   try {
     let start_date = new Date(date).toISOString();
@@ -564,6 +580,7 @@ export default {
   getAssignBySub,
   getAssforFacbyID,
   getAssforStubyID,
+  getAttBySubId,
   getFacAtt,
   getDILOs,
   getDILOform,

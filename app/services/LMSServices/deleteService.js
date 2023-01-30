@@ -31,7 +31,21 @@ const deleteForum = async (forum_id) => {
   }
 }
 
+const deleteForm = async (form_id) => {
+  try {
+    const data = await prisma.forms.delete({
+      where:{
+        form_id : form_id
+      }
+    });
+    return { success: 'Form deleted.' };
+  } catch (error) {
+    return { error: 'Error deleting form' };
+  }
+}
+
 export default {
     deleteDILO,
     deleteForum,
+    deleteForm,
   };

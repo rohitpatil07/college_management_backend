@@ -112,6 +112,7 @@ model offers {
   roll_no      String   @db.VarChar(10)
   package      Decimal? @db.Decimal(6, 2)
   offer_letter String?  @db.LongText
+  role        String?  @db.VarChar(100)  
   drive_id     Int
   company_name String   @db.VarChar(50)
   createdAt     DateTime @default(now())

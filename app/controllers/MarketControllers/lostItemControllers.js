@@ -109,6 +109,16 @@ const updateMessage = async (req, res) => {
   }
 };
 
+const deleteMessage = async (req, res) => {
+  try {
+    const { message_id } = req.body;
+    const message = await lostItemService.deleteMessage(message_id);
+    res.json(message);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
 export default {
   getLostItem,
   getLostItems,
@@ -121,4 +131,5 @@ export default {
   deleteLostItem,
   getFoundItems,
   updateMessage,
+  deleteMessage,
 };

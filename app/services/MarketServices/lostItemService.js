@@ -164,6 +164,19 @@ const updateMessage = async (message_id, text) => {
   }
 };
 
+const deleteMessage = async (message_id) => {
+  try {
+    const message = await prisma.messages.delete({
+      where: {
+        message_id,
+      },
+    });
+    return message;
+  } catch (error) {
+    return 'Error deleting message';
+  }
+};
+
 export default {
   createLostItem,
   getLostItem,
@@ -176,4 +189,5 @@ export default {
   deleteLostItem,
   getFoundItems,
   updateMessage,
+  deleteMessage,
 };

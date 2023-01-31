@@ -1,4 +1,5 @@
 import prisma from '../../config/prisma.js';
+import password from '../authService.js';
 
 const closeForum = async (forum_id) => {
   console.log(forum_id);
@@ -63,6 +64,7 @@ const upsertAssignmentTeachers = async (data) => {
 
 const upsertFaculty = async (data) =>{
     try{
+        data.password = await password.hash_password(data.password);
         const faculty = await prisma.Faculty.upsert({
             where:{
                 email : data.email 
@@ -70,7 +72,7 @@ const upsertFaculty = async (data) =>{
               update: data,
               create: data,
         })
-        return faculty
+        return { message: "Faculty Created/Updated Successfully"}
     } catch (error){
         return res.json(error);
     }

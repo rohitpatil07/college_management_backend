@@ -347,4 +347,4 @@ const reset_password = async (email, password, old_password, token) => {
   }
 };
 
-export default { login, reset_password };
+export default { login, reset_password, hash_password };

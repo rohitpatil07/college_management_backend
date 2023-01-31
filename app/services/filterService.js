@@ -154,6 +154,20 @@ const getDashboard = async (select_fields, queries) => {
     return error;
   }
 };
+
+const getDrive = async (drive_id) => {
+  try {
+    let drive_data = await prisma.drives.findUnique({
+      where: {
+        drive_id: drive_id,
+      },
+    });
+    return drive_data;
+  } catch (error) {
+    return error;
+  }
+}
+
 const getAllDrives = async () => {
   try {
     let available_drives = await prisma.drives.findMany({});
@@ -536,6 +550,7 @@ export default {
   getStudentsForDrive,
   getPaginatedDashboard,
   getDashboard,
+  getDrive,
   getAllDrives,
   getEligibleData,
   getAllCompanies,

@@ -24,14 +24,15 @@ const upsertCompany = async (data) => {
   }
 };
 
-const upsertDrive = async (data) => {
+const upsertDrive = async (dota) => {
   try {
-    let { subject, message, queries, ...data } = data;
+    let { subject, message, queries, ...data } = dota;
     if(data.drive_id==null||data.drive_id==undefined){
       await prisma.drives.create({
         data,
       });
       let students = await filterService.getDashboard({email:true},queries)
+      console.log(students)
       const emails = students.map((student) => student.email);
       console.log(emails)
       //sendMail(['sohamtalekar7@gmail.com'], 'Drive Added', 'This is a test mail')
@@ -44,9 +45,14 @@ const upsertDrive = async (data) => {
         },
         data,
       })
+      let students = await filterService.getDashboard({email:true},queries)
+      const emails = students.map((student) => student.email);
+      console.log(emails)
+      //sendMail(['sohamtalekar7@gmail.com'], 'Drive Added', 'This is a test mail')
       return { success: 'Drive updated' };
     }
   } catch (error) {
+    console.log(error)
     return { error: 'Error adding Drive' };
   }
 };

@@ -67,7 +67,6 @@ const getStudentsByDept = async (department) => {
 };
 
 const getStudentsForDrive = async (drive_id) => {
-  console.log(drive_id);
   try {
     let student_data = await prisma.students.findMany({
       where: {
@@ -77,13 +76,16 @@ const getStudentsForDrive = async (drive_id) => {
           },
         },
       },
-      include: {
-        resume_data: true,
-        academic_info: true,
-        work_experience: true,
-        projects: true,
-        extra_curricular: true,
-      },
+      select: {
+        roll_no: true,
+        first_name: true,
+        middle_name: true,
+        last_name: true,
+        email: true,
+        phone_number: true,
+        department: true,
+        semester: true,
+      }
     });
     let students = [];
     student_data.forEach((student_info) => {

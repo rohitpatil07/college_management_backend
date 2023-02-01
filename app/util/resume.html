@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,192 +11,225 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins" rel="stylesheet">
 </head>
 <style>
-body{
-    -webkit-margin-before:0;
-    -webkit-margin-after:0;
-    -webkit-margin-start:0;
-    -webkit-margin-end:0;
-    -webkit-padding-before:0;
-    -webkit-padding-end:0;
-    -webkit-padding-after:0;
-    -webkit-padding-start:0;
-    padding:0;
-    margin:0;
-    box-sizing: border-box;
-	font-family: "Poppins", sans-serif;
-    font-style: normal;
-    -webkit-font-family: "Poppins", sans-serif;
-    -webkit-font-style: normal;
-}
-body * {
-  font-family: inherit;
-}
-header{
-    background-color: #9f1d37;
-    display: flex;
-    display: -webkit-flex;
-    justify-content: space-between;
-    -webkit-justify-content:space-between;
-    width:100%;
-    height:80px;
-    font-size: 8px;
-    color:white;
-}
-.user_details{
-    width:70%;
-    display: flex;
-    display: -webkit-flex;
-}
-.user_info{
-    width:70%;  
-}
-.uinfo{
-    -webkit-margin-before:0;
-    -webkit-margin-after:0;
-    -webkit-margin-start:0;
-    -webkit-margin-end:0;
-    margin:0;
-}
-.user_image{
-    width: 13%;
-    height: 50px;
-    border-radius: 50%;
-    position: relative;
-    top: 41px;
-    left: -25px;
-    background-image: url("data:image/jpg;base64,{{pfp}}");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-}
-.logo{
-    height:50px;
-    width: 20%;
-    margin-right:2%;
-    background-image: url("data:image/jpg;base64,{{logo}}");
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-.black_strip{
-    background-color: black;
-    width: 100%;
-    height:5px;
-}
+    body {
+        -webkit-margin-before: 0;
+        -webkit-margin-after: 0;
+        -webkit-margin-start: 0;
+        -webkit-margin-end: 0;
+        -webkit-padding-before: 0;
+        -webkit-padding-end: 0;
+        -webkit-padding-after: 0;
+        -webkit-padding-start: 0;
+        padding: 0;
+        margin: 1.5rem;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+        font-style: normal;
+        -webkit-font-family: "Poppins", sans-serif;
+        -webkit-font-style: normal;
+    }
 
-.career_obj{
-    background-color: #f6fbff;
-    width:100%;
-    height:40px;
-    display: flex;
-    display: -webkit-flex;
-}
-.career_obj_div{
-    width:35%;
-}
-.career_obj_h1{
-    font-size: 13px;
-    font-weight: bold;
-    color:#9f1d37;
-}
-.career_obj_p{
-    font-size: 10px;
-}
-section{
-    width: 100%;
-    padding-top: 15px;
-    display: flex;
-    display: -webkit-flex;
-}
-.left_section{
-    width:40%;
-    height:695px;
-}
-.right_section{
-    width:60%;
-    height:695px;
-    border-left: 2px solid #9f1d37;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url("data:image/jpg;base64,{{background}}");
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-.right_section ul{
-    margin:0;
-}
-.right_section li{
-    margin: 0;
-}
-.left_section_div{
-    margin-right: 5%;
-}
-.left_section_h1{
-    margin: 0;
-    font-size: 13px;
-    width:95%;
-    color: #f6fbff;
-    background-color: #9f1d37;
-}
-.left_section_div h1{
-    width:100%;
-}
-.left_section_div ul{
-    margin:0;
-}
-table,
-th,
-td {
-	border: 2px solid black;
-	border-collapse: collapse;
-}
-table{
-    font-size: 10px;
-    width:94%;
-    margin:1%;
-}
-td{
-    text-align: center;
-}
-.cgpa{
-    font-size: 11.5px;
-}
-li{
-    font-size: 10px;
-}
-.h_sub_heading{
-    font-weight: bold;
-}
-.h_sub_heading_date{
-    font-size:8px;
-}
-.right_section_h1{
-    margin: 0;
-    font-size: 13px;
-    width:95%;
-    color: #9f1d37;
-}
-.sub_heading{
-    margin: 0;
-    font-size: 11.5px;
-    color:#9f1d37;
-}
-.dot{
-    border: 2px solid black;
-    border-radius: 50%;
-    position: relative;
-    left: -1.5%;
-    background-color: black;
-    height: 5px;
-    width: 5px;
-}
-.sub_heading_dot{
-    border: 2px solid black;
-    border-radius: 50%;
-    position: relative;
-    left: -1.3%;
-    background-color: black;
-    height: 2px;
-    width: 2px; 
-}
+    body * {
+        font-family: inherit;
+    }
+
+    header {
+        background-color: #9f1d37;
+        display: flex;
+        display: -webkit-flex;
+        justify-content: space-between;
+        -webkit-justify-content: space-between;
+        width: 100%;
+        height: 80px;
+        font-size: 8px;
+        color: white;
+    }
+
+    .user_details {
+        width: 70%;
+        display: flex;
+        padding: 5px;
+        display: -webkit-flex;
+    }
+
+    .user_info {
+        padding: 2px;
+        width: 70%;
+    }
+
+    .uinfo {
+        -webkit-margin-before: 0;
+        -webkit-margin-after: 0;
+        -webkit-margin-start: 0;
+        -webkit-margin-end: 0;
+        margin: 0;
+    }
+
+    .user_image {
+        width: 13%;
+        height: 50px;
+        border-radius: 50%;
+        position: relative;
+        top: 41px;
+        left: -25px;
+        background-image: url("data:image/jpg;base64,{{pfp}}");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .logo {
+        height: 50px;
+        width: 20%;
+        margin-right: 2%;
+        background-image: url("data:image/jpg;base64,{{logo}}");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .black_strip {
+        background-color: black;
+        width: 100%;
+        height: 5px;
+    }
+
+    .career_obj {
+        background-color: #f6fbff;
+        width: 100%;
+        height: 40px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        display: -webkit-flex;
+    }
+
+    .career_obj_h1 {
+        font-size: 13px;
+        font-weight: bold;
+        color: #9f1d37;
+    }
+
+    .career_obj_p {
+        padding: 0px 5px 0 5px;
+        font-size: 10px;
+    }
+
+    section {
+        width: 100%;
+        padding-top: 15px;
+        display: flex;
+        display: -webkit-flex;
+    }
+
+    .left_section {
+        width: 40%;
+        height: 695px;
+    }
+
+    .right_section {
+        width: 60%;
+        height: 695px;
+        border-left: 2px solid #9f1d37;
+        background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url("data:image/jpg;base64,{{background}}");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .right_section ul {
+        margin: 0;
+    }
+
+    .right_section li {
+        margin: 0;
+    }
+
+    .left_section_div {
+        margin-right: 5%;
+    }
+
+    .left_section_h1 {
+        margin: 0;
+        font-size: 13px;
+        width: 95%;
+        color: #f6fbff;
+        background-color: #9f1d37;
+    }
+
+    .left_section_div h1 {
+        width: 100%;
+    }
+
+    .left_section_div ul {
+        margin: 0;
+    }
+
+    table,
+    th,
+    td {
+        border: 2px solid black;
+        border-collapse: collapse;
+    }
+
+    table {
+        font-size: 10px;
+        width: 94%;
+        margin: 1%;
+    }
+
+    td {
+        text-align: center;
+    }
+
+    .cgpa {
+        font-size: 11.5px;
+    }
+
+    li {
+        font-size: 10px;
+    }
+
+    .h_sub_heading {
+        font-weight: bold;
+    }
+
+    .h_sub_heading_date {
+        font-size: 8px;
+    }
+
+    .right_section_h1 {
+        margin: 0;
+        font-size: 13px;
+        width: 95%;
+        color: #9f1d37;
+    }
+
+    .sub_heading {
+        margin: 0;
+        font-size: 11.5px;
+        color: #9f1d37;
+    }
+
+    .dot {
+        border: 2px solid black;
+        border-radius: 50%;
+        position: relative;
+        left: -1.5%;
+        background-color: black;
+        height: 5px;
+        width: 5px;
+    }
+
+    .sub_heading_dot {
+        border: 2px solid black;
+        border-radius: 50%;
+        position: relative;
+        left: -1.3%;
+        background-color: black;
+        height: 2px;
+        width: 2px;
+    }
 </style>
+
 <body>
     {{#each users}}
     <header>
@@ -213,9 +247,7 @@ li{
     </header>
     <div class="black_strip"></div>
     <div class="career_obj">
-        <div class="career_obj_div">
-            <h1 class="career_obj_h1">Career Objective</h1>
-        </div>
+        <h1 class="career_obj_h1">Career Objective</h1>
         <h3 class="career_obj_p">{{this.resume_data.career_obj}}</h3>
     </div>
     <section>
@@ -226,27 +258,27 @@ li{
                     <tr>
                         <td>BE</td>
                         <td></td>
-                        <td>Sem 7<br/>{{this.academic_info.sem7_pointer}}</td>
-                        <td>Sem 8<br/>{{this.academic_info.sem8_pointer}}</td>
+                        <td>Sem 7<br />{{this.academic_info.sem7_pointer}}</td>
+                        <td>Sem 8<br />{{this.academic_info.sem8_pointer}}</td>
                         <td class="cgpa" rowspan="4">{{this.academic_info.cgpa}}</td>
                     </tr>
                     <tr>
                         <td>TE</td>
                         <td></td>
-                        <td>Sem 5<br/>{{this.academic_info.sem5_pointer}}</td>
-                        <td>Sem 6<br/>{{this.academic_info.sem6_pointer}}</td>
+                        <td>Sem 5<br />{{this.academic_info.sem5_pointer}}</td>
+                        <td>Sem 6<br />{{this.academic_info.sem6_pointer}}</td>
                     </tr>
                     <tr>
                         <td>SE</td>
                         <td></td>
-                        <td>Sem 3<br/>{{this.academic_info.sem3_pointer}}</td>
-                        <td>Sem 4<br/>{{this.academic_info.sem4_pointer}}</td>
+                        <td>Sem 3<br />{{this.academic_info.sem3_pointer}}</td>
+                        <td>Sem 4<br />{{this.academic_info.sem4_pointer}}</td>
                     </tr>
                     <tr>
                         <td>FE</td>
                         <td></td>
-                        <td>Sem 1<br/>{{this.academic_info.sem1_pointer}}</td>
-                        <td>Sem 2<br/>{{this.academic_info.sem2_pointer}}</td>
+                        <td>Sem 1<br />{{this.academic_info.sem1_pointer}}</td>
+                        <td>Sem 2<br />{{this.academic_info.sem2_pointer}}</td>
                     </tr>
                     <tr>
                         <td>Class X11</td>
@@ -273,7 +305,7 @@ li{
                     <li>{{this.resume_data.acad_achievement_two}}</li>
                     {{/ifCond}} {{#ifCond this.resume_data.acad_achievement_three "!=" null}}
                     <li>{{this.resume_data.acad_achievement_three}}</li>
-                    {{/ifCond}} 
+                    {{/ifCond}}
                 </ul>
             </div>
             <div class="left_section_div">
@@ -288,16 +320,16 @@ li{
             </div>
             <div class="left_section_div" style="margin-top:0.3em;">
                 {{#ifCond this.extra_curricular.length "!=" 0}}
-                    <h1 class="left_section_h1">Extra curricular Achievements</h1>
+                <h1 class="left_section_h1">Extra curricular Achievements</h1>
                 {{/ifCond}}
-                    {{#each this.extra_curricular}}
-                    <div>
-                        <p>{{this.pos_of_res}}</p>
-                        <ul>
-                            <li>{{this.description}} {{this.activity_month}} {{this.activity_year}}</li>    
-                        </ul>
-                    </div>
-                    {{/each}}
+                {{#each this.extra_curricular}}
+                <div>
+                    <p>{{this.pos_of_res}}</p>
+                    <ul>
+                        <li>{{this.description}} {{this.activity_month}} {{this.activity_year}}</li>
+                    </ul>
+                </div>
+                {{/each}}
             </div>
         </div>
         <div class="right_section">
@@ -305,27 +337,34 @@ li{
                 {{#ifCond this.resume_data.certificate_one "!=" null}}
                 <div style="display:flex;display: -webkit-flex; align-items:center;-webkit-align-items:center;">
                     <span class="dot"></span>
-                <h1 class="right_section_h1">Certifications ▶▶▶</h1>
+                    <h1 class="right_section_h1">Certifications ▶▶▶</h1>
                 </div>
                 {{/ifCond}}
                 <ul>
                     {{#ifCond this.resume_data.certificate_one "!=" null}}
-                    <li>{{this.resume_data.certificate_one}} <br/><bold class="h_sub_heading_date">{{this.resume_data.certificate_one_completion_date}}</bold></li>
+                    <li>{{this.resume_data.certificate_one}} <br />
+                        <bold class="h_sub_heading_date">{{this.resume_data.certificate_one_completion_date}}</bold>
+                    </li>
                     {{/ifCond}} {{#ifCond this.resume_data.certificate_two "!=" null}}
-                    <li>{{this.resume_data.certificate_two}} <br/><bold class="h_sub_heading_date">{{this.resume_data.certificate_two_completion_date}}</bold></li>
+                    <li>{{this.resume_data.certificate_two}} <br />
+                        <bold class="h_sub_heading_date">{{this.resume_data.certificate_two_completion_date}}</bold>
+                    </li>
                     {{/ifCond}} {{#ifCond this.resume_data.certificate_three "!=" null}}
-                    <li>{{this.resume_data.certificate_three}} <br/><bold class="h_sub_heading_date">{{this.resume_data.certificate_three_completion_date}}</bold></li>
+                    <li>{{this.resume_data.certificate_three}} <br />
+                        <bold class="h_sub_heading_date">{{this.resume_data.certificate_three_completion_date}}</bold>
+                    </li>
                     {{/ifCond}}
                 </ul>
             </div>
             <div>
                 {{#ifCond this.projects.length "!=" 0}}
                 {{#ifCond this.work_experience.length "!=" 0}}
-                <div style="display:flex;display: -webkit-flex; align-items:center;-webkit-align-items:center; margin-top:0.3em;">
+                <div
+                    style="display:flex;display: -webkit-flex; align-items:center;-webkit-align-items:center; margin-top:0.3em;">
                     <span class="dot"></span>
                     <h1 class="right_section_h1"> Projects and internships ▶▶▶</h1>
                 </div>
-				{{/ifCond}}
+                {{/ifCond}}
                 {{/ifCond}}
                 <div>
                     {{#ifCond this.projects.length "!=" 0}}
@@ -333,20 +372,29 @@ li{
                         <span class="sub_heading_dot"></span>
                         <h3 class="sub_heading">Projects </h3>
                     </div>
-                        {{#each this.projects}}
-                        <li><bold class="h_sub_heading">{{this.proj_name}}</bold><br/>{{this.role}}<br/>{{this.proj_desc}}<br/><bold class="h_sub_heading_date">{{this.tech_stack}}</bold></li>
-                        {{/each}}{{/ifCond}}
-				</div>
-				<div>
+                    {{#each this.projects}}
+                    <li>
+                        <bold class="h_sub_heading">{{this.proj_name}}</bold>
+                        <br />{{this.role}}<br />{{this.proj_desc}}<br />
+                        <bold class="h_sub_heading_date">{{this.tech_stack}}</bold>
+                    </li>
+                    {{/each}}{{/ifCond}}
+                </div>
+                <div>
                     {{#ifCond this.work_experience.length "!=" 0}}
-					<div style="display:flex;display: -webkit-flex; align-items:center;-webkit-align-items:center;">
+                    <div style="display:flex;display: -webkit-flex; align-items:center;-webkit-align-items:center;">
                         <span class="sub_heading_dot"></span>
                         <h3 class="sub_heading">Internships</h3>
-                    </div>             
-                        {{#each this.work_experience}}
-                        <li><bold class="h_sub_heading">{{this.company_name}}</bold><br/>{{this.role}}<br/>{{this.description}}<br/><bold class="h_sub_heading_date">{{this.start_month}}-{{this.year}} to {{this.end_month}}{{this.year}}</bold></li>
-                        {{/each}}{{/ifCond}}
-				</div>
+                    </div>
+                    {{#each this.work_experience}}
+                    <li>
+                        <bold class="h_sub_heading">{{this.company_name}}</bold>
+                        <br />{{this.role}}<br />{{this.description}}<br />
+                        <bold class="h_sub_heading_date">{{this.start_month}}-{{this.year}} to
+                            {{this.end_month}}{{this.year}}</bold>
+                    </li>
+                    {{/each}}{{/ifCond}}
+                </div>
             </div>
             <!-- <div>
                 {{#ifCond this.other_info.pos_of_res_one "!=" null}}
@@ -369,4 +417,5 @@ li{
     </section>
     {{/each}}
 </body>
+
 </html>

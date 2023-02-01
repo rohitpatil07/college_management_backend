@@ -96,12 +96,14 @@ const createMessage = async (message_data) => {
 
 const getThread = async (item_id) => {
   try {
+    console.log(item_id , typeof item_id)
     const thread = await prisma.messages.findMany({
       where: {
-        OR: [{ reply_to: 0 }, { reply_to: null }],
-        item_id: item_id,
+       reply_to: 0,
+       item_id: item_id,
       },
     });
+    console.log(thread)
     return thread;
   } catch (error) {
     return 'Could not load thread';

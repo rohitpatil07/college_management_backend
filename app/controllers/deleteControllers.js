@@ -15,7 +15,7 @@ const removeDrive = async  (req, res) => {
   try { 
     let driveid=parseInt(req.params.driveid)
     const drive = await deleteService.removeDrive(driveid);
-    res.json(drive);
+    res.status(200).json({"message":"Drive deleted"});
   } catch (error) {
     res.json(error);
   }

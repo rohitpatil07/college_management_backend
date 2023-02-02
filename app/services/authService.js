@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import companyService from './companyService.js';
 import studentService from './studentService.js';
+import sendEmail from '../util/mail.js';
 
 const login = async (email, login_password, role) => {
   if (role == 'student') {
@@ -347,4 +348,126 @@ const reset_password = async (email, password, old_password, token) => {
   }
 };
 
-export default { login, reset_password, hash_password };
+const forgot_password = async (password, token) => {
+  try {
+    //verify token
+    const pass = password
+    const verified = jwt.verify(token, config.JWT_SECRET);
+    const e_mail = verified.email
+    if (!verified) {
+      return 'Error Authenticating your account';
+    }
+    // verify email
+    // if (email != verified.email) {
+    //   return 'Error Authenticating your account';
+    // }
+    //based on role and email check if current password matches
+    if (verified.role == 'student') {
+      const student_data = await prisma.students.findMany({
+        where: {
+          email: {
+            equals: e_mail,
+          },
+        },
+        select: {
+          roll_no: true,
+          email: true,
+          password: true,
+          first_name: true,
+          last_name: true,
+        },
+      });
+      if (student_data.length == 0) {
+        return 'Invalid Credentials';
+      }
+      //update pass if matched
+      else {
+        const new_password = await hash_password(pass);
+        console.log(new_password);
+        const response = await studentService.updateStudentPassword(
+          e_mail,
+          new_password,
+        );
+        return response;
+      }
+    } else if (verified.role == 'admin') {
+      const admin_data = await prisma.admins.findMany({
+        where: {
+          email: {
+            equals: e_mail,
+          },
+        },
+        select: {
+          college_name: true,
+          email: true,
+          password: true,
+        },
+      });
+
+      if (!admin_data[0]) {
+        return 'You are not authorized';
+      }
+
+      else {
+        //update password
+        const new_password = await hash_password(password);
+
+        await prisma.admins.update({
+          where: {
+            email: verified.email,
+          },
+          data: {
+            password: new_password,
+          },
+        });
+        return 'Password Updated';
+      }
+    } else if (verified.role == 'company') {
+      const company_data = await prisma.company.findMany({
+        where: {
+          email: {
+            equals: e_mail,
+          },
+        },
+        select: {
+          company_id: true,
+          company_name: true,
+          email: true,
+          password: true,
+        },
+      });
+
+      if (!company_data[0]) {
+        return 'You are not authorized';
+      }
+      else {
+        const new_password = await hash_password(password);
+
+        const response = await companyService.updateCompanyPassword(
+          e_mail,
+          new_password,
+        );
+        return response;
+      }
+    }
+    return 'Error updating password please recheck your credentials';
+  } catch (error) {
+    return 'Failed to update password';
+  }
+}
+
+const forgot_mail = async (mail, role) => {
+  try {
+    const subject = "Password Reset"
+    let token = jwt.sign({ email: mail, role: role }, config.JWT_SECRET);
+    const link = `http://localhost:3000/forgotpassword?token=${token}`
+    const message = `Click here to reset password :${link}`
+    const email = mail
+    const msg = await sendEmail(email, message, subject)
+  }
+  catch (error) {
+    console.log(error)
+  }
+}
+
+export default { login, reset_password, forgot_password, forgot_mail, hash_password };

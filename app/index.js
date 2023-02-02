@@ -21,12 +21,15 @@ const startServer = () => {
       credentials: true,
     }),
   );
- 
 
   app.use('/', routes);
 
+  // app.get('/', (req, res) => {
+  //   res.status(200);
+  // });
+
   app.get('/', (req, res) => {
-    return res.json({ message: 'Hello World' });
+    return res.json({ message: 'Hello World' }).status(200);
   });
   return app.listen(PORT, () =>
     console.log(`Server running on port ${PORT} in ${config.NODE_ENV} mode`),

@@ -18,7 +18,7 @@ router.post(
   filterControllers.getPaginatedDashboard,
 );
 router.get('/admin/alloffers/:company',
-  authenticate(["admin"]),
+  authenticate(["admin", "company"]),
   filterControllers.getAllOffers
 );
 router.get('/company', authenticate(["admin"]), filterControllers.getAllCompanies);

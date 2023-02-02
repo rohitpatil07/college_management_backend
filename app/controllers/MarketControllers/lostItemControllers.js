@@ -52,7 +52,6 @@ const createMessage = async (req, res) => {
 const getThread = async (req, res) => {
   try {
     const { item_id } = req.body;
-    console.log("Item" , req.body.item_id)
     const thread = await lostItemService.getThread(item_id);
     res.json(thread);
   } catch (error) {

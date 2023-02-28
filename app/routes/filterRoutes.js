@@ -22,6 +22,7 @@ router.get('/admin/alloffers/:company',
   filterControllers.getAllOffers
 );
 router.get('/company', authenticate(["admin"]), filterControllers.getAllCompanies);
+router.get('/onecompany/:company', authenticate(["admin", "company"]), filterControllers.getCompany);
 router.get('/company/drive/:company', authenticate(["admin", "company"]), filterControllers.getCompanyDrive);
 router.get('/company/appliedstudents/:driveid', authenticate(["admin", "company"]), filterControllers.getStudentsForDrive);
 router.get('/company/clickedstudent/:roll_no', authenticate(["admin", "company"]), filterControllers.getclickedStudentForDrive);

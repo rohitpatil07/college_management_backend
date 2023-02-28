@@ -115,6 +115,16 @@ const getAllCompanies = async (req, res) => {
   }
 };
 
+const getCompany = async (req, res) => {
+  try {
+    const company_name = req.params.company;
+    const company = await filterService.getCompany(company_name);
+    res.json(company);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 const getCompanyDrive = async (req, res) => {
   try {
     const company_id = parseInt(req.params.company);
@@ -260,6 +270,7 @@ export default {
   getAllDrives,
   getEligibleDrives,
   getAllCompanies,
+  getCompany,
   getCompanyDrive,
   getclickedStudentForDrive,
   getTopPlacedStudents,

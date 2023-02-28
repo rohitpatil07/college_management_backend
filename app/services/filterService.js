@@ -239,6 +239,19 @@ const getAllCompanies = async () => {
   }
 };
 
+const getCompany = async (company_name) => {
+  try {
+    const company = await prisma.company.findUnique({
+      where: {
+        company_name: company_name,
+      },
+    });
+    return company;
+  } catch (error) {
+    return error;
+  }
+}
+
 const getCompanyDrive = async (company_id) => {
   try {
     const company = await prisma.drives.findMany({
@@ -583,6 +596,7 @@ export default {
   getAllDrives,
   getEligibleData,
   getAllCompanies,
+  getCompany,
   getCompanyDrive,
   getclickedStudentForDrive,
   getTopPlacedStudents,

@@ -125,6 +125,16 @@ const getCompanyDrive = async (req, res) => {
   }
 };
 
+const getclickedStudentForDrive = async (req, res) => {
+  try {
+    const roll_no = String(req.params.roll_no);
+    const students = await filterService.getclickedStudentForDrive(roll_no);
+    res.json(students);
+  } catch (error) {
+    res.json(error);
+  }
+}
+
 const getTopPlacedStudents = async (req, res) => {
   try {
     const top10studentplaced = await filterService.getTopPlacedStudents();
@@ -251,6 +261,7 @@ export default {
   getEligibleDrives,
   getAllCompanies,
   getCompanyDrive,
+  getclickedStudentForDrive,
   getTopPlacedStudents,
   getSelectedStudentsCompanyWise,
   getSelectedStudentsLpaWise,

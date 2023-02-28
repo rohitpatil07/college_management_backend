@@ -252,6 +252,32 @@ const getCompanyDrive = async (company_id) => {
   }
 };
 
+const getclickedStudentForDrive = async (roll_no) => {
+  try {
+    let student_data = await prisma.students.findUnique({
+      where: {
+        roll_no: roll_no,
+      },
+      select: {
+        roll_no: true,
+        academic_info: true,
+        projects: true,
+        work_experience: true,
+        resume_data:{
+          select:{
+            certificate_one: true,
+            certificate_two: true,
+            certificate_three: true
+          }  
+        }
+      },
+    });
+    return student_data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 const getTopPlacedStudents = async () => {
   try {
     let student_list = await prisma.offers.findMany({
@@ -461,6 +487,7 @@ const getAllOffers = async (company_name) => {
         first_name: true,
         last_name: true,
         email: true,
+        department: true,
         _count: {
           select: {
             offers: true,
@@ -557,6 +584,7 @@ export default {
   getEligibleData,
   getAllCompanies,
   getCompanyDrive,
+  getclickedStudentForDrive,
   getTopPlacedStudents,
   getSelectedStudentsCompanyWise,
   getSelectedStudentsLpaWise,

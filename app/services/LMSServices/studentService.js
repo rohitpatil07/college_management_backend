@@ -16,6 +16,7 @@ const createBulkStudent = async (data) => {
   try{
     const bulkstudents = await prisma.student.createMany({
       data,
+      skipDuplicates: true
     })
     return bulkstudents;
   } catch (error) {

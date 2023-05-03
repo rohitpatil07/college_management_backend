@@ -209,7 +209,7 @@ model work_experience {
   company_name String   @db.VarChar(30)
   location     String?  @db.VarChar(20)
   role         String?  @db.VarChar(30)
-  description  String?  @db.VarChar(100)
+  description  String?  @db.VarChar(300)
   start_month  String?  @db.VarChar(20)
   end_month    String?  @db.VarChar(20)
   year         Int?

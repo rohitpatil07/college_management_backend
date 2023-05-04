@@ -40,7 +40,7 @@
         justify-content: space-between;
         -webkit-justify-content: space-between;
         width: 100%;
-        height: 155px;
+        height: 175px;
         font-size: 14px;
         color: white;
     }
@@ -66,12 +66,12 @@
     }
 
     .user_image {
-        width: 13%;
-        height: 83px;
+        width: 123px;
+        height: 123px;
         border-radius: 50%;
         position: relative;
-        top: 84px;
-        left: -25px;
+        top: 64px;
+        left: -50px;
         background-image: url("data:image/jpg;base64,{{pfp}}");
         background-repeat: no-repeat;
         background-size: cover;
@@ -79,15 +79,15 @@
     }
 
     .logo {
-        height: 60%;
-        width: 24%;
-        margin-right: 2%;
+        height: 65%;
+        width: 30%;
         position: relative;
         top: 30px;
         right: 30px;
         background-image: url("data:image/jpg;base64,{{logo}}");
         background-repeat: no-repeat;
         background-size: cover;
+        border: #f6fbff;
     }
 
     .black_strip {
@@ -99,7 +99,7 @@
     .career_obj {
         background-color: #f6fbff;
         width: 100%;
-        height: 40px;
+        height: 60px;
         display: flex;
         justify-content: flex-start;
         align-items: center;
@@ -110,6 +110,7 @@
     .career_obj_h1 {
         font-size: 17px;
         font-weight: bold;
+        width: 230px;;
         color: #9f1d37;
         margin-bottom: 17px;
         margin-right: 10px;
@@ -124,17 +125,19 @@
         width: 100%;
         padding-top: 15px;
         display: flex;
+        height: max-content ;
         display: -webkit-flex;
     }
 
     .left_section {
         width: 40%;
-        height: 695px;
+        height: max-content;
+        border-right: 2px solid #9f1d37;
     }
 
     .right_section {
         width: 60%;
-        height: 965px;
+        height: max-content;
         border-left: 2px solid #9f1d37;
         background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url("data:image/jpg;base64,{{background}}");
         background-repeat: no-repeat;
@@ -154,7 +157,7 @@
     }
 
     .left_section_h1 {
-        font-size: 20px;
+        font-size: 17px;
         width: 95%;
         color: #f6fbff;
         background-color: #9f1d37;
@@ -176,7 +179,7 @@
     }
 
     table {
-        font-size: 16px;
+        font-size: 14px;
         width: 94%;
         margin: 1%;
         margin-bottom: 20px;
@@ -187,35 +190,48 @@
     }
 
     .cgpa {
-        font-size: 15.5px;
+        font-size: 13.5px;
     }
 
     li {
-        font-size: 16px;
-        margin-bottom: 5px;
+        font-size: 14px;
     }
 
     .h_sub_heading {
         font-weight: bold;
-        font-size: 19px;
+        font-size: 17px;
 
     }
 
     .h_sub_heading_date {
         font-size: 14px;
+        margin-left: 1em;
     }
 
     .right_section_h1 {
         margin: 0;
-        font-size: 21px;
+        font-size: 19px;
         width: 95%;
         color: #9f1d37;
     }
 
     .sub_heading {
         margin: 0;
-        font-size: 21.5px;
+        font-size: 17px;
         color: #9f1d37;
+    }
+
+    .h_role {
+        margin: 0;
+        font-size: 15px;
+        font-weight: bold;
+        margin-left: 1em;
+    }
+
+    .h_description {
+        margin: 0;
+        font-size: 14px;
+        margin-left: 1em;
     }
 
     .dot {
@@ -239,13 +255,13 @@
     }
 
     .project_content {
-        font-size: 18px;
+        font-size: 14px;
         left: 4%;
         position: relative;
     }
 
     .internship_content {
-        font-size: 18px;
+        font-size: 14px;
         left: 4%;
         position: relative;
     }
@@ -257,10 +273,11 @@
         <div class="user_details">
             <div class="user_info">
                 <h3 class="uinfo">Name: {{this.first_name}} {{this.middle_name}} {{this.last_name}}</h3>
-                <h3 class="uinfo">Gender: {{this.gender}}</h3>
                 <h3 class="uinfo">Email: {{this.email}}</h3>
                 <h3 class="uinfo">Mob: {{this.phone_number}}</h3>
+                <h3 class="uinfo">Github: {{this.github}}</h3>
                 <h3 class="uinfo">LinkedIn: {{this.linkedin}}</h3>
+                <h3 class="uinfo">Hackerrank: {{this.hackerrank}}</h3>
             </div>
             <div class="user_image"></div>
         </div>
@@ -268,8 +285,8 @@
     </header>
     <div class="black_strip"></div>
     <div class="career_obj">
-        <h1 class="career_obj_h1">Career Objective</h1>
-        <h3 class="career_obj_p">: {{this.resume_data.career_obj}}</h3>
+        <h1 class="career_obj_h1">Career Objective :</h1>
+        <h3 class="career_obj_p">{{this.resume_data.career_obj}}</h3>
     </div>
     <section>
         <div class="left_section">
@@ -345,16 +362,41 @@
                 {{/ifCond}}
                 {{#each this.extra_curricular}}
                 <div>
-                    <p>{{this.pos_of_res}}</p>
                     <ul>
-                        <li>{{this.description}} {{this.activity_month}} {{this.activity_year}}</li>
+                        <li>
+                            <bold class="h_sub_heading">{{this.pos_of_res}}</bold><br/>
+                            {{this.description}}<br/> {{this.activity_month}} {{this.activity_year}}</li>
                     </ul>
                 </div>
                 {{/each}}
             </div>
+            <div class="left_section_div" style="margin-top:0.3em; margin-bottom: 0.5em;">
+                {{#ifCond this.resume_data.certificate_one "!=" null}}
+                <!-- <div style="display:flex;display: -webkit-flex; align-items:center;-webkit-align-items:center;">
+                    <span class="dot"></span>
+                    <h1 class="right_section_h1">Certifications </h1>
+                </div> -->
+                <h1 class="left_section_h1">Certifications</h1>
+                {{/ifCond}}
+                <ul>
+                    {{#ifCond this.resume_data.certificate_one "!=" null}}
+                    <li>Certificate of {{this.resume_data.certificate_one}} completed in
+                        {{this.resume_data.certificate_one_completion_date}}
+                    </li>
+                    {{/ifCond}} {{#ifCond this.resume_data.certificate_two "!=" null}}
+                    <li>Certificate of {{this.resume_data.certificate_two}} completed in
+                        {{this.resume_data.certificate_two_completion_date}}
+                    </li>
+                    {{/ifCond}} {{#ifCond this.resume_data.certificate_three "!=" null}}
+                    <li>Certificate of {{this.resume_data.certificate_three}} completed in
+                        {{this.resume_data.certificate_three_completion_date}}
+                    </li>
+                    {{/ifCond}}
+                </ul>
+            </div>
         </div>
         <div class="right_section">
-            <div>
+            <!-- <div>
                 {{#ifCond this.resume_data.certificate_one "!=" null}}
                 <div style="display:flex;display: -webkit-flex; align-items:center;-webkit-align-items:center;">
                     <span class="dot"></span>
@@ -376,7 +418,7 @@
                     </li>
                     {{/ifCond}}
                 </ul>
-            </div>
+            </div> -->
             <div>
                 {{#ifCond this.projects.length "!=" 0}}
                 {{#ifCond this.work_experience.length "!=" 0}}
@@ -391,13 +433,15 @@
                     {{#ifCond this.projects.length "!=" 0}}
                     <div style="display:flex;display: -webkit-flex; align-items:center;-webkit-align-items:center;">
                         <span class="sub_heading_dot"></span>
-                        <h3 class="sub_heading">Projects </h3>
+                        <h3 class="sub_heading">Projects ▶</h3>
                     </div>
                     {{#each this.projects}}
                     <li class="project_content">
                         <bold class="h_sub_heading">{{this.proj_name}}</bold>
-                        <br />{{this.role}}<br />{{this.proj_desc}}<br />
-                        <bold class="h_sub_heading_date">{{this.tech_stack}}</bold>
+                        <h1 class="h_role">{{this.role}}</h1>
+                        <h1 class="h_description">{{this.proj_desc}}</h1>
+                            <bold class="h_sub_heading_date">Tech Stack: {{this.tech_stack}}<br/></bold>
+
                     </li>
                     {{/each}}{{/ifCond}}
                 </div>
@@ -405,12 +449,14 @@
                     {{#ifCond this.work_experience.length "!=" 0}}
                     <div style="display:flex;display: -webkit-flex; align-items:center;-webkit-align-items:center;">
                         <span class="sub_heading_dot"></span>
-                        <h3 class="sub_heading">Internships</h3>
+                        <h3 class="sub_heading">Internships ▶</h3>
                     </div>
                     {{#each this.work_experience}}
                     <li class="internship_content">
                         <bold class="h_sub_heading">{{this.company_name}}</bold>
-                        <br />{{this.role}}<br />{{this.description}}<br />
+                        <!-- <br />{{this.role}}<br />{{this.description}}<br /> -->
+                        <h1 class="h_role">{{this.role}}</h1>
+                        <h1 class="h_description">{{this.description}}</h1>
                         <bold class="h_sub_heading_date">{{this.start_month}}-{{this.year}} to
                             {{this.end_month}}{{this.year}}</bold>
                     </li>

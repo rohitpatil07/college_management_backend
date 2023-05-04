@@ -54,10 +54,10 @@ model admins {
 }
 
 model applied_to_drives {
-  drive_id Int
-  roll_no  String   @db.VarChar(10)
+  drive_id  Int
+  roll_no   String   @db.VarChar(10)
   appliedAt DateTime @default(now())
-  students students @relation(fields: [roll_no], references: [roll_no])
+  students  students @relation(fields: [roll_no], references: [roll_no])
 
   @@id([drive_id, roll_no])
   @@index([drive_id], map: "fk_drive_id")
@@ -65,43 +65,43 @@ model applied_to_drives {
 }
 
 model company {
-  company_id   Int      @id @default(autoincrement())
-  company_name String  @unique @db.VarChar(50)
-  company_desc String?  @db.VarChar(500)
-  moto String?  @db.VarChar(100)
-  link_one String?  @db.VarChar(200)
-  link_two String?  @db.VarChar(200)
-  linkedIn String?  @db.VarChar(200)
-  logo String?  @db.LongText
-  broucher    String?  @db.LongText
+  company_id          Int      @id @default(autoincrement())
+  company_name        String   @unique @db.VarChar(50)
+  email               String?  @db.VarChar(50)
+  password            String?  @db.VarChar(300)
+  broucher            String?  @db.LongText
+  company_desc        String?  @db.VarChar(500)
+  established_year    Int?
   head_office_address String?  @db.VarChar(200)
-  locations String?  @db.VarChar(200)
-  established_year Int?
-  template     Int?
-  email        String?  @db.VarChar(50)
-  password     String?  @db.VarChar(300)
-  drives       drives[]
-  offers       offers[]
+  link_one            String?  @db.VarChar(200)
+  link_two            String?  @db.VarChar(200)
+  linkedIn            String?  @db.VarChar(200)
+  locations           String?  @db.VarChar(200)
+  logo                String?  @db.LongText
+  moto                String?  @db.VarChar(100)
+  template            Int?
+  drives              drives[]
+  offers              offers[]
 }
 
 model drives {
-  drive_id         Int      @id @default(autoincrement())
+  drive_id         Int       @id @default(autoincrement())
   company_id       Int
-  role             String?  @db.VarChar(30)
-  package          Decimal? @db.Decimal(6, 2)
-  job_location     String?  @db.VarChar(50)
-  role_desc        String?  @db.VarChar(200)
-  cgpa             Decimal? @db.Decimal(6, 2)
-  be_percent       Decimal? @db.Decimal(6, 2)
-  tenth_percent    Decimal? @db.Decimal(6, 2)
-  twelveth_percent Decimal? @db.Decimal(6, 2)
-  gender           String   @db.VarChar(1)
+  role             String?   @db.VarChar(30)
+  package          Decimal?  @db.Decimal(6, 2)
+  job_location     String?   @db.VarChar(50)
+  role_desc        String?   @db.VarChar(200)
+  cgpa             Decimal?  @db.Decimal(6, 2)
+  be_percent       Decimal?  @db.Decimal(6, 2)
+  tenth_percent    Decimal?  @db.Decimal(6, 2)
+  twelveth_percent Decimal?  @db.Decimal(6, 2)
+  gender           String    @db.VarChar(1)
   gap              Int
   livekt           Int
   deadkt           Int
-  createdAt        DateTime @default(now())
+  createdAt        DateTime  @default(now())
   deadlineAt       DateTime?
-  company          company  @relation(fields: [company_id], references: [company_id])
+  company          company   @relation(fields: [company_id], references: [company_id])
   offers           offers[]
 
   @@index([company_id], map: "fk_comp_id")
@@ -124,10 +124,10 @@ model offers {
   roll_no      String   @db.VarChar(10)
   package      Decimal? @db.Decimal(6, 2)
   offer_letter String?  @db.LongText
-  role        String?  @db.VarChar(100)  
   drive_id     Int
   company_name String   @db.VarChar(50)
-  createdAt     DateTime @default(now())
+  createdAt    DateTime @default(now())
+  role         String?  @db.VarChar(100)
   students     students @relation(fields: [roll_no], references: [roll_no])
   company      company  @relation(fields: [company_name], references: [company_name])
   drives       drives   @relation(fields: [drive_id], references: [drive_id])
@@ -141,7 +141,7 @@ model projects {
   proj_id    String   @id @db.VarChar(10)
   roll_no    String   @db.VarChar(10)
   proj_name  String   @db.VarChar(30)
-  proj_desc  String?  @db.VarChar(100)
+  proj_desc  String?  @db.VarChar(300)
   tech_stack String?  @db.VarChar(300)
   role       String?  @db.VarChar(50)
   students   students @relation(fields: [roll_no], references: [roll_no])
@@ -171,24 +171,24 @@ model resume_data {
 }
 
 model students {
-  roll_no           String              @id @db.VarChar(10)
-  first_name        String?             @db.VarChar(50)
-  middle_name       String?             @db.VarChar(50)
-  last_name         String?             @db.VarChar(50)
-  email             String?             @db.VarChar(50)
-  phone_number      String?             @db.VarChar(15)
-  gender            String?             @db.VarChar(1)
-  github            String?             @db.VarChar(50)
-  linkedin          String?             @db.VarChar(50)
-  leetcode          String?             @db.VarChar(50)
-  hackerrank        String?             @db.VarChar(50)
-  password          String?             @db.VarChar(200)
-  photo             String?             @db.LongText
-  department        String?             @db.VarChar(10)
+  roll_no           String                   @id @db.VarChar(10)
+  first_name        String?                  @db.VarChar(50)
+  middle_name       String?                  @db.VarChar(50)
+  last_name         String?                  @db.VarChar(50)
+  email             String?                  @db.VarChar(50)
+  phone_number      String?                  @db.VarChar(15)
+  gender            String?                  @db.VarChar(1)
+  github            String?                  @db.VarChar(50)
+  linkedin          String?                  @db.VarChar(50)
+  leetcode          String?                  @db.VarChar(50)
+  hackerrank        String?                  @db.VarChar(50)
+  password          String?                  @db.VarChar(200)
+  photo             String?                  @db.LongText
+  department        String?                  @db.VarChar(10)
   batch             Int?
-  secondary_mail    String?             @db.VarChar(50)
-  college_name      String?             @db.VarChar(100)
-  division          String?             @db.VarChar(2)  
+  secondary_mail    String?                  @db.VarChar(50)
+  college_name      String?                  @db.VarChar(100)
+  division          String?                  @db.VarChar(2)
   semester          Int?
   DOB               DateTime?
   academic_info     academic_info?
@@ -198,9 +198,9 @@ model students {
   projects          projects[]
   resume_data       resume_data?
   work_experience   work_experience[]
+  forums            forum[]
   subjects          subject_in_students[]
   submissions       assignment_submissions[]
-  forums    forum[]
 }
 
 model work_experience {
@@ -219,164 +219,165 @@ model work_experience {
 }
 
 model Faculty {
-  email          String  @id @db.VarChar(30)
-  password       String  @db.VarChar(300)
-  college_name   String? @db.VarChar(100)
-  first_name     String? @db.VarChar(50)
-  gender         String? @db.VarChar(1)
-  last_name      String? @db.VarChar(50)
-  linkedin       String? @db.VarChar(50)
-  middle_name    String? @db.VarChar(50)
-  phone_number   String? @db.VarChar(15)
-  photo          String? @db.LongText
-  secondary_mail String? @db.VarChar(50)
-  department     String? @db.VarChar(5)
-  designation    String? @db.VarChar(70)
+  email          String     @id @db.VarChar(30)
+  password       String     @db.VarChar(300)
+  college_name   String?    @db.VarChar(100)
+  first_name     String?    @db.VarChar(50)
+  gender         String?    @db.VarChar(1)
+  last_name      String?    @db.VarChar(50)
+  linkedin       String?    @db.VarChar(50)
+  middle_name    String?    @db.VarChar(50)
+  phone_number   String?    @db.VarChar(15)
+  photo          String?    @db.LongText
+  secondary_mail String?    @db.VarChar(50)
+  department     String?    @db.VarChar(5)
+  designation    String?    @db.VarChar(70)
   subjects       subjects[]
 }
 
 model subjects {
-  subject_id       Int      @id @default(autoincrement())
-  subject_code     String   @db.VarChar(10)
-  subject_name     String             @db.VarChar(50)
-  semester         Int
-  department       String             @db.VarChar(10)
-  batch            Int
-  division         String             @db.VarChar(2)
-  type             String             @db.VarChar(3)
-  email            String            @db.VarChar(30)
-  assignment       assignment[]
-  modules          modules[]
-  students         subject_in_students[]
-  attendance       attendance[]
-  faculty          Faculty            @relation(fields: [email],references: [email])
+  subject_id   Int                   @id @default(autoincrement())
+  subject_code String                @db.VarChar(10)
+  subject_name String                @db.VarChar(50)
+  semester     Int
+  department   String                @db.VarChar(10)
+  batch        Int
+  division     String                @db.VarChar(2)
+  type         String                @db.VarChar(3)
+  email        String                @db.VarChar(30)
+  faculty      Faculty               @relation(fields: [email], references: [email])
+  attendance   attendance[]
+  assignment   assignment[]
+  modules      modules[]
+  students     subject_in_students[]
 
   @@index([email])
 }
 
-model attendance{
+model attendance {
   attendance_id Int      @id @default(autoincrement())
   subject_id    Int
-  present      String?  @db.LongText
-  absent       String?  @db.LongText
-  date          DateTime  @default(now())
+  date          DateTime @default(now())
+  absent        String?  @db.LongText
+  present       String?  @db.LongText
   subjects      subjects @relation(fields: [subject_id], references: [subject_id])
 
   @@index([subject_id])
 }
 
 model assignment {
-  assignment_id Int      @id @default(autoincrement())
-  subject_id    Int
-  createdAt     DateTime @default(now())
-  deadlineAt    DateTime?
-  assign_name   String?  @db.VarChar(50)
-  assign_des    String?  @db.VarChar(200)
-  file_name     String?  @db.VarChar(30)
-  file          String?  @db.LongText
-  links         String?  @db.LongText
-  file_type     String?  @db.VarChar(30)
-  subjects      subjects @relation(fields: [subject_id], references: [subject_id])
-  student_submissions  assignment_submissions[]
+  assignment_id       Int                      @id @default(autoincrement())
+  subject_id          Int
+  createdAt           DateTime                 @default(now())
+  deadlineAt          DateTime?
+  assign_name         String?                  @db.VarChar(50)
+  assign_des          String?                  @db.VarChar(200)
+  file_name           String?                  @db.VarChar(30)
+  file                String?                  @db.LongText
+  links               String?                  @db.LongText
+  file_type           String?                  @db.VarChar(30)
+  subjects            subjects                 @relation(fields: [subject_id], references: [subject_id])
+  student_submissions assignment_submissions[]
 
   @@index([subject_id])
 }
 
 model modules {
-  module_id     Int      @id @default(autoincrement())
-  module_number Int
-  subject_id    Int
-  module_name   String?  @db.VarChar(60)
+  module_id        Int                @id @default(autoincrement())
+  module_number    Int
+  subject_id       Int
+  module_name      String?            @db.VarChar(60)
+  subjects         subjects           @relation(fields: [subject_id], references: [subject_id])
   reading_material reading_material[]
-  forum         forum[]
-  subjects      subjects @relation(fields: [subject_id], references: [subject_id])
+  forum            forum[]
 
   @@index([subject_id])
 }
 
 model reading_material {
-  reading_material_id Int      @id @default(autoincrement())
+  reading_material_id Int     @id @default(autoincrement())
   module_id           Int
-  file_name           String?  @db.VarChar(30)
-  file                String?  @db.LongText
-  file_type           String?  @db.VarChar(30)
-  modules             modules  @relation(fields: [module_id], references: [module_id])
+  file_name           String? @db.VarChar(30)
+  file                String? @db.LongText
+  file_type           String? @db.VarChar(30)
+  modules             modules @relation(fields: [module_id], references: [module_id])
 
   @@index([module_id])
 }
 
 model forum {
-  forum_id        Int       @id @default(autoincrement())
-  module_id       Int
-  roll_no         String    @db.VarChar(10)
-  createdAt       DateTime  @default(now())
-  last_modified   DateTime  @updatedAt
-  topic           String    @db.VarChar(100)
-  description     String    @db.VarChar(200)
-  email           String    @db.VarChar(30)
-  status          Boolean   @default(true)
-  forum_messages  forum_messages[]
-  modules         modules  @relation(fields: [module_id], references: [module_id])
-  students        students @relation(fields: [roll_no], references: [roll_no])
-  @@index([roll_no])
+  forum_id       Int              @id @default(autoincrement())
+  module_id      Int
+  createdAt      DateTime         @default(now())
+  topic          String           @db.VarChar(100)
+  description    String           @db.VarChar(200)
+  email          String           @db.VarChar(30)
+  last_modified  DateTime         @updatedAt
+  roll_no        String           @db.VarChar(10)
+  status         Boolean          @default(true)
+  modules        modules          @relation(fields: [module_id], references: [module_id])
+  students       students         @relation(fields: [roll_no], references: [roll_no])
+  forum_messages forum_messages[]
+
   @@index([module_id])
+  @@index([roll_no])
 }
 
 model forms {
-  form_id          Int         @id @default(autoincrement())
-  email            String      @db.VarChar(30)
-  semester         Int
-  department       String      @db.VarChar(10)
-  batch            Int
-  DILO             String      @db.VarChar(200)
-  lms_admin        lms_admin            @relation(fields: [email],references: [email])
+  form_id    Int       @id @default(autoincrement())
+  email      String    @db.VarChar(30)
+  semester   Int
+  department String    @db.VarChar(10)
+  batch      Int
+  DILO       String    @db.VarChar(200)
+  lms_admin  lms_admin @relation(fields: [email], references: [email])
 
   @@index([email])
 }
 
 model subject_in_students {
-  roll_no      String    @db.VarChar(10)
-  subject_id   Int
-  student      students  @relation(fields: [roll_no],references: [roll_no])
-  subject      subjects  @relation(fields: [subject_id],references: [subject_id])
+  roll_no    String   @db.VarChar(10)
+  subject_id Int
+  student    students @relation(fields: [roll_no], references: [roll_no])
+  subject    subjects @relation(fields: [subject_id], references: [subject_id])
 
-  @@id([roll_no,subject_id])
+  @@id([roll_no, subject_id])
+  @@index([roll_no])
   @@index([subject_id])
+}
+
+model assignment_submissions {
+  file           String?    @db.LongText
+  createdAt      DateTime   @default(now())
+  roll_no        String     @db.VarChar(10)
+  assignment_id  Int
+  last_modified  DateTime   @updatedAt
+  file_name      String?    @db.VarChar(30)
+  file_type      String?    @db.VarChar(30)
+  submission_des String?    @db.VarChar(200)
+  student        students   @relation(fields: [roll_no], references: [roll_no])
+  assignment     assignment @relation(fields: [assignment_id], references: [assignment_id])
+
+  @@id([roll_no, assignment_id])
+  @@index([assignment_id])
   @@index([roll_no])
 }
 
-model assignment_submissions{
-    file              String?       @db.LongText
-    file_name         String?  @db.VarChar(30)
-    file_type         String?  @db.VarChar(30)
-    submission_des    String?  @db.VarChar(200)
-    createdAt         DateTime      @default(now())
-    last_modified     DateTime      @updatedAt  
-    roll_no           String        @db.VarChar(10)
-    assignment_id     Int
-    student           students    @relation(fields: [roll_no], references: [roll_no])
-    assignment        assignment  @relation(fields: [assignment_id],references: [assignment_id])
-
-    @@id([roll_no,assignment_id])
-    @@index([assignment_id])
-    @@index([roll_no])
-}
-
-model forum_messages{
-  message_id        Int       @id @default(autoincrement())
-  email             String    @db.VarChar(30)
-  first_name        String    @db.VarChar(30)
-  last_name         String    @db.VarChar(30)
-  forum_id          Int
-  createdAt         DateTime      @default(now())
-  last_modified     DateTime      @updatedAt  
-  reply_to          Int?
-  replies           Int        @default(0)
-  upvotes           String?
-  downvotes         String?
-  votes             Int        @db.Int @default(0)
-  text              String
-  forum             forum  @relation(fields: [forum_id],references: [forum_id])
+model forum_messages {
+  forum_id      Int
+  createdAt     DateTime @default(now())
+  email         String   @db.VarChar(30)
+  last_modified DateTime @updatedAt
+  message_id    Int      @id @default(autoincrement())
+  replies       Int      @default(0)
+  reply_to      Int?
+  text          String
+  upvotes       String?
+  downvotes     String?
+  first_name    String   @db.VarChar(30)
+  last_name     String   @db.VarChar(30)
+  votes         Int      @default(0)
+  forum         forum    @relation(fields: [forum_id], references: [forum_id])
 
   @@index([forum_id])
 }
@@ -390,15 +391,15 @@ model lms_admin {
 }
 
 model products {
-  product_id   Int    @id @default(autoincrement())
-  product_image String?  @db.LongText
+  product_id    Int     @id @default(autoincrement())
+  product_image String? @db.LongText
+  product_name  String
+  owner         String
+  owner_role    String
+  price         Int
   category      String?
   product_des   String?
-  product_name String
-  owner        String
-  owner_role   String
-  price        Int
-  sale         sales?
+  sale          sales?
 }
 
 model sales {
@@ -411,26 +412,27 @@ model sales {
 }
 
 model messages {
-  message_id Int        @id @default(autoincrement())
-  createdAt         DateTime      @default(now())
-  last_modified     DateTime      @updatedAt  
-  reply_to   Int?
-  replies    Int        @default(0)
-  text       String
-  email      String
-  item_id    Int
-  lost_item  lost_items @relation(fields: [item_id], references: [item_id])
+  message_id    Int        @id @default(autoincrement())
+  reply_to      Int?
+  text          String
+  email         String
+  item_id       Int
+  replies       Int        @default(0)
+  createdAt     DateTime   @default(now())
+  last_modified DateTime   @updatedAt
+  lost_item     lost_items @relation(fields: [item_id], references: [item_id])
+
   @@index([item_id])
 }
 
 model lost_items {
-  item_id   Int        @id @default(autoincrement())
-  item_image String?  @db.LongText
-  item_name String
-  story     String
-  owner     String
-  found    Boolean    @default(false)
-  messages  messages[]
+  item_id    Int        @id @default(autoincrement())
+  item_name  String
+  story      String
+  owner      String
+  item_image String?    @db.LongText
+  found      Boolean    @default(false)
+  messages   messages[]
 }
 
 model shops {
@@ -447,6 +449,7 @@ model menu_items {
   item_name String
   item_cost Int
   shop      shops  @relation(fields: [shop_id], references: [shop_id])
+
   @@id([shop_id, item_name])
   @@index([shop_id])
 }

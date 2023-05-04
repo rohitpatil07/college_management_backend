@@ -1,6 +1,7 @@
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import fileUpload from 'express-fileupload';
 import config from './config/index.js';
 import routes from './routes/index.js';
@@ -16,12 +17,12 @@ const startServer = () => {
   app.use(fileUpload());
   app.use(
     cors({
-      origin: '*',
-      methods: ['GET', 'POST'],
+      origin: 'http://localhost:3000',
+      methods: ['GET', 'POST','PUT','DELETE'],
       credentials: true,
     }),
   );
-
+  app.use(cookieParser());
   app.use('/', routes);
 
   // app.get('/', (req, res) => {

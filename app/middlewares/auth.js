@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import config from '../config/index.js';
 
 const extract_token = async (req) => {
-  return req.headers['authorization'];
+  return req.cookies.jwt;
 };
 
 const authenticate = (roles) => {
@@ -15,11 +15,10 @@ const authenticate = (roles) => {
       }
 
       const payload = jwt.verify(token, config.JWT_SECRET);
-
       let flag = 0;
-
+      console.log('siuuuuuuuuuuuuuuuuuuuuuu',payload)
       for (let i = 0; i < roles.length; i++) {
-        if (roles[i] == payload.role) {
+        if (roles[i] == payload.auth_obj.user.role) {
           flag = 1;
           break;
         }
@@ -29,8 +28,8 @@ const authenticate = (roles) => {
         res.json({ Error: 'You are not authorized' });
       }
 
-      req.email = payload.email;
-      req.auth = auth;
+      req.email = payload.auth_obj.user.email;
+      req.auth=auth
     } catch (error) {
       return res.status(401).json({ Error: 'Token missing or Invalid' });
     }

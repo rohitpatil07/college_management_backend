@@ -39,7 +39,7 @@ const login = async (email, login_password, role) => {
       auth_obj['user']['role'] = 'student';
 
       if (result) {
-        let token = jwt.sign({ email: email, role: role }, config.JWT_SECRET);
+        let token = jwt.sign({auth_obj}, config.JWT_SECRET);
         auth_obj['token'] = token;
       } else {
         return 'You are not authorized';
@@ -78,7 +78,7 @@ const login = async (email, login_password, role) => {
       const result = await bcrypt.compare(login_password, password);
 
       if (result) {
-        let token = jwt.sign({ email: email, role: role }, config.JWT_SECRET);
+        let token = jwt.sign({auth_obj}, config.JWT_SECRET);
         auth_obj['token'] = token;
       } else {
         return 'You are not authorized';
@@ -117,7 +117,7 @@ const login = async (email, login_password, role) => {
       const result = await bcrypt.compare(login_password, password);
 
       if (result) {
-        let token = jwt.sign({ email: email, role: role }, config.JWT_SECRET);
+        let token = jwt.sign({auth_obj}, config.JWT_SECRET);
         auth_obj['token'] = token;
       } else {
         return 'You are not authorized';
@@ -159,7 +159,7 @@ const login = async (email, login_password, role) => {
       const result = await bcrypt.compare(login_password, password);
 
       if (result) {
-        let token = jwt.sign({ email: email, role: role }, config.JWT_SECRET);
+        let token = jwt.sign({auth_obj}, config.JWT_SECRET);
         auth_obj['token'] = token;
       } else {
         return 'You are not authorized';
@@ -470,4 +470,19 @@ const forgot_mail = async (mail, role) => {
   }
 }
 
-export default { login, reset_password, forgot_password, forgot_mail, hash_password };
+
+const user_data = async (token) => {
+  try
+  {
+    const payload = jwt.verify(token, config.JWT_SECRET);
+    return payload
+  }
+  catch (error) {
+    console.log(error)
+  }
+}
+ 
+
+
+
+export default { login, reset_password, forgot_password, forgot_mail, hash_password,user_data};

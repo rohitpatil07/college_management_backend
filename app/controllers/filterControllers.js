@@ -17,7 +17,7 @@ const getStudent = async (req, res) => {
     const student = await filterService.getStudent(roll_no);
     res.json(student);
   } catch (error) {
-    res.json(error);
+    res.status(422).json(error);
   }
 };
 

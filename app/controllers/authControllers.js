@@ -2,13 +2,23 @@ import authService from '../services/authService.js';
 
 const login = async (req, res) => {
   try {
+    console.log(req.body)
     const { email, password, role } = req.body;
 
     if (!email || !password || !role) {
       return res.json({ error: 'pls fill all the fields' });
     }
     const result = await authService.login(email, password, role);
-    res.json(result);
+    console.log(result.role);
+    if(result)
+    {
+      res.cookie('jwt', result.token, { httpOnly: true, maxAge: 1000 * 60 * 60 });
+      return res.json({success:result.user.role})
+    }
+    else
+    {
+      return res.json({ error: 'Invalid Credentials' });
+    }
   } catch (err) {
     res.json(err);
   }
@@ -61,4 +71,21 @@ const forgot_password = async(req,res) =>
     }
 }
 
-export default { login, reset_password,forgot_mail,forgot_password };
+const user_data = async(req,res) =>
+{
+  try{
+    console.log(req.cookies)
+    const auth_token = req.cookies.jwt;
+    console.log(auth_token)
+    const token = auth_token.replace('Bearer ', '');
+    const response = await authService.user_data(token);
+    res.json(response)
+  }
+  catch(error)
+  {
+    console.log(error)
+  }
+}
+
+
+export default { login, reset_password,forgot_mail,forgot_password ,user_data};

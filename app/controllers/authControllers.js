@@ -74,7 +74,9 @@ const forgot_password = async(req,res) =>
 const user_data = async(req,res) =>
 {
   try{
+    console.log(req.cookies)
     const auth_token = req.cookies.jwt;
+    console.log(auth_token)
     const token = auth_token.replace('Bearer ', '');
     const response = await authService.user_data(token);
     res.json(response)

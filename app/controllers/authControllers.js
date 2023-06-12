@@ -2,7 +2,6 @@ import authService from '../services/authService.js';
 
 const login = async (req, res) => {
   try {
-    console.log(req.body)
     const { email, password, role } = req.body;
 
     if (!email || !password || !role) {
@@ -21,6 +20,16 @@ const login = async (req, res) => {
     }
   } catch (err) {
     res.json(err);
+  }
+};
+
+
+const logout = (req, res) => {
+  try {
+    res.cookie('jwt', '', { maxAge: 1 });
+    res.json({ success: 'User logged out' });
+  } catch (error) {
+    res.json({ error: 'Failed to logout' });
   }
 };
 
@@ -74,9 +83,7 @@ const forgot_password = async(req,res) =>
 const user_data = async(req,res) =>
 {
   try{
-    console.log(req.cookies)
     const auth_token = req.cookies.jwt;
-    console.log(auth_token)
     const token = auth_token.replace('Bearer ', '');
     const response = await authService.user_data(token);
     res.json(response)
@@ -88,4 +95,4 @@ const user_data = async(req,res) =>
 }
 
 
-export default { login, reset_password,forgot_mail,forgot_password ,user_data};
+export default { login, reset_password,forgot_mail,forgot_password ,user_data,logout};

@@ -3,15 +3,14 @@ import authService from '../services/authService.js';
 const login = async (req, res) => {
   try {
     const { email, password, role } = req.body;
-
     if (!email || !password || !role) {
       return res.json({ error: 'pls fill all the fields' });
     }
     const result = await authService.login(email, password, role);
-    console.log(result.role);
     if(result)
     {
-      res.cookie('jwt', result.token, { httpOnly: true, maxAge: 1000 * 60 * 60 });
+      res.cookie('jwt', result.token, { httpOnly: true, maxAge: 1000 * 60 * 60,sameSite: 'none',
+      secure: true});
       return res.json({success:result.user.role})
     }
     else

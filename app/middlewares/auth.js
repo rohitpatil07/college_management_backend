@@ -16,7 +16,6 @@ const authenticate = (roles) => {
 
       const payload = jwt.verify(token, config.JWT_SECRET);
       let flag = 0;
-      console.log('siuuuuuuuuuuuuuuuuuuuuuu',payload)
       for (let i = 0; i < roles.length; i++) {
         if (roles[i] == payload.auth_obj.user.role) {
           flag = 1;

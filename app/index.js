@@ -17,7 +17,7 @@ const startServer = () => {
   app.use(fileUpload());
   app.use(
     cors({
-      origin: '*',
+      origin: 'https://college-management-rho.vercel.app/',
       methods: ['GET', 'POST','PUT','DELETE'],
       credentials: true,
     }),

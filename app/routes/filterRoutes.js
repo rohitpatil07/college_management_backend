@@ -39,6 +39,6 @@ router.get(
 );
 router.get('/placedByDept', authenticate(["admin"]), filterControllers.getStudentsPlacedByDept);
 
-router.post("/notify", authenticate(["company"]), filterControllers.notify);
+router.post("/notify", authenticate(["company","admin"]), filterControllers.notify);
 
 export default router;

@@ -79,7 +79,7 @@ const getDrive = async (req, res) => {
   } catch (error) {
     res.json(error);
   }
-}
+};
 
 const getAllDrives = async (req, res) => {
   try {
@@ -123,7 +123,7 @@ const getCompany = async (req, res) => {
   } catch (error) {
     res.json(error);
   }
-}
+};
 
 const getCompanyDrive = async (req, res) => {
   try {
@@ -143,7 +143,7 @@ const getclickedStudentForDrive = async (req, res) => {
   } catch (error) {
     res.json(error);
   }
-}
+};
 
 const getTopPlacedStudents = async (req, res) => {
   try {
@@ -207,6 +207,7 @@ const notify = async (req, res) => {
     });
 
     const n = students.length;
+    console.log(students);
     sendEmail(students, message, subject);
 
     res.json(`Notified ${n} students`);
@@ -224,7 +225,9 @@ const getAppliedDrives = async (req, res) => {
       );
       return res.status(200).json(applied_drives);
     } else {
-      return res.json({ error: 'Maximum offers reached so cannot sit for placement' });
+      return res.json({
+        error: 'Maximum offers reached so cannot sit for placement',
+      });
     }
   } catch (error) {
     res.json(error);
@@ -281,5 +284,5 @@ export default {
   getAppliedDrives,
   getRequestedOffers,
   getAllOffers,
-  getCompDriveData
+  getCompDriveData,
 };

@@ -1,0 +1,9 @@
+node_modules/*
+.vscode/
+.eslintrc.cjs
+.prettier.cjs
+lms_schema.txt
+project_info.txt
+npm-debug.log
+yarn-error.log
+.DS_Store

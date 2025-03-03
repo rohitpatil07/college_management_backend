@@ -12,7 +12,7 @@ COPY prisma/ prisma/
 RUN yarn 
 
 #Configure mysql tables
-RUN yarn prisma db push --schema=./prisma/schema.prisma
+# RUN yarn prisma db push --schema=./prisma/schema.prisma
 RUN yarn prisma generate
 
 # Copy the rest of the application code to the working directory
@@ -22,11 +22,11 @@ COPY . .
 EXPOSE 5000
 
 # Install wait-for-it
-RUN apt-get update && apt-get install -y wait-for-it
+# RUN apt-get update && apt-get install -y wait-for-it
 
 # Wait for the database to be ready before executing Prisma migrations and seeding
 #Use this cmd at first deployment
-CMD ["wait-for-it", "db:3306", "--", "yarn", "prisma", "db", "push", "&&", "yarn", "prisma:seed","&&", "yarn", "start"]
+# CMD ["wait-for-it", "db:3306", "--", "yarn", "prisma", "db", "push", "&&", "yarn", "prisma:seed","&&", "yarn", "start"]
 
 #UNcomment this for next iterations
-# CMD ["yarn", "dev"]
+CMD ["yarn", "dev"]

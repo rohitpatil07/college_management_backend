@@ -28,12 +28,12 @@ const login = async (email, login_password, role) => {
       });
 
       let { password, ...student } = student_data[0];
-
+      console.log("student",student_data[0]);
       if (!student_data[0]) {
         return 'You are not authorized';
       }
       const result = await bcrypt.compare(login_password, password);
-
+      console.log("result",result);
       let auth_obj = {};
       auth_obj['user'] = student;
       auth_obj['user']['role'] = 'student';

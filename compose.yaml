@@ -4,9 +4,9 @@ services:
   # Node.js application service
   server:
     image: rohitpatil07/collegemgmt-server
-    build: 
-      context: .
-      dockerfile: Dockerfile
+    # build: 
+    #   context: .
+    #   dockerfile: Dockerfile
     container_name: server
     env_file:
       - .env

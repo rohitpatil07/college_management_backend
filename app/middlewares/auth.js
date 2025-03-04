@@ -30,6 +30,7 @@ const authenticate = (roles) => {
       req.email = payload.auth_obj.user.email;
       req.auth=auth
     } catch (error) {
+      console.log(error);
       return res.status(401).json({ Error: 'Token missing or Invalid' });
     }
 

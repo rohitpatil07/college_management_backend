@@ -1,7 +1,7 @@
 {
   "name": "college-management-backend",
   "version": "1.0.0",
-  "description": "Backend for College Managent",
+  "description": "Backend for College Management",
   "main": "index.js",
   "repository": "https://github.com/rohitpatil07/college_management_backend.git",
   "author": "Rohit Patil, Hridayesh Pdalkar, Soham Talekar, Gaurav Singh, Advait Nurani",
@@ -15,7 +15,7 @@
     "prisma:seed": "node prisma/seed.js"
   },
   "engines": {
-    "node": "16.x"
+    "node": ">=16.0.0"
   },
   "type": "module",
   "dependencies": {

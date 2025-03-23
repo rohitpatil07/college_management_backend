@@ -10,7 +10,7 @@ const login = async (req, res) => {
     if(result)
     {
       res.cookie('jwt', result.token, { httpOnly: true, maxAge: 1000 * 60 * 60,sameSite: 'none',
-      secure: true});
+      secure: true,path: '/'});
       return res.json({success:result.user.role})
     }
     else
